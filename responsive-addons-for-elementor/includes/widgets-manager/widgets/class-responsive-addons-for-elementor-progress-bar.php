@@ -84,7 +84,7 @@ class Responsive_Addons_For_Elementor_Progress_Bar extends Widget_Base {
 	 * @access public
 	 */
 	public function get_custom_help_url() {
-		return 'https://cyberchimps.com/responsive-addons-for-elementor/docs/progress-bar';
+		return 'https://cyberchimps.com/docs/widgets/progress-bar';
 	}
 
 	/**

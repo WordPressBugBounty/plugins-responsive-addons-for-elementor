@@ -374,7 +374,7 @@ class Responsive_Addons_For_Elementor_Image_Gallery extends Widget_Base {
 				array(
 					'type'            => Controls_Manager::RAW_HTML,
 					/* translators: %s: documentation */
-					'raw'             => sprintf( __( 'Note: Enter the category name that you wish to set as a default on page load. Read %1$s this article %2$s for more information.', 'responsive-addons-for-elementor' ), '<a href="https://cyberchimps.com/responsive-addons-for-elementor/docs/image-gallery/#how-to-display-specific-category-tab-as-a-default-on-page-load" target="_blank" rel="noopener">', '</a>' ),
+					'raw'             => sprintf( __( 'Note: Enter the category name that you wish to set as a default on page load. Read %1$s this article %2$s for more information.', 'responsive-addons-for-elementor' ), '<a href="https://cyberchimps.com/docs/widgets/image-gallery/#how-to-display-specific-category-tab-as-a-default-on-page-load" target="_blank" rel="noopener">', '</a>' ),
 					'content_classes' => 'rael-editor-doc',
 					'condition'       => array(
 						'rael_default_filter_switch'  => 'yes',
@@ -570,7 +570,7 @@ class Responsive_Addons_For_Elementor_Image_Gallery extends Widget_Base {
 				array(
 					'type'            => Controls_Manager::RAW_HTML,
 					/* translators: %s: documentation */
-					'raw'             => sprintf( __( 'Learn : %1$s How to assign custom link for images? %2$s', 'responsive-addons-for-elementor' ), '<a href="https://cyberchimps.com/responsive-addons-for-elementor/docs/image-gallery/#add-a-custom-link-to-image" target="_blank" rel="noopener">', '</a>' ),
+					'raw'             => sprintf( __( 'Learn : %1$s How to assign custom link for images? %2$s', 'responsive-addons-for-elementor' ), '<a href="https://cyberchimps.com/docs/widgets/image-gallery/#add-a-custom-link-to-image" target="_blank" rel="noopener">', '</a>' ),
 					'content_classes' => 'rael-editor-doc',
 					'condition'       => array(
 						'rael_click_action' => 'custom',
@@ -625,7 +625,7 @@ class Responsive_Addons_For_Elementor_Image_Gallery extends Widget_Base {
 			array(
 				'type'            => Controls_Manager::RAW_HTML,
 				/* translators: %s: documentation */
-				'raw'             => sprintf( __( 'Learn : %1$s How to assign captions for images? %2$s', 'responsive-addons-for-elementor' ), '<a href="https://cyberchimps.com/responsive-addons-for-elementor/docs/image-gallery/#how-to-add-a-caption-for-the-image" target="_blank" rel="noopener">', '</a>' ),
+				'raw'             => sprintf( __( 'Learn : %1$s How to assign captions for images? %2$s', 'responsive-addons-for-elementor' ), '<a href="https://cyberchimps.com/docs/widgets/image-gallery/#how-to-add-a-caption-for-the-image" target="_blank" rel="noopener">', '</a>' ),
 				'content_classes' => 'rael-editor-doc',
 				'condition'       => array(
 					'rael_gallery_caption!' => '',
@@ -688,7 +688,7 @@ class Responsive_Addons_For_Elementor_Image_Gallery extends Widget_Base {
 				array(
 					'type'            => Controls_Manager::RAW_HTML,
 					/* translators: %s: documentation */
-					'raw'             => sprintf( __( 'Click %1$s here %2$s to learn more about this.', 'responsive-addons-for-elementor' ), '<a href="https://cyberchimps.com/responsive-addons-for-elementor/docs/image-gallery/#lightbox-image-click-action" target="_blank" rel="noopener">', '</a>' ),
+					'raw'             => sprintf( __( 'Click %1$s here %2$s to learn more about this.', 'responsive-addons-for-elementor' ), '<a href="https://cyberchimps.com/docs/widgets/image-gallery/#lightbox-image-click-action" target="_blank" rel="noopener">', '</a>' ),
 					'content_classes' => 'rael-editor-doc',
 				)
 			);
@@ -711,7 +711,7 @@ class Responsive_Addons_For_Elementor_Image_Gallery extends Widget_Base {
 				array(
 					'type'            => Controls_Manager::RAW_HTML,
 					/* translators: %s: documentation */
-					'raw'             => sprintf( __( 'Learn : %1$s How to assign captions for images? %2$s', 'responsive-addons-for-elementor' ), '<a href="https://cyberchimps.com/responsive-addons-for-elementor/docs/image-gallery/#how-to-add-a-caption-for-the-image" target="_blank" rel="noopener">', '</a>' ),
+					'raw'             => sprintf( __( 'Learn : %1$s How to assign captions for images? %2$s', 'responsive-addons-for-elementor' ), '<a href="https://cyberchimps.com/docs/widgets/image-gallery/#how-to-add-a-caption-for-the-image" target="_blank" rel="noopener">', '</a>' ),
 					'content_classes' => 'rael-editor-doc',
 					'condition'       => array(
 						'rael_show_caption_lightbox' => 'yes',
@@ -2685,7 +2685,7 @@ class Responsive_Addons_For_Elementor_Image_Gallery extends Widget_Base {
 	 * @return string help URL
 	 */
 	public function get_custom_help_url() {
-		return 'https://cyberchimps.com/responsive-addons-for-elementor/docs/image-gallery';
+		return 'https://cyberchimps.com/docs/widgets/image-gallery';
 	}
 
 	/**

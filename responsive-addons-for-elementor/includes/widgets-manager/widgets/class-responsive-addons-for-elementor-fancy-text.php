@@ -76,7 +76,7 @@ class Responsive_Addons_For_Elementor_Fancy_Text extends Widget_Base {
 	 * @access public
 	 */
 	public function get_custom_help_url() {
-		return 'https://cyberchimps.com/responsive-addons-for-elementor/docs/fancy-text';
+		return 'https://cyberchimps.com/docs/widgets/fancy-text';
 	}
 
 	/**

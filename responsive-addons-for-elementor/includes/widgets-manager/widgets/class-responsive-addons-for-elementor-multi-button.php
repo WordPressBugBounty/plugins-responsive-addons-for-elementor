@@ -97,7 +97,7 @@ class Responsive_Addons_For_Elementor_Multi_Button extends Widget_Base {
 	 * @return string help URL
 	 */
 	public function get_custom_help_url() {
-		return 'https://cyberchimps.com/responsive-addons-for-elementor/docs/multibutton';
+		return 'https://cyberchimps.com/docs/widgets/multibutton';
 	}
 
 	/**

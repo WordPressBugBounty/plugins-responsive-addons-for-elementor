@@ -3,11 +3,11 @@ Contributors: cyberchimps
 Donate Link: https://cyberchimps.com
 Tags: elementor, elementor addons, elementor widget, woocommerce elementor, page builder plugin
 Requires at least: 5.0
-Tested up to: 6.6.2
+Tested up to: 6.7
 Elementor tested up to: 3.25
 Elementor Pro tested up to: 3.25
 Requires PHP: 5.6
-Stable tag: 1.6.1
+Stable tag: 1.6.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -221,7 +221,7 @@ Let’s get started with the widget list.
 
 1. <a href = "https://cyberchimps.com/responsive-addons-for-elementor/post-navigation-widget/" >Post Navigation</a> — Post Navigation is a single post template widget that dynamically displays links to the previous and next posts.
 
-1. <a href = "https://cyberchimps.com/responsive-addons-for-elementor/docs/post-title/" >Post Title</a> — The post Title widget allows you to display the page's title or post it is set upon.
+1. <a href = "https://cyberchimps.com/docs/responsive-addons-for-elementor/widgets/post-title/" >Post Title</a> — The post Title widget allows you to display the page's title or post it is set upon.
 
 1. <a href = "https://cyberchimps.com/responsive-addons-for-elementor/product-additional-information-widget/" >Product Additional Information</a> – Product Additional Information lets you display product-related information.
 
@@ -291,6 +291,12 @@ If you like Responsive Addons for Elementor, consider checking out our other Wor
 The Development Version of the Responsive Addons for Elementor plugin is located at [https://github.com/cyberchimps/responsive-addons-for-elementor](https://github.com/cyberchimps/responsive-addons-for-elementor)
 
 == Changelog ==
+
+= 1.6.2 - 21st November 2024 =
+- Improvement: RAE Posts - Added a funtionality to sort the posts based on primary category with yoast SEO premium.
+- Fix: Feature List Widget - Fixed icons style settings not working.
+- Fix: Flip Box Widget - Fixed vertical position not working.
+- Fix: Post Title Widget - Fixed need help option not working.
 
 = 1.6.1 - 30th October 2024 =
 - Improvement: Made compatible with Elementor Pro version 3.25
