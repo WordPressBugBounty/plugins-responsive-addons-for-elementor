@@ -1348,7 +1348,6 @@ class Responsive_Addons_For_Elementor_Slider extends Widget_Base {
 
 		$slides      = array();
 		$slide_count = 0;
-
 		foreach ( $settings['slides'] as $slide ) {
 			$slide_html       = '';
 			$btn_attributes   = '';
@@ -1385,8 +1384,7 @@ class Responsive_Addons_For_Elementor_Slider extends Widget_Base {
 			}
 
 			$slide_html .= '</div>';
-
-			if ( $slide['slide_image'] && 'yes' === $slide['slide_image_show'] ) {
+			if ( 'yes' === $slide['slide_image_show'] && $slide['slide_image'] ) {
 				$slide_html .= '<div class="responsive-slide-image"></div>';
 			}
 

@@ -1284,7 +1284,7 @@ class Responsive_Addons_For_Elementor_FAQ extends Widget_Base {
 
 					if ( ! ( '' === $key['rael_question'] || '' === $key['rael_answer'] ) ) {
 						?>
-					<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'rael_faq_accordion_' . $key['_id'] ) ); ?>>
+					<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'rael_faq_accordion_' . $key['_id'] ) ); ?> role="tablist">
 						<div class= "rael-accordion-title" aria-expanded="false" role="tab">
 										<span class="rael-accordion-icon rael-accordion-icon-<?php echo esc_attr( $settings['rael_icon_align'] ); ?>">
 											<span class="rael-accordion-icon-closed"><?php Icons_Manager::render_icon( $settings['rael_selected_icon'] ); ?></span>
