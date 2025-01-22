@@ -15,6 +15,7 @@ use Elementor\Group_Control_Box_Shadow;
 use Elementor\Core\Kits\Documents\Tabs\Global_Typography;
 use Elementor\Core\Kits\Documents\Tabs\Global_Colors;
 use Elementor\Icons_Manager;
+use Responsive_Addons_For_Elementor\Helper\Helper;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -1290,7 +1291,7 @@ class Responsive_Addons_For_Elementor_FAQ extends Widget_Base {
 											<span class="rael-accordion-icon-closed"><?php Icons_Manager::render_icon( $settings['rael_selected_icon'] ); ?></span>
 											<span class="rael-accordion-icon-opened"><?php Icons_Manager::render_icon( $settings['rael_selected_active_icon'] ); ?></span>
 										</span>
-							<<?php echo esc_html( $settings['rael_heading_tag'] ); ?> class="rael-question-<?php echo esc_attr( $key['_id'] ); ?> rael-question-span" tabindex="0" ><?php echo wp_kses_post( $key['rael_question'] ); ?></<?php echo esc_html( $settings['rael_heading_tag'] ); ?>>
+							<<?php echo esc_html( Helper::validate_html_tags( $settings['rael_heading_tag'] ) ); ?> class="rael-question-<?php echo esc_attr( $key['_id'] ); ?> rael-question-span" tabindex="0" ><?php echo wp_kses_post( $key['rael_question'] ); ?></<?php echo esc_html( Helper::validate_html_tags( $settings['rael_heading_tag'] ) ); ?>>
 					</div>
 					<div class="rael-accordion-content" role="tabpanel">
 										<span>

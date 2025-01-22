@@ -15,6 +15,7 @@ use Elementor\Group_Control_Typography;
 use Elementor\Core\Kits\Documents\Tabs\Global_Typography;
 use Elementor\Core\Kits\Documents\Tabs\Global_Colors;
 use Responsive_Addons_For_Elementor\Traits\Missing_Dependency;
+use Responsive_Addons_For_Elementor\Helper\Helper;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -1707,7 +1708,7 @@ class Responsive_Addons_For_Elementor_Gf_Styler extends Widget_Base {
 		}
 		if ( '' != $form_title ) {
 			?>
-			<<?php echo esc_attr( $settings['gform_title_tag'] ); ?> class="rael-gform-form-title"><?php echo wp_kses_post( $form_title ); ?></<?php echo esc_attr( $settings['gform_title_tag'] ); ?>>
+			<<?php echo esc_attr( Helper::validate_html_tags( $settings['gform_title_tag'] ) ); ?> class="rael-gform-form-title"><?php echo wp_kses_post( $form_title ); ?></<?php echo esc_attr( Helper::validate_html_tags( $settings['gform_title_tag'] ) ); ?>>
 			<?php
 		}
 		if ( '' != $description ) {

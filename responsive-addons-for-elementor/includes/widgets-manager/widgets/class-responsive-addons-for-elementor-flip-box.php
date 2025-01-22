@@ -18,6 +18,7 @@ use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Box_Shadow;
 use Elementor\Icons_Manager;
+use Responsive_Addons_For_Elementor\Helper\Helper;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -1332,9 +1333,9 @@ class Responsive_Addons_For_Elementor_Flip_Box extends Widget_Base {
 		?>
 
 		<?php if ( ! empty( $settings['front_title_text'] ) ) : ?>
-						<<?php echo esc_html( $settings['front_title_tags'] ); ?> <?php echo wp_kses_post( $this->get_render_attribute_string( 'box_front_title_tags' ) ); ?>>
+						<<?php echo esc_html( Helper::validate_html_tags( $settings['front_title_tags'] ) ); ?> <?php echo wp_kses_post( $this->get_render_attribute_string( 'box_front_title_tags' ) ); ?>>
 				<?php echo wp_kses( $settings['front_title_text'], $this->element_pack_allow_tags( 'title' ) ); ?>
-					</<?php echo esc_html( $settings['front_title_tags'] ); ?>>
+					</<?php echo esc_html( Helper::validate_html_tags( $settings['front_title_tags'] ) ); ?>>
 				<?php
 		endif;
 		?>
@@ -1353,9 +1354,9 @@ class Responsive_Addons_For_Elementor_Flip_Box extends Widget_Base {
 		<div class="rael-flip-box-layer-overlay">
 		<div class="rael-flip-box-layer-inner">
 		<?php if ( ! empty( $settings['back_title_text'] ) ) : ?>
-		<<?php echo esc_html( $settings['back_title_tags'] ); ?> <?php echo wp_kses_post( $this->get_render_attribute_string( 'box_front_title_tags' ) ); ?>>
+		<<?php echo esc_html( Helper::validate_html_tags( $settings['back_title_tags'] ) ); ?> <?php echo wp_kses_post( $this->get_render_attribute_string( 'box_front_title_tags' ) ); ?>>
 			<?php echo wp_kses( $settings['back_title_text'], $this->element_pack_allow_tags( 'title' ) ); ?>
-		</<?php echo esc_html( $settings['back_title_tags'] ); ?>>
+		</<?php echo esc_html( Helper::validate_html_tags( $settings['back_title_tags'] ) ); ?>>
 			<?php
 		endif;
 		?>
@@ -1453,7 +1454,7 @@ class Responsive_Addons_For_Elementor_Flip_Box extends Widget_Base {
 						<# } #>
 
 						<# if ( settings.front_title_text ) { #>
-						<{{{ settings.front_title_tags }}} {{{ view.getRenderAttributeString( 'box_front_title_tags' ) }}}>{{{ settings.front_title_text }}}</{{{ settings.front_title_tags }}}>
+						<{{{ elementor.helpers.validateHTMLTag(settings.front_title_tags) }}} {{{ view.getRenderAttributeString( 'box_front_title_tags' ) }}}>{{{ settings.front_title_text }}}</{{{ elementor.helpers.validateHTMLTag(settings.front_title_tags) }}}>
 					<# } #>
 
 					<# if ( settings.front_description_text ) { #>
@@ -1466,7 +1467,7 @@ class Responsive_Addons_For_Elementor_Flip_Box extends Widget_Base {
 		<div class="rael-flip-box-layer-overlay">
 			<div class="rael-flip-box-layer-inner">
 				<# if ( settings.back_title_text ) { #>
-				<{{{ settings.back_title_tags }}} {{{ view.getRenderAttributeString( 'box_front_title_tags' ) }}}>{{{ settings.back_title_text }}}</{{{ settings.back_title_tags }}}>
+				<{{{ elementor.helpers.validateHTMLTag(settings.back_title_tags) }}} {{{ view.getRenderAttributeString( 'box_front_title_tags' ) }}}>{{{ settings.back_title_text }}}</{{{ elementor.helpers.validateHTMLTag(settings.back_title_tags) }}}>
 			<# } #>
 
 			<# if ( settings.back_description_text ) { #>

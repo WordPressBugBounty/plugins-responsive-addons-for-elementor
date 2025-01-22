@@ -17,6 +17,7 @@ use Elementor\Group_Control_Box_Shadow;
 use Elementor\Group_Control_Typography;
 use Elementor\Icons_Manager;
 use Elementor\Repeater;
+use Responsive_Addons_For_Elementor\Helper\Helper;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;   // Exit if accessed directly.
@@ -1521,8 +1522,8 @@ class Responsive_Addons_For_Elementor_Pricing_Table extends Widget_Base {
 			<?php if ( $settings['heading'] || $settings['sub_heading'] ) : ?>
 				<div class="rael-price-table__header">
 					<?php if ( ! empty( $settings['heading'] ) ) : ?>
-						<<?php echo esc_html( $heading_tag ) . ' ' . wp_kses_post( $this->get_render_attribute_string( 'heading' ) ); ?>>
-						<?php echo esc_html( $settings['heading'] ) . '</' . esc_html( $heading_tag ); ?>>
+						<<?php echo esc_html( Helper::validate_html_tags( $heading_tag ) ) . ' ' . wp_kses_post( $this->get_render_attribute_string( 'heading' ) ); ?>>
+						<?php echo esc_html( $settings['heading'] ) . '</' . esc_html( Helper::validate_html_tags( $heading_tag ) ); ?>>
 					<?php endif; ?>
 
 					<?php if ( ! empty( $settings['sub_heading'] ) ) : ?>
@@ -1696,7 +1697,7 @@ class Responsive_Addons_For_Elementor_Pricing_Table extends Widget_Base {
 			<# if ( settings.heading || settings.sub_heading ) { #>
 			<div class="rael-price-table__header">
 				<# if ( settings.heading ) { #>
-				<{{ settings.heading_tag }} {{{ view.getRenderAttributeString( 'heading' ) }}}>{{{ settings.heading }}}</{{ settings.heading_tag }}>
+				<{{ elementor.helpers.validateHTMLTag(settings.heading_tag) }} {{{ view.getRenderAttributeString( 'heading' ) }}}>{{{ settings.heading }}}</{{ elementor.helpers.validateHTMLTag(settings.heading_tag) }}>
 			<# } #>
 			<# if ( settings.sub_heading ) { #>
 			<span {{{ view.getRenderAttributeString( 'sub_heading' ) }}}>{{{ settings.sub_heading }}}</span>

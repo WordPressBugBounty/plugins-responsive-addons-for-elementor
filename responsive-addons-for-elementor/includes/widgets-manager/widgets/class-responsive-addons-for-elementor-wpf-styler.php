@@ -19,6 +19,7 @@ use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Box_Shadow;
 use Elementor\Group_Control_Background;
 use Responsive_Addons_For_Elementor\Traits\Missing_Dependency;
+use Responsive_Addons_For_Elementor\Helper\Helper;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;   // Exit if accessed directly.
@@ -1671,8 +1672,8 @@ class Responsive_Addons_For_Elementor_WPF_Styler extends Widget_Base {
 
 								if ( '' !== $settings['form_title'] ) {
 									?>
-						<<?php echo esc_attr( $settings['form_title_tag'] ); ?> class="wpforms-title">
-									<?php echo wp_kses_post( $settings['form_title'] ); ?></<?php echo esc_attr( $settings['form_title_tag'] ); ?>>
+						<<?php echo esc_attr( Helper::validate_html_tags( $settings['form_title_tag'] ) ); ?> class="wpforms-title">
+									<?php echo wp_kses_post( $settings['form_title'] ); ?></<?php echo esc_attr( Helper::validate_html_tags( $settings['form_title_tag'] ) ); ?>>
 									<?php
 								}
 

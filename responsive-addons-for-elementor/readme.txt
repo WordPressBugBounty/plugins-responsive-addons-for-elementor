@@ -4,10 +4,10 @@ Donate Link: https://cyberchimps.com
 Tags: elementor, elementor addons, elementor widget, woocommerce elementor, page builder plugin
 Requires at least: 5.0
 Tested up to: 6.7
-Elementor tested up to: 3.26
+Elementor tested up to: 3.27
 Elementor Pro tested up to: 3.25
 Requires PHP: 5.6
-Stable tag: 1.6.4
+Stable tag: 1.6.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -291,6 +291,10 @@ If you like Responsive Addons for Elementor, consider checking out our other Wor
 The Development Version of the Responsive Addons for Elementor plugin is located at [https://github.com/cyberchimps/responsive-addons-for-elementor](https://github.com/cyberchimps/responsive-addons-for-elementor)
 
 == Changelog ==
+= 1.6.5 - 22nd January 2025 =
+- Fix: Made carousel and slider widgets compatible with latest Elementor version 3.27.
+- Fix: Enhanced Security: Strengthened the codebase.
+
 = 1.6.4 - 14th January 2025 =
 - Fix: Fixed minor warnings.
 - Fix: FAQ Widget - Resolved missing parent element error for [role]s.

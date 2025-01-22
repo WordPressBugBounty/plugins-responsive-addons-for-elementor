@@ -18,6 +18,7 @@ use Elementor\Group_Control_Background;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Box_Shadow;
 use Elementor\Control_Media;
+use Responsive_Addons_For_Elementor\Helper\Helper;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -2582,7 +2583,7 @@ class Responsive_Addons_For_Elementor_Modal_Popup extends Widget_Base {
 					if ( '' != $settings['rael_title'] ) {
 						?>
 					<div class="rael-modal-title-wrap">
-						<<?php echo esc_attr( $settings['rael_title_tag'] ); ?> class="rael-modal-title elementor-inline-editing" data-elementor-setting-key="rael_title" data-elementor-inline-editing-toolbar="basic"><?php echo wp_kses_post( $this->get_settings_for_display( 'rael_title' ) ); ?></<?php echo esc_attr( $settings['rael_title_tag'] ); ?>>
+						<<?php echo esc_attr( Helper::validate_html_tags( $settings['rael_title_tag'] ) ); ?> class="rael-modal-title elementor-inline-editing" data-elementor-setting-key="rael_title" data-elementor-inline-editing-toolbar="basic"><?php echo wp_kses_post( $this->get_settings_for_display( 'rael_title' ) ); ?></<?php echo esc_attr( Helper::validate_html_tags( $settings['rael_title_tag'] ) ); ?>>
 				</div>
 				<?php } ?>
 				<div class="rael-modal-text rael-modal-content-data clearfix">

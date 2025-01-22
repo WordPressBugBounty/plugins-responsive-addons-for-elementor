@@ -74,6 +74,8 @@ class Responsive_Addons_For_Elementor_Testimonial_Slider extends Widget_Base {
 		return array(
 			'font-awesome-5-all',
 			'font-awesome-4-shim',
+			'swiper',
+			'e-swiper',	
 		);
 	}
 	/**
