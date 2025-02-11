@@ -58,7 +58,7 @@ class Responsive_Addons_For_Elementor_Media_Carousel extends Widget_Base {
 	 * @return string
 	 */
 	public function get_title() {
-		return __( 'RAE Media Carousel', 'responsive-addons-for-elementor' );
+		return __( 'Media Carousel', 'responsive-addons-for-elementor' );
 	}
 	/**
 	 * Get the widget icon.

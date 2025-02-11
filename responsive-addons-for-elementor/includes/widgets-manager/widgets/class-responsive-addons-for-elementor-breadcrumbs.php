@@ -42,7 +42,7 @@ class Responsive_Addons_For_Elementor_Breadcrumbs extends Widget_Base {
 	 * @access public
 	 */
 	public function get_title() {
-		return __( 'RAE Breadcrumbs', 'responsive-addons-for-elementor' );
+		return __( 'Breadcrumbs', 'responsive-addons-for-elementor' );
 	}
 
 	/**

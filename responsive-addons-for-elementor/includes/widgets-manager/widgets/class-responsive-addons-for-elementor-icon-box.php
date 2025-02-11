@@ -54,7 +54,7 @@ class Responsive_Addons_For_Elementor_Icon_Box extends Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'RAE Icon Box', 'responsive-addons-for-elementor' );
+		return __( 'Icon Box', 'responsive-addons-for-elementor' );
 	}
 
 	/**

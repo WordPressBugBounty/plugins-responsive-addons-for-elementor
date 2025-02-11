@@ -65,7 +65,7 @@ class Responsive_Addons_For_Elementor_FAQ extends Widget_Base {
 	 * @access public
 	 */
 	public function get_title() {
-		return __( 'RAE FAQ', 'responsive-addons-for-elementor' );
+		return __( 'FAQ', 'responsive-addons-for-elementor' );
 	}
 
 	/**

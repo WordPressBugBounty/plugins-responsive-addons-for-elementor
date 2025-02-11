@@ -62,7 +62,7 @@ class Responsive_Addons_For_Elementor_Content_Switcher extends Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'RAE Content Switcher', 'responsive-addons-for-elementor' );
+		return __( 'Content Switcher', 'responsive-addons-for-elementor' );
 	}
 
 	/**

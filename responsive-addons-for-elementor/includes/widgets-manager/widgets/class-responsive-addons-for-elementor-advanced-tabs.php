@@ -55,7 +55,7 @@ class Responsive_Addons_For_Elementor_Advanced_Tabs extends Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'RAE Advanced Tabs', 'responsive-addons-for-elementor' );
+		return __( 'Advanced Tabs', 'responsive-addons-for-elementor' );
 	}
 
 	/**

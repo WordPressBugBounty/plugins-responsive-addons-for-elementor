@@ -48,7 +48,7 @@ class Responsive_Addons_For_Elementor_Content_Ticker extends Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return esc_html__( 'RAE Content Ticker', 'responsive-addons-for-elementor' );
+		return esc_html__( 'Content Ticker', 'responsive-addons-for-elementor' );
 	}
 
 	/**

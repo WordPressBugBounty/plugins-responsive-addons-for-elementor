@@ -45,7 +45,7 @@ class Responsive_Addons_For_Elementor_Progress_Bar extends Widget_Base {
 	 * @access public
 	 */
 	public function get_title() {
-		return __( 'RAE Progress Bar', 'responsive-addons-for-elementor' );
+		return __( 'Progress Bar', 'responsive-addons-for-elementor' );
 	}
 
 	/**

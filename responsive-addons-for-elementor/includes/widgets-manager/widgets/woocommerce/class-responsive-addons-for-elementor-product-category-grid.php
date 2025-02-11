@@ -68,7 +68,7 @@ class Responsive_Addons_For_Elementor_Product_Category_Grid extends Widget_Base 
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'RAE Product Category Grid', 'responsive-addons-for-elementor' );
+		return __( 'Product Category Grid', 'responsive-addons-for-elementor' );
 	}
 
 	/**

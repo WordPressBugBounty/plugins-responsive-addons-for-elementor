@@ -67,7 +67,7 @@ class Responsive_Addons_For_Elementor_Product_Carousel extends Widget_Base {
 	 * @return string The title of the widget.
 	 */
 	public function get_title() {
-		return esc_html__( 'RAE Product Carousel', 'responsive-addons-for-elementor' );
+		return esc_html__( 'Product Carousel', 'responsive-addons-for-elementor' );
 	}
 	/**
 	 * Get the icon of the RAE Product Carousel widget.

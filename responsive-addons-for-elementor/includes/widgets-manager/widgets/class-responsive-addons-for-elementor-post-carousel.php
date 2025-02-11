@@ -48,7 +48,7 @@ class Responsive_Addons_For_Elementor_Post_Carousel extends Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'RAE Post Carousel', 'responsive-addons-for-elementor' );
+		return __( 'Post Carousel', 'responsive-addons-for-elementor' );
 	}
 
 	/**

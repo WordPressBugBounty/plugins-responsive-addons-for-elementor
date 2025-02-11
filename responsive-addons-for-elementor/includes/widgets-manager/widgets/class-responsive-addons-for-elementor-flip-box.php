@@ -55,7 +55,7 @@ class Responsive_Addons_For_Elementor_Flip_Box extends Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'RAE Flip Box', 'responsive-addons-for-elementor' );
+		return __( 'Flip Box', 'responsive-addons-for-elementor' );
 	}
 
 	/**

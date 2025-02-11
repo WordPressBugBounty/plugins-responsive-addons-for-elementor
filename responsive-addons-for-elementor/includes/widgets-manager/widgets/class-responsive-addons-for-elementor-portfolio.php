@@ -60,7 +60,7 @@ class Responsive_Addons_For_Elementor_Portfolio extends Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'RAE PortFolio', 'responsive-addons-for-elementor' );
+		return __( 'PortFolio', 'responsive-addons-for-elementor' );
 	}
 	/**
 	 * Get widget icon.

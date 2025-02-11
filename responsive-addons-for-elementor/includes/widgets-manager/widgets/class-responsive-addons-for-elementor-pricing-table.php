@@ -53,7 +53,7 @@ class Responsive_Addons_For_Elementor_Pricing_Table extends Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'RAE Pricing Table', 'responsive-addons-for-elementor' );
+		return __( 'Pricing Table', 'responsive-addons-for-elementor' );
 	}
 
 	/**

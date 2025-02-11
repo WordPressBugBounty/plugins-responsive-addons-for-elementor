@@ -53,7 +53,7 @@ class Responsive_Addons_For_Elementor_Timeline extends Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'RAE Timeline', 'responsive-addons-for-elementor' );
+		return __( 'Timeline', 'responsive-addons-for-elementor' );
 	}
 
 	/**

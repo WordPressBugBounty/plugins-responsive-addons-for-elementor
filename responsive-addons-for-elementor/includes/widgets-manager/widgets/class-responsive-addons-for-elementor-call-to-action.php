@@ -56,7 +56,7 @@ class Responsive_Addons_For_Elementor_Call_To_Action extends Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'RAE Call To Action', 'responsive-addons-for-elementor' );
+		return __( 'Call To Action', 'responsive-addons-for-elementor' );
 	}
 
 	/**

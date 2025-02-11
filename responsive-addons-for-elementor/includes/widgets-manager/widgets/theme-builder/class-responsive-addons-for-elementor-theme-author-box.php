@@ -43,7 +43,7 @@ class Responsive_Addons_For_Elementor_Theme_Author_Box extends Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return esc_html__( 'RAE Author Box', 'responsive-addons-for-elementor' );
+		return esc_html__( 'Author Box', 'responsive-addons-for-elementor' );
 	}
 
 	/**

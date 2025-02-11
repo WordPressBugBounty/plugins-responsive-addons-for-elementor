@@ -50,7 +50,7 @@ class Responsive_Addons_For_Elementor_Logo_Carousel extends Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'RAE Logo Carousel', 'responsive-addons-for-elementor' );
+		return __( 'Logo Carousel', 'responsive-addons-for-elementor' );
 	}
 
 	/**

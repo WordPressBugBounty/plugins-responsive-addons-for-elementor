@@ -77,7 +77,7 @@ class Responsive_Addons_For_Elementor_Modal_Popup extends Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'RAE Modal Popup', 'responsive-addons-for-elementor' );
+		return __( 'Modal Popup', 'responsive-addons-for-elementor' );
 	}
 
 	/**

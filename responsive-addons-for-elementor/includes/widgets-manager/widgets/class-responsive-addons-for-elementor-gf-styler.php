@@ -53,7 +53,7 @@ class Responsive_Addons_For_Elementor_Gf_Styler extends Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'RAE Gravity forms Styler', 'responsive-addons-for-elementor' );
+		return __( 'Gravity forms Styler', 'responsive-addons-for-elementor' );
 	}
 
 	/**

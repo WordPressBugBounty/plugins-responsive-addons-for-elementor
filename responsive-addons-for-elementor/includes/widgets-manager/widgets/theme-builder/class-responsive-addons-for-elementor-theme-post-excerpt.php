@@ -43,7 +43,7 @@ class Responsive_Addons_For_Elementor_Theme_Post_Excerpt extends Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'RAE Post Excerpt', 'responsive-addons-for-elementor' );
+		return __( 'Post Excerpt', 'responsive-addons-for-elementor' );
 	}
 
 	/**

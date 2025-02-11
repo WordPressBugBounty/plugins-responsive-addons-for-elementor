@@ -46,7 +46,7 @@ class Responsive_Addons_For_Elementor_Slider extends Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'RAE Slider', 'responsive-addons-for-elementor' );
+		return __( 'Slider', 'responsive-addons-for-elementor' );
 	}
 
 	/**

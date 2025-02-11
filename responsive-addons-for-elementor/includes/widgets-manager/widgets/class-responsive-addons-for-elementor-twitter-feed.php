@@ -43,7 +43,7 @@ class Responsive_Addons_For_Elementor_Twitter_Feed extends Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'RAE Twitter Feed', 'responsive-addons-for-elementor' );
+		return __( 'Twitter Feed', 'responsive-addons-for-elementor' );
 	}
 
 	/**

@@ -53,7 +53,7 @@ class Responsive_Addons_For_Elementor_Image_Gallery extends Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'RAE Image Gallery', 'responsive-addons-for-elementor' );
+		return __( 'Image Gallery', 'responsive-addons-for-elementor' );
 	}
 
 	/**

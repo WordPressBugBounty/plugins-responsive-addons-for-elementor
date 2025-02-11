@@ -64,7 +64,7 @@ class Responsive_Addons_For_Elementor_Banner extends Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'RAE Banner', 'responsive-addons-for-elementor' );
+		return __( 'Banner', 'responsive-addons-for-elementor' );
 	}
 
 	/**

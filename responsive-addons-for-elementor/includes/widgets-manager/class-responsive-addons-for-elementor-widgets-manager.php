@@ -389,34 +389,6 @@ class Responsive_Addons_For_Elementor_Widgets_Manager {
 		$this->include_responsive_widgets_files();
 
 		// Theme Builder widgets.
-		Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Post_Excerpt() );
-		Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Post_Title() );
-		Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Post_Featured_Image() );
-		Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Post_Content() );
-		Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Post_Info() );
-		Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Site_Logo() );
-		Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Author_Box() );
-		Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Post_Comments() );
-		Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Post_Navigation() );
-		Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Archive_Title() );
-		Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Archive_Posts() );
-		if ( class_exists( 'WooCommerce' ) ) {
-			Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Product_Title() );
-			Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Product_Images() );
-			Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Product_Additional_Info() );
-			Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Product_Related() );
-			Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Product_Price() );
-			Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Product_Rating() );
-			Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Product_Stock() );
-			Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Product_Meta() );
-			Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Product_Short_Description() );
-			Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Product_Content() );
-			Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Product_Data_Tabs() );
-			Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Product_Upsell() );
-			Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Woo_Products() );
-			Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Product_Archive() );
-			Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Archive_Product_Description() );
-		}
 
 		$rael_widgets = get_option( 'rael_widgets' );
 		if ( ! $rael_widgets ) {
@@ -577,48 +549,137 @@ class Responsive_Addons_For_Elementor_Widgets_Manager {
 							Plugin::instance()->widgets_manager->register( new Widgets\Responsive_Addons_For_Elementor_Multi_Button() );
 							break;
 						case 'woo-products':
-							if ( class_exists( 'WooCommerce' ) ) {
 								Plugin::instance()->widgets_manager->register( new Widgets\Woocommerce\Responsive_Addons_For_Elementor_Woo_Products() );
-							}
 							break;
 						case 'breadcrumb':
-							if ( class_exists( 'WooCommerce' ) ) {
 								Plugin::instance()->widgets_manager->register( new Widgets\Woocommerce\Responsive_Addons_For_Elementor_Breadcrumb() );
-							}
 							break;
 						case 'product-category-grid':
-							if ( class_exists( 'WooCommerce' ) ) {
 								Plugin::instance()->widgets_manager->register( new Widgets\Woocommerce\Responsive_Addons_For_Elementor_Product_Category_Grid() );
-							}
 							break;
 						case 'product-carousel':
-							if ( class_exists( 'WooCommerce' ) ) {
 								Plugin::instance()->widgets_manager->register( new Widgets\Woocommerce\Responsive_Addons_For_Elementor_Product_Carousel() );
-							}
 							break;
 						case 'woo-checkout':
-							if ( class_exists( 'WooCommerce' ) ) {
 								Plugin::instance()->widgets_manager->register( new Widgets\Woocommerce\Responsive_Addons_For_Elementor_Woo_Checkout() );
-							}
 							break;
 						case 'portfolio':
 							Plugin::instance()->widgets_manager->register( new Widgets\Responsive_Addons_For_Elementor_Portfolio() );
 							break;
 						case 'menu-cart':
-							if ( class_exists( 'WooCommerce' ) ) {
 								Plugin::instance()->widgets_manager->register( new Widgets\Woocommerce\Responsive_Addons_For_Elementor_Menu_Cart() );
-							}
 							break;
 						case 'wc-add-to-cart':
-							if ( class_exists( 'WooCommerce' ) ) {
 								Plugin::instance()->widgets_manager->register( new Widgets\Woocommerce\Responsive_Addons_For_Elementor_WC_Add_To_Cart() );
-							}
 							break;
 						case 'modal-popup':
 							Plugin::instance()->widgets_manager->register( new Widgets\Responsive_Addons_For_Elementor_Modal_Popup() );
 							break;
 						case 'gf-styler':
 							Plugin::instance()->widgets_manager->register( new Widgets\Responsive_Addons_For_Elementor_Gf_Styler() );
+							break;
+						case 'theme-post-excerpt':
+							Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Post_Excerpt() );
+							break;
+						case 'theme-post-title':
+							Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Post_Title() );
+							break;
+						case 'theme-post-featured-image':
+							Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Post_Featured_Image() );
+							break;
+						case 'theme-post-content':
+							Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Post_Content() );
+							break;
+						case 'theme-post-info':
+							Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Post_Info() );
+							break;
+						case 'theme-site-logo':
+							Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Site_Logo() );
+							break;
+						case 'theme-author-box':
+							Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Author_Box() );
+							break;
+						case 'theme-post-comments':
+							Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Post_Comments() );
+							break;
+						case 'theme-post-navigation':
+							Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Post_Navigation() );
+							break;
+						case 'theme-archive-title':
+							Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Archive_Title() );
+							break;
+						case 'theme-archive-posts':
+							Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Archive_Posts() );
+							break;
+						case 'woocommerce-theme-product-title':
+							if ( class_exists( 'WooCommerce' ) ) {
+								Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Product_Title() );
+							}
+							break;
+						case 'woocommerce-theme-product-images':
+							if ( class_exists( 'WooCommerce' ) ) {
+								Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Product_Images() );
+							}
+							break;
+						case 'woocommerce-theme-product-additional-info':
+							if ( class_exists( 'WooCommerce' ) ) {
+								Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Product_Additional_Info() );
+							}
+							break;
+						case 'woocommerce-theme-product-price':
+							if ( class_exists( 'WooCommerce' ) ) {
+								Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Product_Price() );
+							}
+							break;
+						case 'woocommerce-theme-product-rating':
+							if ( class_exists( 'WooCommerce' ) ) {
+								Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Product_Rating() );
+							}
+							break;
+						case 'woocommerce-theme-product-stock':
+							if ( class_exists( 'WooCommerce' ) ) {
+								Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Product_Stock() );
+							}
+							break;
+						case 'woocommerce-theme-product-meta':
+							if ( class_exists( 'WooCommerce' ) ) {
+								Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Product_Meta() );
+							}
+							break;
+						case 'woocommerce-theme-product-short-description':
+							if ( class_exists( 'WooCommerce' ) ) {
+								Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Product_Short_Description() );
+							}
+							break;
+						case 'woocommerce-theme-product-related':
+							if ( class_exists( 'WooCommerce' ) ) {
+								Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Product_Related() );
+							}
+							break;
+						case 'woocommerce-theme-product-content':
+							if ( class_exists( 'WooCommerce' ) ) {
+								Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Product_Content() );
+							}
+							break;
+						case 'woocommerce-theme-product-data-tabs':
+							if ( class_exists( 'WooCommerce' ) ) {
+								Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Product_Data_Tabs() );
+							}
+							break;
+						case 'woocommerce-theme-product-upsell':
+							if ( class_exists( 'WooCommerce' ) ) {
+								Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Product_Upsell() );
+							}
+							break;
+						case 'woocommerce-theme-archive-product-description':
+							if ( class_exists( 'WooCommerce' ) ) {
+								Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Archive_Product_Description() );
+							}
+							break;
+						case 'woocommerce-theme-product-archive':
+							if ( class_exists( 'WooCommerce' ) ) {
+								Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Product_Archive() );
+							}
 							break;
 					}
 				}

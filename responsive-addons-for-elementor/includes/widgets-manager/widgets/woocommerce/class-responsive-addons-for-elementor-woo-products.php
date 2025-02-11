@@ -121,7 +121,7 @@ class Responsive_Addons_For_Elementor_Woo_Products extends Widget_Base {
 	 * @return string The widget title.
 	 */
 	public function get_title() {
-		return __( 'RAE Products', 'responsive-addons-for-elementor' );
+		return __( 'Products', 'responsive-addons-for-elementor' );
 	}
 
 	/**
