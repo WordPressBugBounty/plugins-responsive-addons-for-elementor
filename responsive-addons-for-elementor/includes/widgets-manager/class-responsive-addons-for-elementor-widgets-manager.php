@@ -170,6 +170,7 @@ class Responsive_Addons_For_Elementor_Widgets_Manager {
 			'portfolio',
 			'modal-popup',
 			'gf-styler',
+			'facebook-feed',
 		);
 
 		return $widget_list;
@@ -578,6 +579,9 @@ class Responsive_Addons_For_Elementor_Widgets_Manager {
 						case 'gf-styler':
 							Plugin::instance()->widgets_manager->register( new Widgets\Responsive_Addons_For_Elementor_Gf_Styler() );
 							break;
+						case 'facebook-feed':
+							Plugin::instance()->widgets_manager->register( new Widgets\Responsive_Addons_For_Elementor_Facebook_Feed() );
+							break;
 						case 'theme-post-excerpt':
 							Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Post_Excerpt() );
 							break;
@@ -706,7 +710,7 @@ class Responsive_Addons_For_Elementor_Widgets_Manager {
 		$menu_cart_toggle_button_html = ob_get_clean();
 
 		if ( ! empty( $menu_cart_toggle_button_html ) ) {
-			$fragments['body:not(.elementor-editor-active) div.elementor-element.elementor-widget.elementor-widget-rael-wc-menu-cart div.rael-menu-cart__toggle.elementor-button-wrapper'] = $menu_cart_toggle_button_html;
+			$fragments['body:not(.elementor-editor-active) div.elementor-element.elementor-widget.elementor-widget-rael-wc-menu-cart div.rael-menu-cart__toggle'] = $menu_cart_toggle_button_html;
 		}
 
 		return $fragments;

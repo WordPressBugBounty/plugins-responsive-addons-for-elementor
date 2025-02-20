@@ -140,6 +140,11 @@ class Responsive_Addons_For_Elementor_Widgets_Updater {
 				'category' => 'creativity',
 			),
 			array(
+				'title'    => 'facebook-feed',
+				'docs'     => 'https://cyberchimps.com/docs/responsive-addons-for-elementor/widgets/facebook-feed/',
+				'category' => 'marketing',
+			),
+			array(
 				'title'    => 'fancy-text',
 				'docs'     => 'https://cyberchimps.com/docs/responsive-addons-for-elementor/widgets/fancy-text',
         		'category' => 'content',

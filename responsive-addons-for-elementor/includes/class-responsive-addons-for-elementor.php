@@ -692,6 +692,8 @@ class Responsive_Addons_For_Elementor {
 		   // Iterate through the updated plugins
 		   foreach( $options['plugins'] as $plugin ) {
 			   if( $plugin === $our_plugin ) {
+					//to check this function is getting called or not.
+					error_log('Responsive Addons for Elementor plugin updated');
 					//added new theme builder widgets in the dashboard.
 					include_once RAEL_DIR . 'includes/class-responsive-addons-for-elementor-widgets-updater.php';
 					$rael_widgets_data = new Responsive_Addons_For_Elementor_Widgets_Updater();
@@ -728,6 +730,13 @@ class Responsive_Addons_For_Elementor {
 		if ( ! $exist_rael_theme_builder_widgets_data_update ) {
 			$rael_widgets_data->insert_widgets_data();
 			update_option( 'rael_theme_builder_widgets_data_update', true );
+		}
+
+		$exist_rael_facebook_feed_widgets_data_update = get_option( 'rael_facebook_feed_widgets_data_update', false );
+
+		if ( ! $exist_rael_facebook_feed_widgets_data_update ) {
+			$rael_widgets_data->insert_widgets_data();
+			update_option( 'rael_facebook_feed_widgets_data_update', true );
 		}
 
 		if ( ! function_exists( 'get_plugins' ) ) {
@@ -1147,6 +1156,23 @@ class Responsive_Addons_For_Elementor {
 		wp_register_style( 'rael-particles-style-rtl', RAEL_ASSETS_URL . 'lib/particles/particles-rtl.min.css', null, RAEL_VER );
 		wp_enqueue_style( 'rael-particles-style' );
 		wp_enqueue_style( 'rael-particles-style-rtl' );
+		wp_register_style('rael-sticky',RAEL_URL . 'admin/css/rael-sticky.css',array(),RAEL_VER);
+		wp_enqueue_style( 'rael-sticky' );
+		wp_enqueue_script(
+			'jet-resize-sensor',
+			RAEL_ASSETS_URL . 'lib/sticky-sidebar/ResizeSensor.min.js' ,
+			array( 'jquery' ),
+			'1.7.0',
+			true
+		);
+
+		wp_enqueue_script(
+			'jet-sticky-sidebar',
+			RAEL_ASSETS_URL .  'lib/sticky-sidebar/sticky-sidebar.min.js' ,
+			array( 'jquery', 'jet-resize-sensor' ),
+			'3.3.1',
+			true
+		);
 	}
 
 	/**
@@ -1690,6 +1716,9 @@ class Responsive_Addons_For_Elementor {
 					case 'gf-styler':
 						array_push( $css_files, $css_files_path . 'gfstyler/gfstyler' . $css_min_ext );
 						break;
+					case 'facebook-feed':
+						array_push( $css_files, $css_files_path . 'facebook-feed/facebook-feed' . $css_min_ext );
+						break;
 				}
 			}
 		}
@@ -2069,10 +2098,9 @@ class Responsive_Addons_For_Elementor {
 		$facebook_data = get_transient( $key );
 
 		if ( false === $facebook_data ) {
-			$facebook_data = wp_remote_retrieve_body( wp_remote_get( "https://graph.facebook.com/v11.0/{$page_id}/posts?fields=status_type,created_time,from,message,story,full_picture,permalink_url,attachments.limit(1){type,media_type,title,description,unshimmed_url},comments.summary(total_count),reactions.summary(total_count)&limit=99&access_token={$token}", array( 'timeout' => 70 ) ) );
+			$facebook_data = wp_remote_retrieve_body( wp_remote_get( "https://graph.facebook.com/v22.0/{$page_id}/posts?fields=id,message,story,created_time,full_picture,permalink_url,attachments{type,media_type,title,description,unshimmed_url},comments.summary(total_count){from},reactions.summary(total_count){from}&limit=99&access_token={$token}", array( 'timeout' => 70 ) ) );
 
 			$facebook_data = json_decode( $facebook_data, true );
-
 			if ( isset( $facebook_data['data'] ) ) {
 				set_transient( $key, $facebook_data, ( $settings['rael_facebook_feed_cache_limit'] * MINUTE_IN_SECONDS ) );
 			}
@@ -2104,7 +2132,7 @@ class Responsive_Addons_For_Elementor {
 					<div class="rael-fb-feed-item-content-container">
 					<header class="rael-fb-feed-item-header">
 						<div class="rael-fb-feed-item-user">
-							<a class="rael-fb-feed-user-image" href="' . $fb_url . $page_id . '" target="' . ( 'yes' === $settings['rael_facebook_feed_link_target'] ? '_blank' : '_self' ) . '"><img src="https://graph.facebook.com/v11.0/' . $page_id . '/picture" alt="' . $item['from']['name'] . '" class="rael-fb-feed-avatar"></a>
+							' . isset( $item['from']['id'] ) ? '<a class="rael-fb-feed-user-image" href="' . $fb_url . $page_id . '" target="' . ( 'yes' === $settings['rael_facebook_feed_link_target'] ? '_blank' : '_self' ) . '"><img src="https://graph.facebook.com/v22.0/' . $page_id . '/picture" alt="' . $item['from']['name'] . '" class="rael-fb-feed-avatar"></a>' : '' . '
 							<a href="' . $fb_url . $page_id . '" target="' . ( 'yes' === $settings['rael_facebook_feed_link_target'] ? '_blank' : '_self' ) . '"><p class="rael-fb-feed-username">' . $item['from']['name'] . '</p></a>
 						</div>';
 
@@ -2201,8 +2229,8 @@ class Responsive_Addons_For_Elementor {
 					if ( $settings['rael_facebook_feed_message'] && ! empty( $message ) ) {
 						$html .= '<div class="rael-fb-feed-item-content">
 													<div class="hover-user-content">
-														<img src="https://graph.facebook.com/v11.0/' . $page_id . '/picture" alt="' . $item['from']['name'] . '" class="rael-fb-feed-avatar">
-														<p class="rael-fb-feed-username">' . esc_html( $item['from']['name'] ) . '</p>
+														' . ( isset( $item['from']['name'] ) ? '<img src="https://graph.facebook.com/v22.0/' . $page_id . '/picture" alt="' . $item['from']['name'] . '" class="rael-fb-feed-avatar">' : '' ) . '
+														' . ( isset( $item['from']['name'] ) ? '<p class="rael-fb-feed-username">' . esc_html( $item['from']['name'] ) . '</p>' : '' ) . '
 													</div>
 													<p class="rael-fb-feed-message">' . esc_html( $message ) . '</p>
 												</div>';

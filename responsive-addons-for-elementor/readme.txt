@@ -7,7 +7,7 @@ Tested up to: 6.7
 Elementor tested up to: 3.27
 Elementor Pro tested up to: 3.25
 Requires PHP: 5.6
-Stable tag: 1.6.6
+Stable tag: 1.6.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -291,6 +291,13 @@ If you like Responsive Addons for Elementor, consider checking out our other Wor
 The Development Version of the Responsive Addons for Elementor plugin is located at [https://github.com/cyberchimps/responsive-addons-for-elementor](https://github.com/cyberchimps/responsive-addons-for-elementor)
 
 == Changelog ==
+= 1.6.7 - 20th February 2025 =
+- New: Facebook Feed Widget.
+- Fix: Fixed X (Twitter) Feed widget deprecated API.
+- Fix: Fixed RAE sticky column settings not working.
+- Fix: Removed Elementor deprecated code.
+- Fix: Minor bug fixes.
+
 = 1.6.6 - 11th February 2025 =
 - Fix: Particle Background settings.
 - Fix: Team member widget issue.
