@@ -891,22 +891,20 @@ class Responsive_Addons_For_Elementor_Progress_Bar extends Widget_Base {
 			}
 
 			echo '<div class="rael-progressbar-circle-container ' . esc_attr( wp_kses_post( $settings['rael_progress_bar_circle_alignment'] ) ) . '">
-                ' . wp_kses_post( $settings['rael_progress_bar_circle_box_shadow_box_shadow'] ? '<div class="rael-progressbar-circle-shadow">' : '' ) . '
-
-                <div ' . wp_kses_post( $this->get_render_attribute_string( 'rael-progressbar-circle' ) ) . '>
-                    <div class="rael-progressbar-circle-pie">
-                        <div class="rael-progressbar-circle-half-left rael-progressbar-circle-half"></div>
-                        <div class="rael-progressbar-circle-half-right rael-progressbar-circle-half"></div>
-                    </div>
-                    <div class="rael-progressbar-circle-inner"></div>
-                    <div class="rael-progressbar-circle-inner-content">
-                        ' . ( wp_kses_post( $settings['rael_progress_bar_title'] ) ? sprintf( '<%1$s class="%2$s">', esc_html( Helper::validate_html_tags( wp_kses_post( $settings['rael_progress_bar_title_html_tag'] ) ) ), 'rael-progressbar-title' ) . wp_kses_post( $settings['rael_progress_bar_title'] ) . sprintf( '</%1$s>', esc_html( Helper::validate_html_tags( wp_kses_post( $settings['rael_progress_bar_title_html_tag'] ) ) ) ) : '' ) . '
-                        ' . wp_kses_post( $rael_progress_bar_show_count ) . '
-                    </div>
-                </div>
-
-                ' . ( $settings['rael_progress_bar_circle_box_shadow_box_shadow'] ? '</div>' : '' ) . '
-            </div>';
+				<div class="rael-progressbar-circle-shadow">
+					<div ' . wp_kses_post( $this->get_render_attribute_string( 'rael-progressbar-circle' ) ) . '>
+						<div class="rael-progressbar-circle-pie">
+							<div class="rael-progressbar-circle-half-left rael-progressbar-circle-half"></div>
+							<div class="rael-progressbar-circle-half-right rael-progressbar-circle-half"></div>
+						</div>
+						<div class="rael-progressbar-circle-inner"></div>
+						<div class="rael-progressbar-circle-inner-content">
+							' . ( wp_kses_post( $settings['rael_progress_bar_title'] ) ? sprintf( '<%1$s class="%2$s">', esc_html( Helper::validate_html_tags( wp_kses_post( $settings['rael_progress_bar_title_html_tag'] ) ) ), 'rael-progressbar-title' ) . wp_kses_post( $settings['rael_progress_bar_title'] ) . sprintf( '</%1$s>', esc_html( Helper::validate_html_tags( wp_kses_post( $settings['rael_progress_bar_title_html_tag'] ) ) ) ) : '' ) . '
+							' . wp_kses_post( $rael_progress_bar_show_count ) . '
+						</div>
+					</div>
+				</div>
+				</div>';
 		}
 
 		if ( 'half_circle' === $settings['rael_progress_bar_layout'] || 'half_circle_fill' === $settings['rael_progress_bar_layout'] ) {

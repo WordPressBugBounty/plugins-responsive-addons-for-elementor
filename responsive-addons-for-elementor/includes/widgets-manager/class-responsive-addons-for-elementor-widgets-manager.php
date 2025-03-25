@@ -761,7 +761,7 @@ class Responsive_Addons_For_Elementor_Widgets_Manager {
 			<a id="rael-menu-cart__toggle_button" href="#" class="elementor-button elementor-size-sm">
 				<span class="elementor-button-text"><?php echo wp_kses_post( $sub_total ); ?></span>
 				<span class="elementor-button-icon" <?php echo wp_kses_post( $counter_attr ); ?>>
-					<i class="eicon" aria-hidden="true"></i>
+					<svg class="rael-menu-cart-icon e-font-icon-svg e-eicon-cart-medium" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg"><path d="M740 854C740 883 763 906 792 906S844 883 844 854 820 802 792 802 740 825 740 854ZM217 156H958C977 156 992 173 989 191L957 452C950 509 901 552 843 552H297L303 581C311 625 350 656 395 656H875C892 656 906 670 906 687S892 719 875 719H394C320 719 255 666 241 593L141 94H42C25 94 10 80 10 62S25 31 42 31H167C182 31 195 42 198 56L217 156ZM230 219L284 490H843C869 490 891 470 895 444L923 219H230ZM677 854C677 791 728 740 792 740S906 791 906 854 855 969 792 969 677 918 677 854ZM260 854C260 791 312 740 375 740S490 791 490 854 438 969 375 969 260 918 260 854ZM323 854C323 883 346 906 375 906S427 883 427 854 404 802 375 802 323 825 323 854Z"></path></svg>
 					<span class="elementor-screen-only"><?php esc_html_e( 'Cart', 'responsive-addons-for-elementor' ); ?></span>
 				</span>
 			</a>

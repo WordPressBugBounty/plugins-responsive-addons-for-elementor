@@ -21,6 +21,7 @@ use Elementor\Group_Control_Background;
 use Elementor\Group_Control_Box_Shadow;
 use Elementor\Group_Control_Image_Size;
 use Elementor\Group_Control_Border;
+use Responsive_Addons_For_Elementor\Helper\Helper;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -2201,7 +2202,8 @@ class Responsive_Addons_For_Elementor_Icon_Box extends Widget_Base {
 			$this->add_render_attribute( 'rael_infobox_classname', 'class', ' elementor-animation-' . $settings['rael_info_box_hover_animation'] );
 
 			if ( 'above-title' === $settings['rael_image_position'] || 'below-title' === $settings['rael_image_position'] ) {
-				$this->add_render_attribute( 'rael_infobox_classname', 'class', ' rael-infobox--' . $settings['rael_align'] );
+				$align = isset( $settings['rael_align'] ) ? $settings['rael_align'] : 'center';
+    			$this->add_render_attribute( 'rael_infobox_classname', 'class', ' rael-infobox--' . $align );
 			}
 			if ( 'left-title' === $settings['rael_image_position'] || 'left' === $settings['rael_image_position'] ) {
 				$this->add_render_attribute( 'rael_infobox_classname', 'class', ' rael-infobox--left' );
@@ -2496,9 +2498,9 @@ class Responsive_Addons_For_Elementor_Icon_Box extends Widget_Base {
 			$this->add_render_attribute( 'rael_title', 'class', 'rael-infobox__title' );
 			$this->add_inline_editing_attributes( 'rael_title', 'basic' );
 
-			echo '<' . esc_attr( $settings['rael_title_tag'] ) . ' ' . wp_kses_post( $this->get_render_attribute_string( 'rael_title' ) ) . '>';
+			echo '<' . esc_attr( Helper::validate_html_tags( $settings['rael_title_tag'], 'h3' ) ) . ' ' . wp_kses_post( $this->get_render_attribute_string( 'rael_title' ) ) . '>';
 			echo wp_kses_post( $dynamic_settings['rael_title'] );
-			echo '</' . esc_attr( $settings['rael_title_tag'] ) . '>';
+			echo '</' . esc_attr( Helper::validate_html_tags( $settings['rael_title_tag'], 'h3' ) ) . '>';
 		}
 		echo '</div>';
 		$this->render_image( 'right-title', $settings );
