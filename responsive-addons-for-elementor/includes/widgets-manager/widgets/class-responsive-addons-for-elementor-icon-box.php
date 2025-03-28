@@ -2904,6 +2904,17 @@ class Responsive_Addons_For_Elementor_Icon_Box extends Widget_Base {
 		#>
 
 		<#
+		    // Define an array of allowed HTML tags
+		    let allowedTags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'div', 'p'];
+
+		    // Ensure settings.rael_title_tag exists and is a valid string
+		    let titleTag = settings.rael_title_tag ? settings.rael_title_tag.toLowerCase() : '';
+
+		    // Function to validate the HTML tag (scope is within the template)
+		    let validatedTag = allowedTags.includes(titleTag) ? titleTag : 'h3';
+		#>
+
+		<#
 		function render_title() {
 		var flag = false;
 		if ( ( 'photo' == settings.rael_image_type && 'left-title' == settings.rael_image_position ) || ( 'icon' == settings.rael_image_type && 'left-title' == settings.rael_image_position ) ) {
@@ -2924,10 +2935,9 @@ class Responsive_Addons_For_Elementor_Icon_Box extends Widget_Base {
 				<# view.addRenderAttribute('rael_title', 'class', 'rael-infobox__title'); #>
 				<# view.addInlineEditingAttributes('rael_title', 'basic'); #>
 
-				<{{{ settings.rael_title_tag }}} {{{ view.getRenderAttributeString('rael_title') }}}>
-				{{{ settings.rael_title }}}
-			</
-			{{{ settings.rael_title_tag }}}>
+				<{{{ validatedTag }}} {{{ view.getRenderAttributeString('rael_title') }}}>
+				    {{{ settings.rael_title }}}
+				</{{{ validatedTag }}}>
 		</div>
 		<# render_image( 'right-title' ); #>
 		<# if ( flag ) { #>

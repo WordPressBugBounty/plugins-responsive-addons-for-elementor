@@ -7,7 +7,7 @@ Tested up to: 6.7
 Elementor tested up to: 3.27
 Elementor Pro tested up to: 3.25
 Requires PHP: 5.6
-Stable tag: 1.6.9
+Stable tag: 1.6.9.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -291,6 +291,9 @@ If you like Responsive Addons for Elementor, consider checking out our other Wor
 The Development Version of the Responsive Addons for Elementor plugin is located at [https://github.com/cyberchimps/responsive-addons-for-elementor](https://github.com/cyberchimps/responsive-addons-for-elementor)
 
 == Changelog ==
+= 1.6.9.1 - 28th March 2025 =
+- Fix: Enhanced Security: Strengthened the codebase.
+
 = 1.6.9 - 25th March 2025 =
 - Fix: Enhanced Security: Strengthened the codebase.
 - Fix: Menu Cart Widget - Fixed the cart icon visibility issue.
