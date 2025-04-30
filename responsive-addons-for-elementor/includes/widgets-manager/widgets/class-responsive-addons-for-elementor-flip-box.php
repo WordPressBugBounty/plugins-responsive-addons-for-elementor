@@ -589,8 +589,9 @@ class Responsive_Addons_For_Elementor_Flip_Box extends Widget_Base {
 				'default'   => '',
 				'selectors' => array(
 					'{{WRAPPER}} .elementor-view-stacked .elementor-icon' => 'background-color: {{VALUE}}',
+					'{{WRAPPER}} .elementor-view-stacked .elementor-icon svg' => 'stroke: {{VALUE}}',
 					'{{WRAPPER}} .elementor-view-framed .elementor-icon, {{WRAPPER}} .elementor-view-default .elementor-icon' => 'color: {{VALUE}}; border-color: {{VALUE}}',
-					'{{WRAPPER}} .elementor-view-framed .elementor-icon svg, .elementor-view-default .elementor-icon svg' => 'fill: {{VALUE}};',
+					'{{WRAPPER}} .elementor-view-framed .elementor-icon svg, {{WRAPPER}} .elementor-view-default .elementor-icon svg' => 'fill: {{VALUE}};',
 				),
 				'condition' => array( 'graphic_element' => 'icon' ),
 			)
@@ -608,6 +609,7 @@ class Responsive_Addons_For_Elementor_Flip_Box extends Widget_Base {
 				),
 				'selectors' => array(
 					'{{WRAPPER}} .elementor-view-framed .elementor-icon' => 'background-color: {{VALUE}};',
+					'{{WRAPPER}} .elementor-view-framed .elementor-icon svg' => 'stroke: {{VALUE}};',
 					'{{WRAPPER}} .elementor-view-stacked .elementor-icon' => 'color: {{VALUE}};',
 					'{{WRAPPER}} .elementor-view-stacked .elementor-icon svg' => 'fill: {{VALUE}};',
 				),
@@ -1292,6 +1294,7 @@ class Responsive_Addons_For_Elementor_Flip_Box extends Widget_Base {
 			$settings['icon'] = 'fas fa-star-of-life';
 		}
 
+		$has_icon = ! empty( $settings['icon'] ) || ! empty( $settings['flip_box_icon'] );
 		$migrated = isset( $settings['__fa4_migrated']['flip_box_icon'] );
 		$is_new   = empty( $settings['icon'] ) && Icons_Manager::is_migration_allowed();
 
@@ -1305,7 +1308,7 @@ class Responsive_Addons_For_Elementor_Flip_Box extends Widget_Base {
 				<?php echo wp_kses_post( Group_Control_Image_Size::get_attachment_image_html( $settings, 'image' ) ); ?>
 							</div>
 				<?php
-		elseif ( 'icon' === $settings['graphic_element'] && ! empty( $settings['flip_box_icon']['value'] ) ) :
+		elseif ( 'icon' === $settings['graphic_element'] && $has_icon ) :
 			?>
 							<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'icon-wrapper' ) ); ?>>
 								<div class="elementor-icon">
@@ -1426,6 +1429,7 @@ class Responsive_Addons_For_Elementor_Flip_Box extends Widget_Base {
 
 		view.addRenderAttribute( 'box_front_title_tags', 'class', 'rael-flip-box-layer-title' );
 
+		let hasIcon = settings.icon || settings.flip_box_icon;
 		iconHTML = elementor.helpers.renderIcon( view, settings.flip_box_icon, { 'aria-hidden': true }, 'i' , 'object' );
 
 		migrated = elementor.helpers.isIconMigrated( settings, 'flip_box_icon' );
@@ -1439,7 +1443,7 @@ class Responsive_Addons_For_Elementor_Flip_Box extends Widget_Base {
 						<div class="rael-flip-box-image">
 							<img src="{{ imageUrl }}">
 						</div>
-						<#  } else if ( 'icon' == settings.graphic_element && settings.flip_box_icon.value ) { #>
+						<#  } else if ( 'icon' === settings.graphic_element && hasIcon ) { #>
 						<div class="{{ iconWrapperClasses }}" >
 							<div class="elementor-icon">
 

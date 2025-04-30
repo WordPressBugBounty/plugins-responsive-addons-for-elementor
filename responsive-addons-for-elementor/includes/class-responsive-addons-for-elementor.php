@@ -153,6 +153,8 @@ class Responsive_Addons_For_Elementor {
 
 		add_action( 'upgrader_process_complete', array($this,'rael_wp_upe_upgrade_completed') , 10, 2 );
 
+		// Add rated links to plugin's description in plugins table
+		add_filter('plugin_row_meta', array($this, 'rael_rate_plugin_link'), 10, 2);
 
 		$this->load_dependencies();
 		$this->define_admin_hooks();
@@ -2344,6 +2346,25 @@ class Responsive_Addons_For_Elementor {
 				)
 			);
 		}
+	}
+
+	/**
+     * Add links to plugin's description in plugins table
+     *
+     * @param array  $links  Initial list of links.
+     * @param string $file   Basename of current plugin.
+     *
+     * @return array
+     */
+    public function rael_rate_plugin_link( $links, $file ) {
+		if ( $file !== plugin_basename( RAEL_PATH ) ) {
+			return $links;
+		}
+		
+		$rate_url = 'https://wordpress.org/support/plugin/responsive-addons-for-elementor/reviews/';
+		$rate_link = '<a target="_blank" href="' . esc_url( $rate_url ) . '" title="' . esc_attr__( 'Rate the plugin', 'responsive-addons' ) . '">' . esc_html__( 'Rate the plugin ★★★★★', 'responsive-addons' ) . '</a>';
+		$links[] = $rate_link;
+		return $links;
 	}
 
 }

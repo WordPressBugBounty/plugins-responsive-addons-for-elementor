@@ -3,11 +3,11 @@ Contributors: cyberchimps
 Donate Link: https://cyberchimps.com
 Tags: elementor, elementor addons, elementor widget, woocommerce elementor, page builder plugin
 Requires at least: 5.0
-Tested up to: 6.7
+Tested up to: 6.8
 Elementor tested up to: 3.27
 Elementor Pro tested up to: 3.25
 Requires PHP: 5.6
-Stable tag: 1.6.9.1
+Stable tag: 1.7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -291,6 +291,11 @@ If you like Responsive Addons for Elementor, consider checking out our other Wor
 The Development Version of the Responsive Addons for Elementor plugin is located at [https://github.com/cyberchimps/responsive-addons-for-elementor](https://github.com/cyberchimps/responsive-addons-for-elementor)
 
 == Changelog ==
+
+= 1.7.0 - 30th April 2025 =
+- Improvement: Post Title Widget - Added Size setting.
+- Fix: Flipbox Widget - Fixed the icon appearing issue on flip effect.
+
 = 1.6.9.1 - 28th March 2025 =
 - Fix: Enhanced Security: Strengthened the codebase.
 
