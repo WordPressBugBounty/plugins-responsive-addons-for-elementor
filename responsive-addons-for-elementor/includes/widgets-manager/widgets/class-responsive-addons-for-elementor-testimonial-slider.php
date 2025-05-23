@@ -24,7 +24,7 @@ use Elementor\Group_Control_Background;
 use Elementor\Icons_Manager;
 
 /**
- * 'REA Testimonial slider' widget class
+ * 'RAEL Testimonial slider' widget class
  */
 class Responsive_Addons_For_Elementor_Testimonial_Slider extends Widget_Base {
 	/**

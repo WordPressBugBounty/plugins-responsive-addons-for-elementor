@@ -7,7 +7,7 @@ Tested up to: 6.8
 Elementor tested up to: 3.27
 Elementor Pro tested up to: 3.25
 Requires PHP: 5.6
-Stable tag: 1.7.0
+Stable tag: 1.7.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -291,6 +291,10 @@ If you like Responsive Addons for Elementor, consider checking out our other Wor
 The Development Version of the Responsive Addons for Elementor plugin is located at [https://github.com/cyberchimps/responsive-addons-for-elementor](https://github.com/cyberchimps/responsive-addons-for-elementor)
 
 == Changelog ==
+
+= 1.7.1 - 23rd May 2025 =
+- Fix: Feature List Widget - Fixed clicking on the feature list's title not redirecting to the provided link issue.
+- Fix: Icon Box Widget - Fixed the icon position not functioning properly for call to action button type.
 
 = 1.7.0 - 30th April 2025 =
 - Improvement: Post Title Widget - Added Size setting.

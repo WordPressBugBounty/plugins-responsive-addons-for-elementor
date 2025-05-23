@@ -1164,7 +1164,7 @@ class Responsive_Addons_For_Elementor {
 			'jet-resize-sensor',
 			RAEL_ASSETS_URL . 'lib/sticky-sidebar/ResizeSensor.min.js' ,
 			array( 'jquery' ),
-			'1.7.0',
+			RAEL_VER,
 			true
 		);
 
@@ -1172,7 +1172,7 @@ class Responsive_Addons_For_Elementor {
 			'jet-sticky-sidebar',
 			RAEL_ASSETS_URL .  'lib/sticky-sidebar/sticky-sidebar.min.js' ,
 			array( 'jquery', 'jet-resize-sensor' ),
-			'3.3.1',
+			RAEL_VER,
 			true
 		);
 	}
