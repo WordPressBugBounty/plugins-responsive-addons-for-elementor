@@ -1396,7 +1396,7 @@ class Responsive_Addons_For_Elementor_Testimonial_Slider extends Widget_Base {
 
 		?>
 		<div class="responsive-swiper">
-			<div class="<?php echo wp_kses_post( $settings['container_class'] ); ?> swiper<?php echo esc_attr( RAEL_SWIPER_CONTAINER ); ?>">
+			<div class="<?php echo esc_attr( $settings['container_class'] ); ?> swiper<?php echo esc_attr( RAEL_SWIPER_CONTAINER ); ?>">
 				<div class="swiper-wrapper">
 					<?php
 					foreach ( $settings['slides'] as $index => $slide ) :

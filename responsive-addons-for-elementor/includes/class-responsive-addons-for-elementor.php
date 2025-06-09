@@ -695,7 +695,6 @@ class Responsive_Addons_For_Elementor {
 		   foreach( $options['plugins'] as $plugin ) {
 			   if( $plugin === $our_plugin ) {
 					//to check this function is getting called or not.
-					error_log('Responsive Addons for Elementor plugin updated');
 					//added new theme builder widgets in the dashboard.
 					include_once RAEL_DIR . 'includes/class-responsive-addons-for-elementor-widgets-updater.php';
 					$rael_widgets_data = new Responsive_Addons_For_Elementor_Widgets_Updater();
@@ -1116,6 +1115,12 @@ class Responsive_Addons_For_Elementor {
 					case 'media-carousel':
 					case 'post-carousel':
 					case 'reviews':
+						if ( ! isset( $included_libs['rael-swiper'] ) ) {
+							$included_libs['rael-swiper'] = true;
+							wp_enqueue_script( 'rael-swiper', RAEL_ASSETS_URL . 'lib/swiper/swiper.js', array(), RAEL_VER, true );
+							wp_localize_script( 'rael-swiper', 'rael_elementor_swiper', $swiper_class );
+						}
+						break;
 					case 'slider':
 					case 'testimonial-slider':
 						if ( ! isset( $included_libs['rael-swiper'] ) ) {

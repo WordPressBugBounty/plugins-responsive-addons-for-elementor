@@ -4,10 +4,10 @@ Donate Link: https://cyberchimps.com
 Tags: elementor, elementor addons, elementor widget, woocommerce elementor, page builder plugin
 Requires at least: 5.0
 Tested up to: 6.8
-Elementor tested up to: 3.27
-Elementor Pro tested up to: 3.25
+Elementor tested up to: 3.29
+Elementor Pro tested up to: 3.29
 Requires PHP: 5.6
-Stable tag: 1.7.1
+Stable tag: 1.7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -291,6 +291,13 @@ If you like Responsive Addons for Elementor, consider checking out our other Wor
 The Development Version of the Responsive Addons for Elementor plugin is located at [https://github.com/cyberchimps/responsive-addons-for-elementor](https://github.com/cyberchimps/responsive-addons-for-elementor)
 
 == Changelog ==
+
+= 1.7.2 - 9th June 2025 =
+- Improvement: Made theme builder display conditions dynamic based on selected template type.
+- Fix: Fixed Edit with Elementor not working in theme builder for few template display conditions.
+- Fix: RAE Products - Fixed Load More functionality not working issue.
+- Fix: RAE Reviews - Fixed widget UI broken on frontend.
+- Fix: RAE Post Navigation - Fixed navigation issue for taxonomy.
 
 = 1.7.1 - 23rd May 2025 =
 - Fix: Feature List Widget - Fixed clicking on the feature list's title not redirecting to the provided link issue.
