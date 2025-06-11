@@ -55,7 +55,7 @@
 
 .responsive-portfolio-item__overlay {
   opacity: 0;
-  position: relative;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
@@ -112,31 +112,13 @@
 }
 
 
-.elementor-widget-rael-portfolio {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  height: auto !important;
-  overflow: visible;
+.e-con-inner>.elementor-widget-rael-portfolio,
+.e-con>.elementor-widget-rael-portfolio {
+  width: 100%
 }
 
-
-.e-con-inner {
-  display: block !important;
-  width: 100%;
-  height: auto !important;
-  overflow: visible;
+.responsive-posts-container .elementor-post {
+  padding: 0;
 }
-
-
-
-.e-parent {
-  display: block !important;
-  width: 100%;
-  height: auto !important;
-  overflow: visible;
-}
-
-
 
 /*# sourceMappingURL=portfolio-frontend.css.map */
