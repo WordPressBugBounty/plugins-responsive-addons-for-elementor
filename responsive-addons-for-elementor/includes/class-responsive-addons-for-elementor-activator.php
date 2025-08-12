@@ -131,7 +131,9 @@ class Responsive_Addons_For_Elementor_Activator {
 				)
 			);
 		}
-		Plugin::$instance->files_manager->clear_cache();
+		if (class_exists('\Elementor\Plugin')) {
+			\Elementor\Plugin::$instance->files_manager->clear_cache();
+		}
 	}
 
 	/**
