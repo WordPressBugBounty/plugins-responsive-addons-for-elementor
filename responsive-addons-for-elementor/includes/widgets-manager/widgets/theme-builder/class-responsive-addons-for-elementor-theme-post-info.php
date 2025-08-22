@@ -787,7 +787,7 @@ class Responsive_Addons_For_Elementor_Theme_Post_Info extends Widget_Base {
 		$settings = $this->get_settings_for_display();
 
 		ob_start();
-		if ( ! empty( $settings['rael_pi_icon_list'] ) ) {
+		if ( ! empty( $settings['rael_pi_icon_list'] ) ) {			
 			foreach ( $settings['rael_pi_icon_list'] as $repeater_item ) {
 				$this->render_item( $repeater_item );
 			}
@@ -897,12 +897,10 @@ class Responsive_Addons_For_Elementor_Theme_Post_Info extends Widget_Base {
 			} elseif ( 'none' === $item['rael_meta_data_show_icon'] ) {
 				$item_data['icon'] = '';
 			}
-		} else {
-			if ( 'custom' === $item['rael_meta_data_show_icon'] && ! empty( $item['rael_meta_data_selected_icon'] ) ) {
+		} elseif ( 'custom' === $item['rael_meta_data_show_icon'] && ! empty( $item['rael_meta_data_selected_icon'] ) ) {
 				$item_data['selected_icon'] = $item['rael_meta_data_selected_icon'];
-			} elseif ( 'none' === $item['rael_meta_data_show_icon'] ) {
-				$item_data['selected_icon'] = array();
-			}
+		} elseif ( 'none' === $item['rael_meta_data_show_icon'] ) {
+			$item_data['selected_icon'] = array();
 		}
 
 		$migrated  = isset( $item['__fa4_migrated']['selected_icon'] );
@@ -1014,24 +1012,23 @@ class Responsive_Addons_For_Elementor_Theme_Post_Info extends Widget_Base {
 
 		switch ( $item['rael_meta_data_type'] ) {
 			case 'author':
-				$item_data['text']          = get_the_author_meta( 'display_name' );
-				$item_data['icon']          = 'fa fa-user-circle-o';
+				$author_id = get_post_field( 'post_author', get_the_ID() );
+				$item_data['text'] = get_the_author_meta( 'display_name', $author_id );
+				$item_data['icon'] = 'fa fa-user-circle-o';
 				$item_data['selected_icon'] = array(
 					'value'   => 'far fa-user-circle',
 					'library' => 'fa-regular',
 				);
-				$item_data['itemprop']      = 'author';
-
+				$item_data['itemprop'] = 'author';
 				if ( 'yes' === $item['rael_meta_data_link'] ) {
 					$item_data['url'] = array(
-						'url' => get_author_posts_url( get_the_author_meta( 'ID' ) ),
+						'url' => get_author_posts_url( $author_id ),
 					);
 				}
 
 				if ( 'yes' === $item['rael_meta_data_show_avatar'] ) {
-					$item_data['image'] = get_avatar_url( get_the_author_meta( 'ID' ), 96 );
+					$item_data['image'] = get_avatar_url( $author_id, array( 'size' => 96 ) );
 				}
-
 				break;
 
 			case 'date':
@@ -1170,5 +1167,4 @@ class Responsive_Addons_For_Elementor_Theme_Post_Info extends Widget_Base {
 
 		return $item_data;
 	}
-
 }
