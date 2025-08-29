@@ -7,11 +7,11 @@ Tested up to: 6.8
 Elementor tested up to: 3.29
 Elementor Pro tested up to: 3.29
 Requires PHP: 5.6
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Build Elementor sites with 80+ widgets, 5+ extensions & full builder. 250+ templates & 500+ sections—no upgrade needed.
+Build Elementor sites with 80+ essential widgets, 5+ extensions & full builder. 250+ templates & 500+ sections—no upgrade needed.
 
 == Description ==
 
@@ -291,6 +291,12 @@ If you like Responsive Addons for Elementor, consider checking out our other Wor
 The Development Version of the Responsive Addons for Elementor plugin is located at [https://github.com/cyberchimps/responsive-addons-for-elementor](https://github.com/cyberchimps/responsive-addons-for-elementor)
 
 == Changelog ==
+
+= 2.0.1 - 29th August 2025 =
+- Fix: X (Twitter) Feed Widget - Fixed content layout and column grid issues.
+- Fix: Facebook Feed Widget - Fixed load more button issue.
+- Fix: Feature List Widget - Fixed hover settings issue.
+- Fix: Minor bug fixes.
 
 = 2.0.0 - 22nd August 2025 =
 - Fix: Enhanced Security: Strengthened the codebase.

@@ -447,6 +447,52 @@ class Responsive_Addons_For_Elementor_Feature_List extends Widget_Base {
 			)
 		);
 
+
+		$this->start_controls_tabs( 'rael_list_heading_color_tabs' );
+
+		// Normal State Tab.
+		$this->start_controls_tab(
+			'rael_list_heading_normal',
+			array(
+				'label' => __( 'Normal', 'responsive-addons-for-elementor' ),
+			)
+		);
+
+		$this->add_control(
+			'rael_list_heading_normal_color',
+			array(
+				'label'		 => __ ('Heading Color', 'responsive-addons-for-elementor' ),
+				'type'		 => Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .rael-feature-list-items .rael-feature-list-item .rael-feature-list-title' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .rael-feature-list-items .rael-feature-list-item .rael-feature-list-title a' => 'color: {{VALUE}};',
+				
+				),
+			)
+		);
+		$this->end_controls_tab();
+
+		//Hover state tab.
+		$this->start_controls_tab(
+			'rael_list_heading_hover',
+			array(
+				'label' => __( 'Hover', 'responsive-addons-for-elementor' ),
+			)
+		);
+		$this->add_control(
+			'rael_list_heading_hover_color',
+			array(
+				'label'		 => __( 'Heading Color', 'responsive-addons-for-elementor' ),
+				'type'		 => Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .rael-feature-list-items .rael-feature-list-item:hover .rael-feature-list-title' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .rael-feature-list-items .rael-feature-list-item:hover .rael-feature-list-title a' => 'color: {{VALUE}};',
+				),
+			)
+		);
+		$this->end_controls_tab();
+		$this->end_controls_tabs();
+
 		$this->add_control(
 			'rael_list_connector_type',
 			array(
@@ -543,11 +589,19 @@ class Responsive_Addons_For_Elementor_Feature_List extends Widget_Base {
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
+		//Normal State Tab.
+		$this->start_controls_tabs( 'rael_feature_list_icon_tabs' );
+		$this->start_controls_tab(
+			'rael_feature_list_icon_normal',
+			array(
+				'label' => __( 'Normal', 'responsive-addons-for-elementor' ),
+			)
+		);
 
 		$this->add_group_control(
 			Group_Control_Background::get_type(),
 			array(
-				'name'     => 'rael_feature_list_icon_background',
+				'name'     => 'rael_feature_list_icon_normal_background',
 				'types'    => array( 'classic', 'gradient' ),
 				'exclude'  => array(
 					'image',
@@ -560,7 +614,7 @@ class Responsive_Addons_For_Elementor_Feature_List extends Widget_Base {
 		);
 
 		$this->add_control(
-			'rael_feature_list_secondary_color',
+			'rael_feature_list_secondary_normal_color',
 			array(
 				'label'     => esc_html__( 'Secondary Color', 'responsive-addons-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
@@ -576,9 +630,9 @@ class Responsive_Addons_For_Elementor_Feature_List extends Widget_Base {
 		);
 
 		$this->add_control(
-			'rael_feature_list_icon_color',
+			'rael_feature_list_icon_normal_color',
 			array(
-				'label'     => esc_html__( 'Color', 'responsive-addons-for-elementor' ),
+				'label'     => esc_html__( 'Icon Color', 'responsive-addons-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => array(
@@ -590,7 +644,7 @@ class Responsive_Addons_For_Elementor_Feature_List extends Widget_Base {
 		);
 
 		$this->add_responsive_control(
-			'rael_feature_list_icon_circle_size',
+			'rael_feature_list_icon_normal_circle_size',
 			array(
 				'label'     => esc_html__( 'Size', 'responsive-addons-for-elementor' ),
 				'type'      => Controls_Manager::SLIDER,
@@ -610,7 +664,7 @@ class Responsive_Addons_For_Elementor_Feature_List extends Widget_Base {
 			)
 		);
 		$this->add_responsive_control(
-			'rael_feature_list_icon_size',
+			'rael_feature_list_icon_normal_size',
 			array(
 				'label'     => esc_html__( 'Icon Size', 'responsive-addons-for-elementor' ),
 				'type'      => Controls_Manager::SLIDER,
@@ -632,7 +686,7 @@ class Responsive_Addons_For_Elementor_Feature_List extends Widget_Base {
 		);
 
 		$this->add_responsive_control(
-			'rael_feature_list_icon_padding',
+			'rael_feature_list_icon_normal_padding',
 			array(
 				'label'      => esc_html__( 'Padding', 'responsive-addons-for-elementor' ),
 				'type'       => Controls_Manager::DIMENSIONS,
@@ -651,7 +705,7 @@ class Responsive_Addons_For_Elementor_Feature_List extends Widget_Base {
 		);
 
 		$this->add_control(
-			'rael_feature_list_icon_border_width',
+			'rael_feature_list_icon_normal_border_width',
 			array(
 				'label'     => esc_html__( 'Border Width', 'responsive-addons-for-elementor' ),
 				'type'      => Controls_Manager::SLIDER,
@@ -675,7 +729,7 @@ class Responsive_Addons_For_Elementor_Feature_List extends Widget_Base {
 		);
 
 		$this->add_control(
-			'rael_feature_list_icon_border_radius',
+			'rael_feature_list_icon_normal_border_radius',
 			array(
 				'label'      => esc_html__( 'Border Radius', 'responsive-addons-for-elementor' ),
 				'type'       => Controls_Manager::DIMENSIONS,
@@ -691,7 +745,7 @@ class Responsive_Addons_For_Elementor_Feature_List extends Widget_Base {
 		);
 
 		$this->add_responsive_control(
-			'rael_feature_list_icon_space',
+			'rael_feature_list_icon_normal_space',
 			array(
 				'label'           => esc_html__( 'Spacing', 'responsive-addons-for-elementor' ),
 				'type'            => Controls_Manager::SLIDER,
@@ -721,6 +775,198 @@ class Responsive_Addons_For_Elementor_Feature_List extends Widget_Base {
 				),
 			)
 		);
+
+		$this->end_controls_tab();
+		
+		//Hover state tab.
+		$this->start_controls_tab(
+			'rael_feature_list_icon_hover',
+			array(
+				'label' => __( 'Hover', 'responsive-addons-for-elementor' ),
+			)
+		);
+
+
+		$this->add_group_control(
+			Group_Control_Background::get_type(),
+			array(
+				'name'     => 'rael_feature_list_icon_hover_background',
+				'types'    => array( 'classic', 'gradient' ),
+				'exclude'  => array(
+					'image',
+				),
+				'color'    => array(
+					'default' => '#3858f4',
+				),
+				'selector' => '{{WRAPPER}} .rael-feature-list-items .rael-feature-list-icon-box:hover .rael-feature-list-icon-inner',
+			)
+		);
+
+		$this->add_control(
+			'rael_feature_list_secondary_hover_color',
+			array(
+				'label'     => esc_html__( 'Secondary Color', 'responsive-addons-for-elementor' ),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => '#ffffff',
+				'selectors' => array(
+					'{{WRAPPER}} .rael-feature-list-items.framed:hover .rael-feature-list-icon' => 'background-color: {{VALUE}};',
+				),
+				'condition' => array(
+					'rael_feature_list_icon_shape_view' => 'framed',
+				),
+				'separator' => 'before',
+			)
+		);
+
+		$this->add_control(
+			'rael_feature_list_icon_hover_color',
+			array(
+				'label'     => esc_html__( 'Icon Color', 'responsive-addons-for-elementor' ),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => '',
+				'selectors' => array(
+					'{{WRAPPER}} .rael-feature-list-items.stacked .rael-feature-list-icon:hover, {{WRAPPER}} .rael-feature-list-items.framed .rael-feature-list-icon:hover' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .rael-feature-list-items.stacked .rael-feature-list-icon:hover svg, {{WRAPPER}} .rael-feature-list-items.framed .rael-feature-list-icon:hover svg' => 'fill: {{VALUE}};',
+				),
+				'separator' => 'before',
+			)
+		);
+
+		$this->add_responsive_control(
+			'rael_feature_list_icon_hover_circle_size',
+			array(
+				'label'     => esc_html__( 'Size', 'responsive-addons-for-elementor' ),
+				'type'      => Controls_Manager::SLIDER,
+				'default'   => array(
+					'size' => 70,
+				),
+				'range'     => array(
+					'px' => array(
+						'min' => 6,
+						'max' => 300,
+					),
+				),
+				'selectors' => array(
+					'{{WRAPPER}} .rael-feature-list-icon-box:hover .rael-feature-list-icon' => 'height: {{SIZE}}{{UNIT}}; width: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .rael-feature-list-items.connector-type-classic:hover .connector' => 'right: calc(100% - {{SIZE}}{{UNIT}});',
+				),
+			)
+		);
+		$this->add_responsive_control(
+			'rael_feature_list_icon_hover_size',
+			array(
+				'label'     => esc_html__( 'Icon Size', 'responsive-addons-for-elementor' ),
+				'type'      => Controls_Manager::SLIDER,
+				'default'   => array(
+					'size' => 21,
+				),
+				'range'     => array(
+					'px' => array(
+						'min' => 6,
+						'max' => 150,
+					),
+				),
+				'selectors' => array(
+					'{{WRAPPER}} .rael-feature-list-icon-box:hover .rael-feature-list-icon' => 'font-size: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .rael-feature-list-icon-box:hover .rael-feature-list-icon img' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .rael-feature-list-image:hover' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'rael_feature_list_icon_hover_padding',
+			array(
+				'label'      => esc_html__( 'Padding', 'responsive-addons-for-elementor' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', '%', 'em' ),
+				'default'    => array(
+					'top'      => 15,
+					'right'    => 15,
+					'bottom'   => 15,
+					'left'     => 15,
+					'isLinked' => true,
+				),
+				'selectors'  => array(
+					'{{WRAPPER}} .rael-feature-list-icon-box:hover .rael-feature-list-icon' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_control(
+			'rael_feature_list_icon_border_hover_width',
+			array(
+				'label'     => esc_html__( 'Border Width', 'responsive-addons-for-elementor' ),
+				'type'      => Controls_Manager::SLIDER,
+				'default'   => array(
+					'size' => 1,
+				),
+				'range'     => array(
+					'px' => array(
+						'min' => 1,
+						'max' => 50,
+					),
+				),
+				'selectors' => array(
+					'{{WRAPPER}} .rael-feature-list-icon-box:hover .rael-feature-list-icon-inner' => 'padding: {{SIZE}}{{UNIT}};',
+
+				),
+				'condition' => array(
+					'rael_feature_list_icon_shape_view' => 'framed',
+				),
+			)
+		);
+
+		$this->add_control(
+			'rael_feature_list_icon_border_hover_radius',
+			array(
+				'label'      => esc_html__( 'Border Radius', 'responsive-addons-for-elementor' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', '%' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .rael-feature-list-icon-box:hover .rael-feature-list-icon-inner'   => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} .rael-feature-list-icon-box:hover .rael-feature-list-icon-inner .rael-feature-list-icon:hover' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+				'condition'  => array(
+					'rael_feature_list_icon_shape_view' => 'framed',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'rael_feature_list_icon_hover_space',
+			array(
+				'label'           => esc_html__( 'Spacing', 'responsive-addons-for-elementor' ),
+				'type'            => Controls_Manager::SLIDER,
+				'range'           => array(
+					'px' => array(
+						'min' => 0,
+						'max' => 100,
+					),
+				),
+				'devices'         => array( 'desktop', 'tablet', 'mobile' ),
+				'desktop_default' => array(
+					'size' => 30,
+					'unit' => 'px',
+				),
+				'tablet_default'  => array(
+					'size' => 20,
+					'unit' => 'px',
+				),
+				'mobile_default'  => array(
+					'size' => 10,
+					'unit' => 'px',
+				),
+				'selectors'       => array(
+					'{{WRAPPER}} .rael-icon-position-left:hover .rael-feature-list-content-box, {{WRAPPER}} .rael-icon-position-right:hover .rael-feature-list-content-box, {{WRAPPER}} .rael-icon-position-top:hover .rael-feature-list-content-box' => 'margin: {{SIZE}}{{UNIT}};',
+					'(mobile){{WRAPPER}} .rael-mobile-icon-position-left:hover .rael-feature-list-content-box' => 'margin: 0 0 0 {{SIZE}}{{UNIT}} !important;',
+					'(mobile){{WRAPPER}} .rael-mobile-icon-position-right:hover .rael-feature-list-content-box'    => 'margin: 0 {{SIZE}}{{UNIT}} 0 0 !important;',
+				),
+			)
+		);
+
+		$this->end_controls_tab();
+		$this->end_controls_tabs();
 
 		$this->end_controls_section();
 
@@ -919,8 +1165,8 @@ class Responsive_Addons_For_Elementor_Feature_List extends Widget_Base {
 			$this->add_render_attribute( 'rael_feature_list', 'class', 'connector-type-modern' );
 		}
 
-		if ( isset( $settings['rael_feature_list_icon_border_width']['right'] ) && isset( $settings['rael_feature_list_icon_border_width']['left'] ) ) {
-			$border = $settings['rael_feature_list_icon_border_width']['right'] + $settings['rael_feature_list_icon_border_width']['left'];
+		if ( isset( $settings['rael_feature_list_icon_normal_border_width']['right'] ) && isset( $settings['rael_feature_list_icon_normal_border_width']['left'] ) ) {
+			$border = $settings['rael_feature_list_icon_normal_border_width']['right'] + $settings['rael_feature_list_icon_normal_border_width']['left'];
 		}
 
 		if ( 'rhombus' === $settings['rael_feature_list_icon_shape'] ) {
