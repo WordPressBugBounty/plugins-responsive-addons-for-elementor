@@ -291,7 +291,7 @@ class Responsive_Addons_For_Elementor_Feature_List extends Widget_Base {
 					),
 				),
 				'fields'      => $repeater->get_controls(),
-				'title_field' => '<i class="{{ rael_feature_list_icon_new.value }}" aria-hidden="true"></i> {{{ rael_feature_title }}}',
+				'title_field' => '<i class="{{ rael_feature_list_icon_new.value }}" aria-hidden="true"></i> {{ rael_feature_title }}',
 			)
 		);
 
@@ -447,7 +447,6 @@ class Responsive_Addons_For_Elementor_Feature_List extends Widget_Base {
 			)
 		);
 
-
 		$this->start_controls_tabs( 'rael_list_heading_color_tabs' );
 
 		// Normal State Tab.
@@ -461,18 +460,18 @@ class Responsive_Addons_For_Elementor_Feature_List extends Widget_Base {
 		$this->add_control(
 			'rael_list_heading_normal_color',
 			array(
-				'label'		 => __ ('Heading Color', 'responsive-addons-for-elementor' ),
-				'type'		 => Controls_Manager::COLOR,
+				'label'     => __( 'Heading Color', 'responsive-addons-for-elementor' ),
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}} .rael-feature-list-items .rael-feature-list-item .rael-feature-list-title' => 'color: {{VALUE}};',
 					'{{WRAPPER}} .rael-feature-list-items .rael-feature-list-item .rael-feature-list-title a' => 'color: {{VALUE}};',
-				
+
 				),
 			)
 		);
 		$this->end_controls_tab();
 
-		//Hover state tab.
+		// Hover state tab.
 		$this->start_controls_tab(
 			'rael_list_heading_hover',
 			array(
@@ -482,8 +481,8 @@ class Responsive_Addons_For_Elementor_Feature_List extends Widget_Base {
 		$this->add_control(
 			'rael_list_heading_hover_color',
 			array(
-				'label'		 => __( 'Heading Color', 'responsive-addons-for-elementor' ),
-				'type'		 => Controls_Manager::COLOR,
+				'label'     => __( 'Heading Color', 'responsive-addons-for-elementor' ),
+				'type'      => Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}} .rael-feature-list-items .rael-feature-list-item:hover .rael-feature-list-title' => 'color: {{VALUE}};',
 					'{{WRAPPER}} .rael-feature-list-items .rael-feature-list-item:hover .rael-feature-list-title a' => 'color: {{VALUE}};',
@@ -589,7 +588,7 @@ class Responsive_Addons_For_Elementor_Feature_List extends Widget_Base {
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
-		//Normal State Tab.
+		// Normal State Tab.
 		$this->start_controls_tabs( 'rael_feature_list_icon_tabs' );
 		$this->start_controls_tab(
 			'rael_feature_list_icon_normal',
@@ -632,7 +631,7 @@ class Responsive_Addons_For_Elementor_Feature_List extends Widget_Base {
 		$this->add_control(
 			'rael_feature_list_icon_normal_color',
 			array(
-				'label'     => esc_html__( 'Icon Color', 'responsive-addons-for-elementor' ),
+				'label'     => esc_html__( 'Color', 'responsive-addons-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => array(
@@ -777,15 +776,14 @@ class Responsive_Addons_For_Elementor_Feature_List extends Widget_Base {
 		);
 
 		$this->end_controls_tab();
-		
-		//Hover state tab.
+
+		// Hover state tab.
 		$this->start_controls_tab(
 			'rael_feature_list_icon_hover',
 			array(
 				'label' => __( 'Hover', 'responsive-addons-for-elementor' ),
 			)
 		);
-
 
 		$this->add_group_control(
 			Group_Control_Background::get_type(),
@@ -821,12 +819,12 @@ class Responsive_Addons_For_Elementor_Feature_List extends Widget_Base {
 		$this->add_control(
 			'rael_feature_list_icon_hover_color',
 			array(
-				'label'     => esc_html__( 'Icon Color', 'responsive-addons-for-elementor' ),
+				'label'     => esc_html__( 'Color', 'responsive-addons-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => array(
-					'{{WRAPPER}} .rael-feature-list-items.stacked .rael-feature-list-icon:hover, {{WRAPPER}} .rael-feature-list-items.framed .rael-feature-list-icon:hover' => 'color: {{VALUE}};',
-					'{{WRAPPER}} .rael-feature-list-items.stacked .rael-feature-list-icon:hover svg, {{WRAPPER}} .rael-feature-list-items.framed .rael-feature-list-icon:hover svg' => 'fill: {{VALUE}};',
+					'{{WRAPPER}} .rael-feature-list-items.stacked:hover .rael-feature-list-icon, {{WRAPPER}} .rael-feature-list-items.framed:hover .rael-feature-list-icon' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .rael-feature-list-items.stacked:hover .rael-feature-list-icon svg, {{WRAPPER}} .rael-feature-list-items.framed:hover .rael-feature-list-icon svg' => 'fill: {{VALUE}};',
 				),
 				'separator' => 'before',
 			)
@@ -1204,14 +1202,27 @@ class Responsive_Addons_For_Elementor_Feature_List extends Widget_Base {
 				$icon_color     = ( 'on' === $item['rael_icon_style'] && isset( $item['rael_feature_list_icon_individual_color'] ) ) ? esc_attr( $item['rael_feature_list_icon_individual_color'] ) : '';
 				$icon_bg        = ( ( 'on' === $item['rael_icon_style'] ) ? ' ' . esc_attr( $item['rael_feature_list_icon_bg_color'] ) : '' );
 				$icon_box_bg    = ( ( 'on' === $item['rael_icon_style'] ) ? ' style="background-color:' . esc_attr( $item['rael_feature_list_icon_box_bg_color'] ) . '"' : '' );
-				$feat_title_tag = Utils::validate_html_tag( $settings['rael_feature_title'] );
+				$feat_title_tag = esc_html( Utils::validate_html_tag( $settings['rael_feature_title'] ) );
 
 				$this->add_render_attribute( 'rael_feature_list_icon' . $index, 'class', 'rael-feature-list-icon fl-icon-' . $index );
 				$this->add_render_attribute( 'rael_feature_list_title' . $index, 'class', 'rael-feature-list-title' );
 				$this->add_render_attribute( 'rael_feature_list_content' . $index, 'class', 'rael-feature-list-content' );
+				//escape url for xss fix
+				$feature_list_link = '';
 
+				if ( ! empty( $item['rael_feature_list_link'] ) ) {
+					$url = $item['rael_feature_list_link']['url'];
+
+					// Basic clean
+					$url = esc_url_raw( $url );
+
+					// Only allow http and https
+					if ( preg_match( '/^https?:\/\//i', $url ) ) {
+						$feature_list_link = $url;
+					}
+				}
 				if ( $item['rael_feature_list_link']['url'] ) {
-					$this->add_render_attribute( 'rael_feature_list_title_anchor' . $index, 'href', esc_url( $item['rael_feature_list_link']['url'] ) );
+					$this->add_render_attribute( 'rael_feature_list_title_anchor' . $index, 'href', $feature_list_link);
 
 					if ( $item['rael_feature_list_link']['is_external'] ) {
 						$this->add_render_attribute( 'rael_feature_list_title_anchor' . $index, 'target', '_blank' );
@@ -1227,7 +1238,7 @@ class Responsive_Addons_For_Elementor_Feature_List extends Widget_Base {
 				$feature_has_icon = ( ! empty( $item['rael_feature_list_icon'] ) || ! empty( $item['rael_feature_list_icon_new'] ) );
 
 				if ( $item['rael_feature_list_link']['url'] ) {
-					$this->add_render_attribute( 'rael_feature_list_link' . $index, 'href', $item['rael_feature_list_link']['url'] );
+					$this->add_render_attribute( 'rael_feature_list_link' . $index, 'href', $feature_list_link );
 
 					if ( $item['rael_feature_list_link']['is_external'] ) {
 						$this->add_render_attribute( 'rael_feature_list_link' . $index, 'target', '_blank' );
@@ -1246,9 +1257,9 @@ class Responsive_Addons_For_Elementor_Feature_List extends Widget_Base {
 						<span class="connector connector-mobile" style="<?php echo wp_kses_post( $connector_mobile ); ?>"></span>
 					<?php endif; ?>
 
-					<div class="rael-feature-list-icon-box">
+					<div class="rael-feature-list-icon-box">						
 						<div class="rael-feature-list-icon-inner"<?php echo wp_kses_post( $icon_box_bg ); ?>>
-							<<?php echo wp_kses_post( $feature_icon_tag ) . ' ' . wp_kses_post( $this->get_render_attribute_string( 'rael_feature_list_icon' . $index ) ) .  $this->get_render_attribute_string( 'rael_feature_list_link' . $index ) . 'style="background-color:' . esc_attr( $icon_bg ) . '"'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized ?>> 
+							<<?php echo wp_kses_post( $feature_icon_tag ) . ' ' . wp_kses_post( $this->get_render_attribute_string( 'rael_feature_list_icon' . $index ) ) . wp_kses_post( $this->get_render_attribute_string( 'rael_feature_list_link' . $index ) ) . 'style="background-color:' . esc_attr( $icon_bg ) . '"'; ?>>
 				<?php
 				if ( 'icon' === $item['rael_icon_type'] && $feature_has_icon ) {
 

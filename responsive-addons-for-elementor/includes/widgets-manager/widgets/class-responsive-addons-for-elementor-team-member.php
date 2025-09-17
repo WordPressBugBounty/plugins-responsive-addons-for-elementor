@@ -432,7 +432,7 @@ class Responsive_Addons_For_Elementor_Team_Member extends Widget_Base {
 						'rael_team_socialmedia_icon_hover_bg_color' => '#e60023',
 					),
 				),
-				'title_field' => '{{{ rael_team_label }}}',
+				'title_field' => '{{ rael_team_label }}',
 				'condition'   => array(
 					'rael_team_social_enable' => 'yes',
 				),

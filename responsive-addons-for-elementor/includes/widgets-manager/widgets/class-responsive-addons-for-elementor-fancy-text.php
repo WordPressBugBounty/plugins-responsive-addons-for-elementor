@@ -571,10 +571,11 @@ class Responsive_Addons_For_Elementor_Fancy_Text extends Widget_Base {
 	 * @access public
 	 */
 	public function get_fancy_text( $settings ) {
+		
 		$fancy_text = array( '' );
 		foreach ( $settings as $item ) {
 			if ( ! empty( $item['rael_fancy_text_strings_text_field'] ) ) {
-				$fancy_text[] = wp_kses_post( $item['rael_fancy_text_strings_text_field'] );
+				$fancy_text[] = wp_kses_post( html_entity_decode( $item['rael_fancy_text_strings_text_field'] ));
 			}
 		}
 		return implode( '|', $fancy_text );
@@ -593,7 +594,7 @@ class Responsive_Addons_For_Elementor_Fancy_Text extends Widget_Base {
 		$this->add_render_attribute( 'fancy-text', 'class', 'rael-fancy-text-container' );
 		$this->add_render_attribute( 'fancy-text', 'class', esc_attr( $settings['rael_fancy_text_style'] ) );
 		$this->add_render_attribute( 'fancy-text', 'data-fancy-text-id', esc_attr( $this->get_id() ) );
-		$this->add_render_attribute( 'fancy-text', 'data-fancy-text', $fancy_text );
+		$this->add_render_attribute( 'fancy-text', 'data-fancy-text', esc_attr( $fancy_text ) );
 		$this->add_render_attribute( 'fancy-text', 'data-fancy-text-transition-type', $settings['rael_fancy_text_transition_type'] );
 		$this->add_render_attribute( 'fancy-text', 'data-fancy-text-speed', $settings['rael_fancy_text_speed'] );
 		$this->add_render_attribute( 'fancy-text', 'data-fancy-text-back-speed', $settings['rael_fancy_text_back_speed'] );

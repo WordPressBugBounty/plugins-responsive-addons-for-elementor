@@ -307,7 +307,7 @@ class Responsive_Addons_For_Elementor_Pricing_Table extends Widget_Base {
 						'selected_item_icon' => $default_icon,
 					),
 				),
-				'title_field' => '{{{ item_text }}}',
+				'title_field' => '{{ item_text }}',
 			)
 		);
 
@@ -1504,13 +1504,6 @@ class Responsive_Addons_For_Elementor_Pricing_Table extends Widget_Base {
 		$this->add_render_attribute( 'footer_additional_info', 'class', 'rael-price-table__additional_info' );
 		$this->add_render_attribute( 'ribbon_title', 'class', 'rael-price-table__ribbon-inner' );
 
-		$this->add_inline_editing_attributes( 'heading', 'none' );
-		$this->add_inline_editing_attributes( 'sub_heading', 'none' );
-		$this->add_inline_editing_attributes( 'period', 'none' );
-		$this->add_inline_editing_attributes( 'footer_additional_info' );
-		$this->add_inline_editing_attributes( 'button_text' );
-		$this->add_inline_editing_attributes( 'ribbon_title' );
-
 		$period_position = $settings['period_position'];
 		$period_element  = '<span ' . $this->get_render_attribute_string( 'period' ) . '>' . $settings['period'] . '</span>';
 		$heading_tag     = $settings['heading_tag'];
@@ -1587,7 +1580,7 @@ class Responsive_Addons_For_Elementor_Pricing_Table extends Widget_Base {
 								?>
 								<?php if ( ! empty( $item['item_text'] ) ) : ?>
 									<span <?php $this->print_render_attribute_string( $repeater_setting_key ); ?>>
-										<?php $this->print_unescaped_setting( 'item_text', 'features_list', $index ); ?>
+										<?php echo esc_html( $item['item_text'] ); ?>
 									</span>
 									<?php
 								else :
@@ -1678,29 +1671,22 @@ class Responsive_Addons_For_Elementor_Pricing_Table extends Widget_Base {
 		view.addRenderAttribute( 'button_text', 'class', buttonClasses  );
 		view.addRenderAttribute( 'ribbon_title', 'class', 'rael-price-table__ribbon-inner'  );
 
-		view.addInlineEditingAttributes( 'heading', 'none' );
-		view.addInlineEditingAttributes( 'sub_heading', 'none' );
-		view.addInlineEditingAttributes( 'period', 'none' );
-		view.addInlineEditingAttributes( 'footer_additional_info' );
-		view.addInlineEditingAttributes( 'button_text' );
-		view.addInlineEditingAttributes( 'ribbon_title' );
-
 		var currencyFormat = settings.currency_format || '.',
 		price = settings.price.split( currencyFormat ),
 		intpart = price[0],
 		fraction = price[1],
 
-		periodElement = '<span ' + view.getRenderAttributeString( "period" ) + '>' + settings.period + '</span>';
+		periodElement = '<span ' + view.getRenderAttributeString( "period" ) + '>' + _.escape( settings.period || '' ) + '</span>';
 
 		#>
 		<div class="rael-price-table">
 			<# if ( settings.heading || settings.sub_heading ) { #>
 			<div class="rael-price-table__header">
 				<# if ( settings.heading ) { #>
-				<{{ elementor.helpers.validateHTMLTag(settings.heading_tag) }} {{{ view.getRenderAttributeString( 'heading' ) }}}>{{{ settings.heading }}}</{{ elementor.helpers.validateHTMLTag(settings.heading_tag) }}>
+				<{{ elementor.helpers.validateHTMLTag(settings.heading_tag) }} {{{ view.getRenderAttributeString( 'heading' ) }}}>{{ settings.heading }}</{{ elementor.helpers.validateHTMLTag(settings.heading_tag) }}>
 			<# } #>
 			<# if ( settings.sub_heading ) { #>
-			<span {{{ view.getRenderAttributeString( 'sub_heading' ) }}}>{{{ settings.sub_heading }}}</span>
+			<span {{{ view.getRenderAttributeString( 'sub_heading' ) }}}>{{ settings.sub_heading }}</span>
 			<# } #>
 		</div>
 		<# } #>
@@ -1714,11 +1700,11 @@ class Responsive_Addons_For_Elementor_Pricing_Table extends Widget_Base {
 			<span class="rael-price-table__currency elementor-currency--before">{{{ symbol }}}</span>
 			<# } #>
 			<# if ( intpart ) { #>
-			<span class="rael-price-table__integer-part">{{{ intpart }}}</span>
+			<span class="rael-price-table__integer-part">{{ intpart }}</span>
 			<# } #>
 			<div class="rael-price-table__after-price">
 				<# if ( fraction ) { #>
-				<span class="rael-price-table__fractional-part">{{{ fraction }}}</span>
+				<span class="rael-price-table__fractional-part">{{ fraction }}</span>
 				<# } #>
 				<# if ( settings.period && 'beside' == settings.period_position ) { #>
 				{{{ periodElement }}}
@@ -1741,7 +1727,7 @@ class Responsive_Addons_For_Elementor_Pricing_Table extends Widget_Base {
 			var featureKey = view.getRepeaterSettingKey( 'item_text', 'features_list', index ),
 			migrated = elementor.helpers.isIconMigrated( item, 'selected_item_icon' );
 
-			view.addInlineEditingAttributes( featureKey ); #>
+			#>
 
 			<li class="elementor-repeater-item-{{ item._id }}">
 				<div class="rael-price-table__feature-inner">
@@ -1754,7 +1740,7 @@ class Responsive_Addons_For_Elementor_Pricing_Table extends Widget_Base {
 					<# }
 					} #>
 					<# if ( ! _.isEmpty( item.item_text.trim() ) ) { #>
-					<span {{{ view.getRenderAttributeString( featureKey ) }}}>{{{ item.item_text }}}</span>
+					<span {{{ view.getRenderAttributeString( featureKey ) }}}>{{ item.item_text }}</span>
 					<# } else { #>
 					&nbsp;
 					<# } #>
@@ -1767,10 +1753,10 @@ class Responsive_Addons_For_Elementor_Pricing_Table extends Widget_Base {
 		<# if ( settings.button_text || settings.footer_additional_info ) { #>
 		<div class="rael-price-table__footer">
 			<# if ( settings.button_text ) { #>
-			<a href="#" {{{ view.getRenderAttributeString( 'button_text' ) }}}>{{{ settings.button_text }}}</a>
+			<a href="#" {{{ view.getRenderAttributeString( 'button_text' ) }}}>{{ settings.button_text }}</a>
 			<# } #>
 			<# if ( settings.footer_additional_info ) { #>
-			<p {{{ view.getRenderAttributeString( 'footer_additional_info' ) }}}>{{{ settings.footer_additional_info }}}</p>
+			<p {{{ view.getRenderAttributeString( 'footer_additional_info' ) }}}>{{ settings.footer_additional_info }}</p>
 			<# } #>
 		</div>
 		<# } #>
@@ -1782,7 +1768,7 @@ class Responsive_Addons_For_Elementor_Pricing_Table extends Widget_Base {
 		ribbonClasses += ' elementor-ribbon-' + settings.ribbon_horizontal_position;
 		} #>
 		<div class="{{ ribbonClasses }}">
-			<div {{{ view.getRenderAttributeString( 'ribbon_title' ) }}}>{{{ settings.ribbon_title }}}</div>
+			<div {{{ view.getRenderAttributeString( 'ribbon_title' ) }}}>{{ settings.ribbon_title }}</div>
 		</div>
 		<# } #>
 		<?php

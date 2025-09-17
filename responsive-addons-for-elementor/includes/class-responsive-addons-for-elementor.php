@@ -59,7 +59,6 @@ class Responsive_Addons_For_Elementor {
 	 */
 	public function __construct() {
 
-		add_action( 'init', array( $this, 'i18n' ) );
 		add_action( 'init', array( $this, 'responsive_addons_for_elementor_widgets_display' ) );
 		add_action( 'plugins_loaded', array( $this, 'init' ) );
 
@@ -897,14 +896,6 @@ private function rael_find_element_recursive($elements, $widget_id) {
 	public function widget_scripts() {
 		wp_enqueue_script( 'rael-elementor-widgets', RAEL_ASSETS_URL . 'js/widgets/rael-widgets.js', 'jquery', RAEL_VER, true );
 		wp_enqueue_script( 'wp-mediaelement' );
-	}
-
-	/**
-	 * Loads Plugins Text Domain
-	 */
-	public function i18n() {
-
-		load_plugin_textdomain( 'responsive-addons-for-elementor' );
 	}
 
 	/**

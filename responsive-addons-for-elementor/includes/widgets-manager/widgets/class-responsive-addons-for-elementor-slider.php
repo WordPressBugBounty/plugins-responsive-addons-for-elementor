@@ -1485,10 +1485,10 @@ class Responsive_Addons_For_Elementor_Slider extends Widget_Base {
 								<div class="responsive-slide-heading">{{{ slide.heading }}}</div>
 								<# }
 								if ( slide.description ) { #>
-								<div class="responsive-slide-description">{{{ slide.description }}}</div>
+								<div class="responsive-slide-description">{{ slide.description }}</div>
 								<# }
 								if ( slide.button_text ) { #>
-								<div class="elementor-button responsive-slide-button responsive-size-{{ buttonSize }}">{{{ slide.button_text }}}</div>
+								<div class="elementor-button responsive-slide-button responsive-size-{{ buttonSize }}">{{ slide.button_text }}</div>
 								<# } #>
 							</div>
 							<# if ( slide.slide_image_show ) { #>

@@ -1256,7 +1256,7 @@ class Responsive_Addons_For_Elementor_Flip_Box extends Widget_Base {
 		$animation   = ( $settings['button_hover_animation'] ) ? ' elementor-animation-' . $settings['button_hover_animation'] : '';
 		$wrapper_tag = 'div';
 		$button_tag  = 'a';
-		$link_url    = empty( $settings['link']['url'] ) ? '#' : $settings['link']['url'];
+		$link_url = empty( $settings['link']['url'] ) ? '#' : esc_url_raw( $settings['link']['url'] );
 
 		$this->add_render_attribute( 'button', 'class', array( 'rael-flip-box-button', 'elementor-button', 'elementor-size-' . $settings['button_size'], $animation ) );
 
@@ -1458,11 +1458,11 @@ class Responsive_Addons_For_Elementor_Flip_Box extends Widget_Base {
 						<# } #>
 
 						<# if ( settings.front_title_text ) { #>
-						<{{{ elementor.helpers.validateHTMLTag(settings.front_title_tags) }}} {{{ view.getRenderAttributeString( 'box_front_title_tags' ) }}}>{{{ settings.front_title_text }}}</{{{ elementor.helpers.validateHTMLTag(settings.front_title_tags) }}}>
+						<{{{ elementor.helpers.validateHTMLTag(settings.front_title_tags) }}} {{{ view.getRenderAttributeString( 'box_front_title_tags' ) }}}>{{ settings.front_title_text }}</{{{ elementor.helpers.validateHTMLTag(settings.front_title_tags) }}}>
 					<# } #>
 
 					<# if ( settings.front_description_text ) { #>
-					<div class="rael-flip-box-layer-desc">{{{ settings.front_description_text }}}</div>
+					<div class="rael-flip-box-layer-desc">{{ settings.front_description_text }}</div>
 					<# } #>
 				</div>
 			</div>
@@ -1471,15 +1471,15 @@ class Responsive_Addons_For_Elementor_Flip_Box extends Widget_Base {
 		<div class="rael-flip-box-layer-overlay">
 			<div class="rael-flip-box-layer-inner">
 				<# if ( settings.back_title_text ) { #>
-				<{{{ elementor.helpers.validateHTMLTag(settings.back_title_tags) }}} {{{ view.getRenderAttributeString( 'box_front_title_tags' ) }}}>{{{ settings.back_title_text }}}</{{{ elementor.helpers.validateHTMLTag(settings.back_title_tags) }}}>
+				<{{{ elementor.helpers.validateHTMLTag(settings.back_title_tags) }}} {{{ view.getRenderAttributeString( 'box_front_title_tags' ) }}}>{{ settings.back_title_text }}</{{{ elementor.helpers.validateHTMLTag(settings.back_title_tags) }}}>
 			<# } #>
 
 			<# if ( settings.back_description_text ) { #>
-			<div class="rael-flip-box-layer-desc">{{{ settings.back_description_text }}}</div>
+			<div class="rael-flip-box-layer-desc">{{ settings.back_description_text }}</div>
 			<# } #>
 
 			<# if ( settings.button_text ) { #>
-			<{{ buttonTag }} href="#" class="{{ buttonClass }}">{{{ settings.button_text }}}</{{ buttonTag }}>
+			<{{ buttonTag }} href="#" class="{{ buttonClass }}">{{ settings.button_text }}</{{ buttonTag }}>
 		<# } #>
 		</div>
 		</div>

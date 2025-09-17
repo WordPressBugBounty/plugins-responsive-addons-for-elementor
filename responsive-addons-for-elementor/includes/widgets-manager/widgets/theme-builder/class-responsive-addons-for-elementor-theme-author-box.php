@@ -821,7 +821,9 @@ class Responsive_Addons_For_Elementor_Theme_Author_Box extends Widget_Base {
 			}
 
 			$author['display_name'] = $settings['rael_ab_author_name'];
-			$author['website']      = $settings['rael_ab_author_website']['url'];
+			$author['website'] = !empty($settings['rael_ab_author_website']['url']) ? 
+								esc_url_raw($settings['rael_ab_author_website']['url']) : 
+								'';
 			$author['bio']          = wpautop( $settings['rael_ab_author_bio'] );
 			$author['posts_url']    = $settings['rael_ab_posts_url']['url'];
 		}
@@ -848,7 +850,8 @@ class Responsive_Addons_For_Elementor_Theme_Author_Box extends Widget_Base {
 			}
 
 			if ( ! empty( $link_url ) ) {
-				$this->add_render_attribute( 'rael_ab_author_link', 'href', $link_url );
+				$safe_url = esc_url( $link_url );
+				$this->add_render_attribute( 'rael_ab_author_link', 'href', $safe_url );
 
 				if ( ! empty( $link_target ) ) {
 					$this->add_render_attribute( 'rael_ab_author_link', 'target', $link_target );
@@ -871,7 +874,7 @@ class Responsive_Addons_For_Elementor_Theme_Author_Box extends Widget_Base {
 		);
 
 		if ( $print_link ) {
-			$this->add_render_attribute( 'rael_ab_button', 'href', $author['posts_url'] );
+			$this->add_render_attribute('rael_ab_button', 'href', esc_url_raw($author['posts_url']));
 
 			if ( $custom_src ) {
 				$link_target = $settings['rael_ab_posts_url']['is_external'] ? '_blank' : '';

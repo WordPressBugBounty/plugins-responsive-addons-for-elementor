@@ -268,7 +268,7 @@ class Responsive_Addons_For_Elementor_FAQ extends Widget_Base {
 						'answer'   => __( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'responsive-addons-for-elementor' ),
 					),
 				),
-				'title_field' => '{{{ rael_question }}}',
+				'title_field' => '{{ rael_question }}',
 			)
 		);
 

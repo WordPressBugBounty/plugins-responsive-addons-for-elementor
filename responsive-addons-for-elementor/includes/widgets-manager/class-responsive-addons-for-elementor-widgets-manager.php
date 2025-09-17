@@ -826,11 +826,13 @@ class Responsive_Addons_For_Elementor_Widgets_Manager {
 			);
 
 			$encoded_data = wp_json_encode( $schema_data );
-			?>
-			<script type="application/ld+json">
-				<?php print_r( $encoded_data ); ?>
-			</script>
-			<?php
+			if ( $encoded_data ) {
+				?>
+				<script type="application/ld+json">
+					<?php echo wp_kses_data( $encoded_data ); ?>
+				</script>
+				<?php
+			}
 		}
 	}
 

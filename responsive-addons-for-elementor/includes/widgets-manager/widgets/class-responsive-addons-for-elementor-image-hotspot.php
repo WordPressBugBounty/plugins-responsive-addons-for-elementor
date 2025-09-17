@@ -445,7 +445,7 @@ class Responsive_Addons_For_Elementor_Image_Hotspot extends Widget_Base {
 						'rael_hotspot_indicator_description' => __( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 'responsive-addons-for-elementor' ),
 					),
 				),
-				'title_field' => '{{{ rael_hotspot_indicator_title }}}',
+				'title_field' => '{{ rael_hotspot_indicator_title }}',
 			)
 		);
 
@@ -888,10 +888,12 @@ class Responsive_Addons_For_Elementor_Image_Hotspot extends Widget_Base {
 
 			echo '</div>';
 
-			$title       = $indicator['rael_hotspot_indicator_title'];
-			$description = $indicator['rael_hotspot_indicator_description'];
-			$button_text = $indicator['rael_button_text'];
+			$title       = html_entity_decode($indicator['rael_hotspot_indicator_title']);
+			$description = html_entity_decode($indicator['rael_hotspot_indicator_description']);
+			$button_text = isset( $indicator['rael_button_text'] ) ? esc_html( $indicator['rael_button_text'] ) : '';
 			$button_link = $indicator['rael_button_link'];
+
+
 
 			if ( null !== $title || null !== $description ) {
 
@@ -915,7 +917,10 @@ class Responsive_Addons_For_Elementor_Image_Hotspot extends Widget_Base {
 				if ( $button_link && $button_text ) {
 					$target   = $indicator['rael_button_link']['is_external'] ? " target='_blank'" : '';
 					$nofollow = $indicator['rael_button_link']['nofollow'] ? " rel='nofollow'" : '';
-					echo '<a class="hotspot-button" href="' . esc_attr( $button_link['url'] ) . '"' . wp_kses_post( $target ) . wp_kses_post( $nofollow ) . '>' . wp_kses_post( $button_text ) . '</a>';
+					echo '<a class="hotspot-button" href="' . esc_url( $button_link['url'] ) . '"'
+				. ( ! empty( $target ) ? ' target="' . esc_attr( $target ) . '"' : '' )
+				. ( ! empty( $nofollow ) ? ' rel="' . esc_attr( $nofollow ) . '"' : '' )
+				. '>' . esc_html( $button_text ) . '</a>';
 				}
 					echo '</div>';
 				echo '</div>';
@@ -964,12 +969,12 @@ class Responsive_Addons_For_Elementor_Image_Hotspot extends Widget_Base {
 						<div class="content-image"></div>
 						<div class="content-text">
 							<# if ( indicator.rael_hotspot_indicator_title !== '' ) { #>
-								<p class="title">{{{ indicator.rael_hotspot_indicator_title }}}</p>
+								<p class="title">{{{ _.escape(indicator.rael_hotspot_indicator_title) }}}</p>
 							<# } #>
 							<# if ( indicator.rael_hotspot_indicator_description !== '' ) { #>
-								<p class="description">{{{ indicator.rael_hotspot_indicator_description }}}</p>
+								<p class="description">{{{ _.escape(indicator.rael_hotspot_indicator_description) }}}</p>
 							<# } #>
-							<# button_text = indicator.rael_button_text #>
+							<# button_text = _.escape(indicator.rael_button_text || ''); #>
 							<# button_link = indicator.rael_button_link.url #>
 							<# if ( button_text && button_link ) { #>
 								<# if ( button_link.is_external ) { #>
@@ -982,7 +987,7 @@ class Responsive_Addons_For_Elementor_Image_Hotspot extends Widget_Base {
 								<# } else { #>
 									<# rel = '' #>
 								<# } #>
-								<a class="hotspot-button" href="{{ button_link }}" {{{ target }}} {{{ rel }}}> {{{ button_text }}} </a>
+								<a class="hotspot-button" href="{{ button_link }}" {{{ target }}} {{{ rel }}}> {{{ _.escape(button_text) }}} </a>
 							<# } #>
 						</div>
 					</div>

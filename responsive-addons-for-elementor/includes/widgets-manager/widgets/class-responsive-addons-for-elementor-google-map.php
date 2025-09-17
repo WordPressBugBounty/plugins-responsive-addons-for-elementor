@@ -284,7 +284,7 @@ class Responsive_Addons_For_Elementor_Google_Map extends Widget_Base {
 					),
 				),
 				'fields'      => $repeater->get_controls(),
-				'title_field' => '<i class="fa fa-map-marker"></i> {{{ rael_address_title }}}',
+				'title_field' => '<i class="fa fa-map-marker"></i> {{ rael_address_title }}',
 			)
 		);
 
@@ -661,8 +661,8 @@ class Responsive_Addons_For_Elementor_Google_Map extends Widget_Base {
 			$latitude            = apply_filters( 'rael_gm_latitude', $address['rael_latitude'] );
 			$longitude           = apply_filters( 'rael_gm_longitude', $address['rael_longitude'] );
 			$show_marker_info    = ( 'none' != $address['rael_marker_info_window'] );
-			$address_title       = apply_filters( 'rael_gm_address_title', $address['rael_address_title'] );
-			$address_description = apply_filters( 'rael_gm_address_description', $address['rael_address_description'] );
+			$address_title       = wp_kses_post(html_entity_decode(apply_filters( 'rael_gm_address_title', $address['rael_address_title'] )));
+			$address_description = wp_kses_post(html_entity_decode(apply_filters( 'rael_gm_address_description', $address['rael_address_description'] )));
 
 			$locations_object = array(
 				$latitude,
@@ -674,7 +674,7 @@ class Responsive_Addons_For_Elementor_Google_Map extends Widget_Base {
 
 			if ( 'custom' == $address['rael_marker_icon_type'] && is_array( $address['rael_custom_marker_icon'] ) && '' != $address['rael_custom_marker_icon']['url'] ) {
 				$locations_object[] = 'custom';
-				$locations_object[] = $address['rael_custom_marker_icon']['url'];
+				$locations_object[] = esc_url($address['rael_custom_marker_icon']['url']);
 				$locations_object[] = $address['rael_custom_marker_size']['size'];
 			} else {
 				$locations_object[] = '';
@@ -736,9 +736,9 @@ class Responsive_Addons_For_Elementor_Google_Map extends Widget_Base {
 				'data-map-options'     => wp_json_encode( $map_options ),
 				'data-iw-max-width'    => $settings['rael_info_window_max_width']['size'],
 				'data-locations'       => wp_json_encode( $address_locations ),
-				'data-animation'       => $settings['rael_marker_animation'],
-				'data-auto-center'     => $settings['rael_map_alignment'],
-				'data-cluster'         => $settings['rael_cluster_markers'],
+				'data-animation'       => esc_attr($settings['rael_marker_animation']),
+				'data-auto-center'     => esc_attr($settings['rael_map_alignment']),
+				'data-cluster'         => esc_attr($settings['rael_cluster_markers']),
 				'data-cluster-options' => wp_json_encode( $cluster_attrs ),
 			)
 		);
@@ -777,8 +777,8 @@ class Responsive_Addons_For_Elementor_Google_Map extends Widget_Base {
 				var latitude = address.rael_latitude,
 					longitude = address.rael_longitude,
 					show_marker_info = ('none' != address.rael_marker_info_window),
-					address_title = address.rael_address_title,
-					address_description = address.rael_address_description;
+					address_title = address.rael_address_title ? _.escape(address.rael_address_title) : '',
+					address_description = address.rael_address_description ? _.escape(address.rael_address_description) : '';
 				var location = [
 					latitude,
 					longitude,

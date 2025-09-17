@@ -1895,16 +1895,16 @@ class Responsive_Addons_For_Elementor_Call_To_Action extends Widget_Base {
 		</div>
 		<# } #>
 		<# if ( settings.title ) { #>
-		<{{ elementor.helpers.validateHTMLTag( settings.title_tag ) }} {{{ view.getRenderAttributeString( 'title' ) }}}>{{{ settings.title }}}</{{ elementor.helpers.validateHTMLTag( settings.title_tag ) }}>
+		<{{ elementor.helpers.validateHTMLTag( settings.title_tag ) }} {{{ view.getRenderAttributeString( 'title' ) }}}>{{ settings.title }}</{{ elementor.helpers.validateHTMLTag( settings.title_tag ) }}>
 		<# } #>
 
 		<# if ( settings.description ) { #>
-		<div {{{ view.getRenderAttributeString( 'description' ) }}}>{{{ settings.description }}}</div>
+		<div {{{ view.getRenderAttributeString( 'description' ) }}}>{{ settings.description }}</div>
 		<# } #>
 
 		<# if ( settings.button ) { #>
 		<div class="responsive-cta__button-wrapper responsive-cta__content-item elementor-content-item {{ animationClass }}">
-			<{{ buttonTag }} href="#" {{{ view.getRenderAttributeString( 'button' ) }}}>{{{ settings.button }}}</{{ buttonTag }}>
+			<{{ buttonTag }} href="#" {{{ view.getRenderAttributeString( 'button' ) }}}>{{ settings.button }}</{{ buttonTag }}>
 		</div>
 		<# } #>
 		</div>
@@ -1916,7 +1916,7 @@ class Responsive_Addons_For_Elementor_Call_To_Action extends Widget_Base {
 		ribbonClasses += ' elementor-ribbon-' + settings.ribbon_horizontal_position;
 		} #>
 		<div class="{{ ribbonClasses }}">
-			<div class="elementor-ribbon-inner">{{{ settings.ribbon_title }}}</div>
+			<div class="elementor-ribbon-inner">{{ settings.ribbon_title }}</div>
 		</div>
 		<# } #>
 		</{{ wrapperTag }}>

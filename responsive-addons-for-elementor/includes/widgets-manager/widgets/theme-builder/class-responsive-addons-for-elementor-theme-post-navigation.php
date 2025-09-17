@@ -704,8 +704,8 @@ class Responsive_Addons_For_Elementor_Theme_Post_Navigation extends Widget_Base 
 		$post_type    = get_post_type( get_queried_object_id() );
 
 		if ( 'yes' === $settings['rael_pn_show_label'] ) {
-			$prev_label = '<span class="rael-post-navigation__prev--label">' . $settings['rael_pn_prev_label'] . '</span>';
-			$next_label = '<span class="rael-post-navigation__next--label">' . $settings['rael_pn_next_label'] . '</span>';
+			$prev_label = '<span class="rael-post-navigation__prev--label">' . esc_html( $settings['rael_pn_prev_label'] ) . '</span>';
+			$next_label = '<span class="rael-post-navigation__next--label">' . esc_html( $settings['rael_pn_next_label'] ) . '</span>';
 		}
 
 		if ( 'yes' === $settings['rael_pn_show_arrow'] ) {

@@ -2802,7 +2802,7 @@ class Responsive_Addons_For_Elementor_Icon_Box extends Widget_Base {
 						<# view.addInlineEditingAttributes('rael_description', 'advanced'); #>
 						<div {{{ view.getRenderAttributeString(
 						'rael_description') }}}>
-						{{{ settings.rael_description }}}
+						{{ settings.rael_description }}
 					</div>
 				<# } #>
 				<# if( 'after_description' == settings.rael_separator_position ) {
@@ -2934,7 +2934,7 @@ class Responsive_Addons_For_Elementor_Icon_Box extends Widget_Base {
 				<# view.addInlineEditingAttributes('rael_title', 'basic'); #>
 
 				<{{{ validatedTag }}} {{{ view.getRenderAttributeString('rael_title') }}}>
-					{{{ settings.rael_title }}}
+					{{ settings.rael_title }}
 				</{{{ validatedTag }}}>
 		</div>
 		<# render_image( 'right-title' ); #>
@@ -2973,7 +2973,7 @@ class Responsive_Addons_For_Elementor_Icon_Box extends Widget_Base {
 				<# } #>
 				<# view.addInlineEditingAttributes('rael_link_text', 'basic'); #>
 				<span {{ view.getRenderAttributeString('rael_link_text') }}>
-				{{{ settings.rael_link_text }}}
+				{{ settings.rael_link_text }}
 				</span>
 
 				<# if ( 'right' == settings.rael_button_icon_position ) {
