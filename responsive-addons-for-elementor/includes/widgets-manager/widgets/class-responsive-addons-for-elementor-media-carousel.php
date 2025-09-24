@@ -1258,7 +1258,10 @@ class Responsive_Addons_For_Elementor_Media_Carousel extends Widget_Base {
 	protected function get_slide_image_url( $slide, array $settings ) {
 		$image_url = Group_Control_Image_Size::get_attachment_image_src( $slide['rael_image']['id'], 'image_size', $settings );
 
-		if ( ! $image_url ) { $image_url = $slide['rael_image']['url']; }
+		if ( ! $image_url ) {
+			$image_url = $slide['rael_image']['url'];
+		}
+
 		return $image_url;
 	}
 	/**

@@ -571,7 +571,6 @@ class Responsive_Addons_For_Elementor_Fancy_Text extends Widget_Base {
 	 * @access public
 	 */
 	public function get_fancy_text( $settings ) {
-		
 		$fancy_text = array( '' );
 		foreach ( $settings as $item ) {
 			if ( ! empty( $item['rael_fancy_text_strings_text_field'] ) ) {

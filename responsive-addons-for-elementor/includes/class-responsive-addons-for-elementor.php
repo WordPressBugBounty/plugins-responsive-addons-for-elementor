@@ -791,7 +791,6 @@ private function rael_find_element_recursive($elements, $widget_id) {
 	 */
 	public function responsive_addons_for_elementor_widgets_display() {
 		include_once RAEL_DIR . 'includes/class-responsive-addons-for-elementor-widgets-updater.php';
-
 		$rael_widgets_data = new Responsive_Addons_For_Elementor_Widgets_Updater();
 
 		$rael_path = 'responsive-addons-for-elementor/responsive-addons-for-elementor.php';
@@ -806,18 +805,30 @@ private function rael_find_element_recursive($elements, $widget_id) {
 		}
 
 		$exist_rael_theme_builder_widgets_data_update = get_option( 'rael_theme_builder_widgets_data_update', false );
-
 		if ( ! $exist_rael_theme_builder_widgets_data_update ) {
 			$rael_widgets_data->insert_widgets_data();
 			update_option( 'rael_theme_builder_widgets_data_update', true );
 		}
 
 		$exist_rael_facebook_feed_widgets_data_update = get_option( 'rael_facebook_feed_widgets_data_update', false );
-
 		if ( ! $exist_rael_facebook_feed_widgets_data_update ) {
 			$rael_widgets_data->insert_widgets_data();
 			update_option( 'rael_facebook_feed_widgets_data_update', true );
 		}
+
+		// Getting the last stored plugin version; fallback to '0' for older installs
+		$last_version = get_option( 'rael_last_version', '0' );
+
+		if ( version_compare( RAEL_VER, $last_version, '>' ) ) {
+
+			// Reset and insert widgets if updated
+			$rael_widgets_data->reset_widgets_data();
+			$rael_widgets_data->insert_widgets_data();
+
+			// Update stored version
+			update_option( 'rael_last_version', RAEL_VER );
+		}
+	
 
 		if ( ! function_exists( 'get_plugins' ) ) {
 			include_once ABSPATH . 'wp-admin/includes/plugin.php';
@@ -827,7 +838,6 @@ private function rael_find_element_recursive($elements, $widget_id) {
 
 		if ( isset( $installed_plugins[ $rael_path ] ) ) {
 			$installed_rael_version = $installed_plugins[ $rael_path ]['Version'];
-
 			$widgets = get_option( 'rael_widgets' );
 
 			if ( $widgets && version_compare( RAEL_VER, $installed_rael_version, '>' ) ) {
@@ -840,7 +850,7 @@ private function rael_find_element_recursive($elements, $widget_id) {
 			} elseif ( version_compare( RAEL_VER, $installed_rael_version, '>' ) ) {
 				$this->update_frontend_assets( $widgets, true );
 			}
-		}
+    	}
 	}
 
 	/**
@@ -1227,6 +1237,52 @@ private function rael_find_element_recursive($elements, $widget_id) {
 							wp_enqueue_script( 'rael-magnific-popup', RAEL_ASSETS_URL . 'lib/magnific-popup/jquery.magnific-popup.min.js', array(), RAEL_VER, true );
 							wp_register_style( 'rael-magnific-popup-style', RAEL_ASSETS_URL . 'lib/magnific-popup/magnific-popup.min.css', null, RAEL_VER );
 							wp_enqueue_style( 'rael-magnific-popup-style' );
+						}
+						break;
+					case 'before-after-slider':
+						if ( ! isset( $included_libs['rael-twentytwenty'] ) ) {
+							$included_libs['rael-twentytwenty'] = true;
+							wp_enqueue_script( 'rael-twentytwenty', RAEL_ASSETS_URL . 'lib/jquery-twentytwenty/jquery-twentytwenty.min.js', array( 'jquery' ), RAEL_VER, true );
+						}
+						if( ! isset( $included_libs['rael-event-move'] ) ) {
+							$included_libs['rael-event-move'] = true;
+							wp_enqueue_script( 'rael-event-move', RAEL_ASSETS_URL . 'lib/jquery-event-move/jquery-event-move.min.js', array( 'jquery' ), RAEL_VER, true );
+						}
+            			break;
+					case 'stacking-cards':
+						// Load GSAP once
+						if ( ! isset( $included_libs['gsap'] ) ) {
+							$included_libs['gsap'] = true;
+							wp_enqueue_script(
+								'gsap',
+								RAEL_ASSETS_URL . 'lib/gsap/gsap.min.js',
+								array(),
+								RAEL_VER,
+								true
+							);
+						}
+
+						// Load GSAP ScrollTrigger once
+						if ( ! isset( $included_libs['gsap-scrolltrigger'] ) ) {
+							$included_libs['gsap-scrolltrigger'] = true;
+							wp_enqueue_script(
+								'gsap-scrolltrigger',
+								RAEL_ASSETS_URL . 'lib/gsap/ScrollTrigger.min.js',
+								array( 'gsap' ),
+								RAEL_VER,
+								true
+							);
+						}
+						 // Load Stacking Cards script
+						if ( ! isset( $included_libs['rael-stacking-cards'] ) ) {
+							$included_libs['rael-stacking-cards'] = true;
+							wp_enqueue_script(
+								'rael-stacking-cards',
+								RAEL_ASSETS_URL . 'js/frontend/stacking-cards/stacking-cards.min.js',
+								array( 'elementor-frontend', 'jquery', 'gsap', 'gsap-scrolltrigger' ),
+								RAEL_VER,
+								true
+							);
 						}
 						break;
 					case 'facebook-feed':
@@ -1812,6 +1868,13 @@ private function rael_find_element_recursive($elements, $widget_id) {
 					case 'facebook-feed':
 						array_push( $js_files, $js_files_path . 'facebook-feed/facebook-feed' . $ext );
 						array_push( $css_files, $css_files_path . 'facebook-feed/facebook-feed' . $css_min_ext );
+						break;
+					case 'before-after-slider':
+						array_push( $js_files, $js_files_path . 'before-after-slider/before-after-slider' . $ext );
+						array_push( $css_files, $css_files_path . 'before-after-slider/before-after-slider' . $css_min_ext );
+						break;
+					case 'stacking-cards':
+						array_push( $css_files, $css_files_path . 'stacking-cards/stacking-cards' . $css_min_ext );
 						break;
 				}
 			}

@@ -171,6 +171,8 @@ class Responsive_Addons_For_Elementor_Widgets_Manager {
 			'modal-popup',
 			'gf-styler',
 			'facebook-feed',
+			'before-after-slider',
+			'stacking-cards',
 		);
 
 		return $widget_list;
@@ -473,6 +475,9 @@ class Responsive_Addons_For_Elementor_Widgets_Manager {
 						case 'timeline':
 							Plugin::instance()->widgets_manager->register( new Widgets\Responsive_Addons_For_Elementor_Timeline() );
 							break;
+						case 'stacking-cards':
+							Plugin::instance()->widgets_manager->register( new Widgets\Responsive_Addons_For_Elementor_Stacking_Cards() );
+							break;
 						case 'sticky-video':
 							Plugin::instance()->widgets_manager->register( new Widgets\Responsive_Addons_For_Elementor_Sticky_Video() );
 							break;
@@ -683,6 +688,9 @@ class Responsive_Addons_For_Elementor_Widgets_Manager {
 							if ( class_exists( 'WooCommerce' ) ) {
 								Plugin::instance()->widgets_manager->register( new Widgets\ThemeBuilder\Responsive_Addons_For_Elementor_Theme_Product_Archive() );
 							}
+							break;
+						case 'before-after-slider':
+							Plugin::instance()->widgets_manager->register( new Widgets\Responsive_Addons_For_Elementor_Before_After_Slider() );
 							break;
 					}
 				}

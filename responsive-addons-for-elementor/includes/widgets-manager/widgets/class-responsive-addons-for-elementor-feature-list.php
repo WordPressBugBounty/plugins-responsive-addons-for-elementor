@@ -447,6 +447,7 @@ class Responsive_Addons_For_Elementor_Feature_List extends Widget_Base {
 			)
 		);
 
+
 		$this->start_controls_tabs( 'rael_list_heading_color_tabs' );
 
 		// Normal State Tab.
@@ -460,18 +461,18 @@ class Responsive_Addons_For_Elementor_Feature_List extends Widget_Base {
 		$this->add_control(
 			'rael_list_heading_normal_color',
 			array(
-				'label'     => __( 'Heading Color', 'responsive-addons-for-elementor' ),
-				'type'      => Controls_Manager::COLOR,
+				'label'		 => __ ('Heading Color', 'responsive-addons-for-elementor' ),
+				'type'		 => Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}} .rael-feature-list-items .rael-feature-list-item .rael-feature-list-title' => 'color: {{VALUE}};',
 					'{{WRAPPER}} .rael-feature-list-items .rael-feature-list-item .rael-feature-list-title a' => 'color: {{VALUE}};',
-
+				
 				),
 			)
 		);
 		$this->end_controls_tab();
 
-		// Hover state tab.
+		//Hover state tab.
 		$this->start_controls_tab(
 			'rael_list_heading_hover',
 			array(
@@ -481,8 +482,8 @@ class Responsive_Addons_For_Elementor_Feature_List extends Widget_Base {
 		$this->add_control(
 			'rael_list_heading_hover_color',
 			array(
-				'label'     => __( 'Heading Color', 'responsive-addons-for-elementor' ),
-				'type'      => Controls_Manager::COLOR,
+				'label'		 => __( 'Heading Color', 'responsive-addons-for-elementor' ),
+				'type'		 => Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}} .rael-feature-list-items .rael-feature-list-item:hover .rael-feature-list-title' => 'color: {{VALUE}};',
 					'{{WRAPPER}} .rael-feature-list-items .rael-feature-list-item:hover .rael-feature-list-title a' => 'color: {{VALUE}};',
@@ -588,7 +589,7 @@ class Responsive_Addons_For_Elementor_Feature_List extends Widget_Base {
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
-		// Normal State Tab.
+		//Normal State Tab.
 		$this->start_controls_tabs( 'rael_feature_list_icon_tabs' );
 		$this->start_controls_tab(
 			'rael_feature_list_icon_normal',
@@ -776,14 +777,15 @@ class Responsive_Addons_For_Elementor_Feature_List extends Widget_Base {
 		);
 
 		$this->end_controls_tab();
-
-		// Hover state tab.
+		
+		//Hover state tab.
 		$this->start_controls_tab(
 			'rael_feature_list_icon_hover',
 			array(
 				'label' => __( 'Hover', 'responsive-addons-for-elementor' ),
 			)
 		);
+
 
 		$this->add_group_control(
 			Group_Control_Background::get_type(),
@@ -1257,7 +1259,7 @@ class Responsive_Addons_For_Elementor_Feature_List extends Widget_Base {
 						<span class="connector connector-mobile" style="<?php echo wp_kses_post( $connector_mobile ); ?>"></span>
 					<?php endif; ?>
 
-					<div class="rael-feature-list-icon-box">						
+					<div class="rael-feature-list-icon-box">
 						<div class="rael-feature-list-icon-inner"<?php echo wp_kses_post( $icon_box_bg ); ?>>
 							<<?php echo wp_kses_post( $feature_icon_tag ) . ' ' . wp_kses_post( $this->get_render_attribute_string( 'rael_feature_list_icon' . $index ) ) . wp_kses_post( $this->get_render_attribute_string( 'rael_feature_list_link' . $index ) ) . 'style="background-color:' . esc_attr( $icon_bg ) . '"'; ?>>
 				<?php
