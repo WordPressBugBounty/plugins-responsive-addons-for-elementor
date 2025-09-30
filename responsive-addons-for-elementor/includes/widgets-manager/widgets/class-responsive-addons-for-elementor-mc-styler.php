@@ -91,32 +91,44 @@ class Responsive_Addons_For_Elementor_MC_Styler extends Widget_Base {
 	 */
 	protected function get_mailchimp_lists() {
 		$lists   = array();
-		$api_key = get_option( 'rael_mailchimp_settings_api_key' );
+		$api_key = trim( get_option( 'rael_mailchimp_settings_api_key' ) );
 
 		if ( empty( $api_key ) ) {
 			return $lists;
 		}
 
-		$response = wp_remote_get(
-			'https://' . substr( $api_key, strpos( $api_key, '-' ) + 1 ) . '.api.mailchimp.com/3.0/lists/?fields=lists.id,lists.name&count=1000',
+		$datacenter = substr( $api_key, strpos( $api_key, '-' ) + 1 );
+		$url = 'https://' . $datacenter . '.api.mailchimp.com/3.0/lists/?fields=lists.id,lists.name&count=1000';
+
+		$pattern = '/^[0-9a-z]{32}(-us)(0?[1-9]|[1-9][0-9])?$/';
+		if ( ! preg_match( $pattern, $api_key ) ) {
+			return $lists;
+		}
+
+		$response = wp_safe_remote_get(
+			$url,
 			array(
 				'headers' => array(
-					'Content - Type' => 'application / json',
-					'Authorization'  => 'Basic ' . base64_encode( 'user:' . $api_key ), // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
+					'Authorization' => 'Basic ' . base64_encode( 'user:' . $api_key ),
 				),
 			)
 		);
-
 		if ( ! is_wp_error( $response ) ) {
-			$response = json_decode( wp_remote_retrieve_body( $response ) );
+			$body = json_decode( wp_remote_retrieve_body( $response ) );
 
-			if ( ! empty( $response ) && ! empty( $response->lists ) ) {
+			if (! empty( $response ) &&  ! empty( $body->lists ) ) {
 				$lists[''] = __( 'Select One', 'responsive-addons-for-elementor' );
 
-				for ( $i = 0; $i < count( $response->lists ); $i++ ) { // phpcs:ignore Squiz.PHP.DisallowSizeFunctionsInLoops.Found, Generic.CodeAnalysis.ForLoopWithTestFunctionCall.NotAllowed
-					$lists[ $response->lists[ $i ]->id ] = $response->lists[ $i ]->name;
+				for ( $i = 0; $i < count( $body->lists ); $i ++ ) {
+					$lists[ $body->lists[ $i ]->id ]   = $body->lists[ $i ]->name;
+					$lists[ $body->lists[ $i ]->id ]   = $body->lists[ $i ]->name;
 				}
 			}
+		}
+
+		// If only one list exists, still return it
+		if ( count( $lists ) === 1 && isset( $body->lists[0] ) ) {
+			$lists[ $body->lists[0]->id ] = $body->lists[0]->name;
 		}
 
 		return $lists;
@@ -946,6 +958,6 @@ class Responsive_Addons_For_Elementor_MC_Styler extends Widget_Base {
 	 * @return string help URL
 	 */
 	public function get_custom_help_url() {
-		return 'https://cyberchimps.com/docs/widgets/mailchimp-styler';
+		return 'https://cyberchimps.com/docs/responsive-addons-for-elementor/widgets/mailchimp-styler/';
 	}
 }

@@ -74,7 +74,7 @@ class Responsive_Addons_For_Elementor_Theme_Post_Featured_Image extends Elemento
 	 * @return array Widget keywords.
 	 */
 	public function get_custom_help_url() {
-		return 'https://cyberchimps.com/docs/widgets/featured-image';
+		return 'https://cyberchimps.com/docs/responsive-addons-for-elementor/widgets/featured-image/';
 	}
 
 	/**
@@ -84,18 +84,19 @@ class Responsive_Addons_For_Elementor_Theme_Post_Featured_Image extends Elemento
 	 */
 	protected function register_controls() {
 		parent::register_controls();
-
-		$this->update_control(
-			'image',
-			array(
-				'dynamic' => array(
-					'default' => Plugin::instance()->dynamic_tags->tag_data_to_tag_text( null, 'rael-post-featured-image' ),
+		if ( $this->get_controls('image')){
+			$this->update_control(
+				'image',
+				array(
+					'dynamic' => array(
+						'default' => Plugin::instance()->dynamic_tags->tag_data_to_tag_text( null, 'rael-post-featured-image' ),
+					),
 				),
-			),
-			array(
-				'recursive' => true,
-			)
-		);
+				array(
+					'recursive' => true,
+				)
+			);
+		}
 	}
 
 	/**
