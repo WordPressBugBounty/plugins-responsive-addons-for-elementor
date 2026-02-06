@@ -8,6 +8,7 @@
 namespace Responsive_Addons_For_Elementor\WidgetsManager;
 
 use Elementor\Plugin;
+use Responsive_Addons_For_Elementor\Helper\Helper;
 use Responsive_Addons_For_Elementor\WidgetsManager\Widgets\Posts;
 
 if ( ! defined( 'WPINC' ) ) {
@@ -85,6 +86,9 @@ class Responsive_Addons_For_Elementor_Widgets_Manager {
 		add_action( 'elementor/controls/register', array( $this, 'register_responsive_controls' ) );
 
 		add_action( 'wp_head', array( $this, 'render_faq_schema' ) );
+
+		// **Load all active RAEL extensions**
+    	$this->include_responsive_extensions_files();
 	}
 
 	/**
@@ -176,6 +180,52 @@ class Responsive_Addons_For_Elementor_Widgets_Manager {
 		);
 
 		return $widget_list;
+	}
+	/**
+	 * List of RAEL extensions.
+	 *
+	 * @return array
+	 */
+	public function get_responsive_extensions_list() {
+		return array(
+			'particle-backgrounds' => array(
+				'file'  => RAEL_DIR . 'ext/class-rael-particles-background.php',
+				'class' => '\RAEL_Ext\RAEL_Particles_Background',			
+			),
+			'sticky-section' => array(
+				'file'  => RAEL_DIR . 'ext/class-rael-sticky-elementor.php',
+				'class' => '\RAEL_Ext\Rael_Sticky_Elementor',			
+			),
+			'duplicator' => array(
+				'file'  => RAEL_DIR . 'ext/class-rael-duplicator.php',
+				'class' => '\RAEL_Ext\RAEL_Duplicator',			
+			),
+			'animations' => array(
+				'file'  => RAEL_DIR . 'ext/class-rael-animations.php',
+				'class' => '\RAEL_Ext\Rael_Animations',			
+			),
+		);
+	}
+	/**
+	 * Load RAEL Extensions.
+	 *
+	 * @return void
+	 */
+	public function include_responsive_extensions_files() {
+		$extensions = $this->get_responsive_extensions_list();
+		foreach ( $extensions as $key => $data ) {
+			// Check if extension is enabled in settings
+			if ( Helper::is_extension_active( $key ) ) {
+
+				if ( file_exists( $data['file'] ) ) {
+					require_once $data['file'];
+
+					if ( class_exists( $data['class'] ) ) {
+						$data['class']::instance();
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -865,8 +915,20 @@ class Responsive_Addons_For_Elementor_Widgets_Manager {
 
 		foreach ( $widget_ids as $widget_id ) {
 			$widget_data            = $this->find_element_recursive( $data, $widget_id );
+			// Skip if invalid data
+			if ( empty( $widget_data ) || ! is_array( $widget_data ) ) {
+				continue;
+			}
+
 			$widget                 = $elementor->elements_manager->create_element_instance( $widget_data );
+			// Skip if instance creation failed
+			if ( ! $widget || ! method_exists( $widget, 'get_settings' ) ) {
+				continue;
+			}
 			$settings               = $widget->get_settings();
+			if ( empty( $settings['rael_tabs'] ) || ! is_array( $settings['rael_tabs'] ) ) {
+				continue;
+			}
 			$content_schema_warning = 0;
 			$enable_schema          = $settings['rael_schema_support'];
 

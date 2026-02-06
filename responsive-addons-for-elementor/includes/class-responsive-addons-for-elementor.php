@@ -66,8 +66,13 @@ class Responsive_Addons_For_Elementor {
 		add_action( 'elementor/frontend/after_enqueue_styles', array( $this, 'enqueue_styles' ) );
 		add_action( 'elementor/editor/before_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
 		add_action( 'elementor/frontend/after_register_scripts', array( $this, 'widget_scripts' ) );
+  		
+		// Elementor editor scripts for import template notice
+        add_action( 'elementor/editor/after_enqueue_scripts', [ $this, 'rael_enqueue_editor_scripts' ] );
 
 		add_action( 'admin_enqueue_scripts', array( &$this, 'responsive_addons_for_elementor_admin_enqueue_styles' ) );
+
+		add_action( 'admin_enqueue_scripts', array( $this, 'rae_load_duplicator_scripts' ) );
 
 		// Responsive Addons for Elementor Menu.
 		add_action( 'admin_menu', array( $this, 'responsive_addons_for_elementor_admin_menu' ), 9 );
@@ -134,6 +139,18 @@ class Responsive_Addons_For_Elementor {
 		//RAEL Facebook Feed
 		add_action('wp_ajax_rael_facebook_feed_load_more', array($this, 'rael_facebook_feed_load_more'));
 		add_action('wp_ajax_nopriv_rael_facebook_feed_load_more', array($this, 'rael_facebook_feed_load_more'));
+
+		// Hook into save_post to scan Elementor content for RAE widgets for review notice purpose
+		add_action( 'save_post', array( $this, 'rael_check_widgets_in_post' ), 20, 2 );
+		add_action( 'wp_ajax_rael_mark_template_imported', array( $this, 'rael_mark_template_imported' ) );
+		add_action( 'wp_ajax_nopriv_rael_mark_template_imported', array( $this, 'rael_mark_template_imported' ) );
+
+
+		add_action( 'wp_ajax_rael_save_duplicator_settings', array( $this, 'rael_save_duplicator_settings' ) );
+		add_action( 'wp_ajax_nopriv_rael_save_duplicator_settings', array( $this, 'rael_save_duplicator_settings' ) );
+
+
+
 
 		global $blog_id;
 		if ( is_multisite() ) {
@@ -677,14 +694,35 @@ private function rael_find_element_recursive($elements, $widget_id) {
 	 * @since 1.4
 	 */
 	public function rael_ask_for_review_notice() {
+
 		if ( isset( $_GET['page'] ) && ( 'responsive' === $_GET['page'] ) ) {
 			return;
 		}
-
-		if ( false === get_option( 'responsive_addons_for_elementor_review_notice' ) ) {
-			set_transient( 'responsive_addons_for_elementor_ask_review_flag', true, 7 * 24 * 60 * 60 );
+		// Checking if the review notice was permanently dismissed
+		$review_dismissed = get_option( 'responsive_addons_for_elementor_review_notice_dismissed' );
+		if ( $review_dismissed ) {
+			return; 
+		}
+		if (false === get_option( 'responsive_addons_for_elementor_review_notice' ) ) {
+			set_transient( 'responsive_addons_for_elementor_intial_timeout', true, 30 * 24 * 60 * 60 );
 			update_option( 'responsive_addons_for_elementor_review_notice', true );
-		} elseif ( false === (bool) get_transient( 'responsive_addons_for_elementor_ask_review_flag' ) && false === get_option( 'responsive_addons_for_elementor_review_notice_dismissed' ) ) {
+		}
+		$maybe_later_active = (bool) get_transient( 'responsive_addons_for_elementor_timeout' );
+		if ( $maybe_later_active ) {
+			return; 
+		}
+		
+		// Fetch the count of posts with RAE widgets
+		$count = $this->rael_get_published_with_widgets_count(); 
+		 
+		// Check if any template was imported.
+		$any_template_imported = (bool) get_transient( 'rael_template_imported_any' );
+    	
+		$thirty_day_delay_passed = get_option( 'responsive_addons_for_elementor_initial_timeout' ) ? true : false;
+
+		if ( $thirty_day_delay_passed || $count >= 5 || $any_template_imported ) 
+		{
+
 			$image_path = RAEL_URL . 'admin/images/rae-icon.svg';
 			printf(
 				'<div class="notice notice-warning rael-ask-for-review-notice">
@@ -726,6 +764,7 @@ private function rael_find_element_recursive($elements, $widget_id) {
 			);
 			do_action( 'tag_review' );
 		}
+		
 	}
 
 	/**
@@ -735,6 +774,7 @@ private function rael_find_element_recursive($elements, $widget_id) {
 		if ( isset( $_GET['responsive-addons-for-elementor-notice-dismissed'] ) ) {
 			update_option( 'responsive_addons_for_elementor_review_notice_dismissed', true );
 			wp_safe_redirect( remove_query_arg( array( 'responsive-addons-for-elementor-notice-dismissed' ), wp_get_referer() ) );
+			exit;
 		}
 	}
 
@@ -743,8 +783,9 @@ private function rael_find_element_recursive($elements, $widget_id) {
 	 */
 	public function rael_notice_change_timeout() {
 		if ( isset( $_GET['responsive-addons-for-elementor-review-notice-change-timeout'] ) ) {
-			set_transient( 'responsive_addons_for_elementor_ask_review_flag', true, DAY_IN_SECONDS );
+			set_transient( 'responsive_addons_for_elementor_timeout', true, DAY_IN_SECONDS );
 			wp_safe_redirect( remove_query_arg( array( 'responsive-addons-for-elementor-review-notice-change-timeout' ), wp_get_referer() ) );
+			exit;
 		}
 	}
 
@@ -896,8 +937,6 @@ private function rael_find_element_recursive($elements, $widget_id) {
 		require_once RAEL_DIR . 'traits/responsive-addons-for-elementor-products-compare.php';
 		require_once RAEL_DIR . 'traits/responsive-addons-for-elementor-helperwoocheckout.php';
 		require_once RAEL_DIR . 'traits/responsive-addons-for-elementor-woo-checkout-helper.php';
-		require_once RAEL_DIR . 'ext/class-rael-particles-background.php';
-		require_once RAEL_DIR . 'ext/class-rael-sticky-elementor.php';
 	}
 
 	/**
@@ -1034,6 +1073,14 @@ private function rael_find_element_recursive($elements, $widget_id) {
 			RAEL_VER,
 			true
 		);
+		// Pass data to JS to show review notice on template import
+		$importparams = array(
+			'ajax_url'   => admin_url( 'admin-ajax.php' ),
+			'rael_import_nonce' => wp_create_nonce( 'rael_import_nonce' ),
+			'post_id'    => get_the_ID(),
+		);
+		wp_localize_script( 'rael-frontend' , 'rael_import_review', $importparams );
+
 
 		if ( class_exists( 'WooCommerce' ) ) {
 			$has_cart = is_a( WC()->cart, 'WC_Cart' );
@@ -1062,22 +1109,23 @@ private function rael_find_element_recursive($elements, $widget_id) {
 			'RAELFrontendConfig',
 			$locale_settings
 		);
-
-		wp_localize_script(
-			'rael-particles',
-			'rael_particles',
-			array(
-				'particles_lib'    => RAEL_ASSETS_URL . '/lib/particles/particles.min.js',
-				'snowflakes_image' => RAEL_ASSETS_URL . '/images/snowflake.svg',
-				'gift'             => RAEL_ASSETS_URL . '/images/gift.png',
-				'tree'             => RAEL_ASSETS_URL . '/images/tree.png',
-				'skull'            => RAEL_ASSETS_URL . '/images/skull.png',
-				'ghost'            => RAEL_ASSETS_URL . '/images/ghost.png',
-				'moon'             => RAEL_ASSETS_URL . '/images/moon.png',
-				'bat'              => RAEL_ASSETS_URL . '/images/bat.png',
-				'pumpkin'          => RAEL_ASSETS_URL . '/images/pumpkin.png',
-			)
-		);
+		if (Helper::is_extension_active('particle-backgrounds')) {
+			wp_localize_script(
+				'rael-particles',
+				'rael_particles',
+				array(
+					'particles_lib' => RAEL_ASSETS_URL . '/lib/particles/rael-particles.min.js',
+					'snowflakes_image' => RAEL_ASSETS_URL . '/images/snowflake.svg',
+					'gift' => RAEL_ASSETS_URL . '/images/gift.png',
+					'tree' => RAEL_ASSETS_URL . '/images/tree.png',
+					'skull' => RAEL_ASSETS_URL . '/images/skull.png',
+					'ghost' => RAEL_ASSETS_URL . '/images/ghost.png',
+					'moon' => RAEL_ASSETS_URL . '/images/moon.png',
+					'bat' => RAEL_ASSETS_URL . '/images/bat.png',
+					'pumpkin' => RAEL_ASSETS_URL . '/images/pumpkin.png',
+				)
+			);
+		}
 	}
 
 	/**
@@ -1177,7 +1225,7 @@ private function rael_find_element_recursive($elements, $widget_id) {
 						
 						wp_enqueue_script(
 							'rael-twitter-feed', 
-							RAEL_ASSETS_URL . 'js/frontend/twitter-feed/twitter-feed.js', 
+							RAEL_ASSETS_URL . 'js/frontend/twitter-feed/rael-twitter-feed.js', 
 							array('jquery', 'rael-isotope', 'imagesloaded'), 
 							RAEL_VER, 
 							true
@@ -1208,7 +1256,10 @@ private function rael_find_element_recursive($elements, $widget_id) {
 							$included_libs['rael-swiper'] = true;
 							wp_enqueue_script( 'rael-swiper', RAEL_ASSETS_URL . 'lib/swiper/swiper.js', array(), RAEL_VER, true );
 							wp_localize_script( 'rael-swiper', 'rael_elementor_swiper', $swiper_class );
+							
 						}
+						wp_enqueue_script( 'rael-media-carousel', RAEL_ASSETS_URL . 'js/frontend/media-carousel/media-carousel.js', array('jquery', 'elementor-frontend'), RAEL_VER, true);// . $ext );
+
 						break;
 					case 'slider':
 					case 'testimonial-slider':
@@ -1278,7 +1329,7 @@ private function rael_find_element_recursive($elements, $widget_id) {
 							$included_libs['rael-stacking-cards'] = true;
 							wp_enqueue_script(
 								'rael-stacking-cards',
-								RAEL_ASSETS_URL . 'js/frontend/stacking-cards/stacking-cards.min.js',
+								RAEL_ASSETS_URL . 'js/frontend/stacking-cards/rael-stacking-cards.min.js',
 								array( 'elementor-frontend', 'jquery', 'gsap', 'gsap-scrolltrigger' ),
 								RAEL_VER,
 								true
@@ -1286,7 +1337,7 @@ private function rael_find_element_recursive($elements, $widget_id) {
 						}
 						break;
 					case 'facebook-feed':
-						wp_enqueue_script( 'rael-facebook-feed', RAEL_ASSETS_URL . 'js/frontend/facebook-feed/facebook-feed.min.js', array( 'jquery' ), RAEL_VER, true );
+						wp_enqueue_script( 'rael-facebook-feed', RAEL_ASSETS_URL . 'js/frontend/facebook-feed/rael-facebook-feed.min.js', array( 'jquery' ), RAEL_VER, true );
 						wp_localize_script('rael-facebook-feed', 'rael_facebook_feed_vars', array(
 							'ajaxurl' => admin_url('admin-ajax.php'),
 							'nonce' => wp_create_nonce('rael_facebook_feed_nonce')
@@ -1297,16 +1348,20 @@ private function rael_find_element_recursive($elements, $widget_id) {
 		}
 		wp_register_style( 'rael-animate-style', RAEL_ASSETS_URL . 'lib/animate/animate.min.css', null, RAEL_VER );
 		wp_enqueue_style( 'rael-animate-style' );
+		if (Helper::is_extension_active('particle-backgrounds')) {
 
-		wp_enqueue_script( 'rael-particles', RAEL_ASSETS_URL . 'lib/particles/particles.js', array(), RAEL_VER, true );
+		wp_enqueue_script( 'rael-particles', RAEL_ASSETS_URL . 'lib/particles/rael-particles.js', array(), RAEL_VER, true );
 
-		wp_register_style( 'rael-particles-style', RAEL_ASSETS_URL . 'lib/particles/particles.min.css', null, RAEL_VER );
+		wp_register_style( 'rael-particles-style', RAEL_ASSETS_URL . 'lib/particles/rael-particles.min.css', null, RAEL_VER );
 
-		wp_register_style( 'rael-particles-style-rtl', RAEL_ASSETS_URL . 'lib/particles/particles-rtl.min.css', null, RAEL_VER );
-		wp_enqueue_style( 'rael-particles-style' );
-		wp_enqueue_style( 'rael-particles-style-rtl' );
-		wp_register_style( 'rael-sticky', RAEL_URL . 'admin/css/rael-sticky.css', array(), RAEL_VER );
-		wp_enqueue_style( 'rael-sticky' );
+			wp_register_style('rael-particles-style-rtl', RAEL_ASSETS_URL . 'lib/particles/rael-particles-rtl.min.css', null, RAEL_VER);
+			wp_enqueue_style('rael-particles-style');
+			wp_enqueue_style('rael-particles-style-rtl');
+		}
+		if (Helper::is_extension_active('sticky-section')) {
+			wp_register_style('rael-sticky', RAEL_URL . 'admin/css/rael-sticky.css', array(), RAEL_VER);
+			wp_enqueue_style('rael-sticky');
+		}
 		wp_enqueue_script(
 			'jet-resize-sensor',
 			RAEL_ASSETS_URL . 'lib/sticky-sidebar/ResizeSensor.min.js',
@@ -1362,6 +1417,29 @@ private function rael_find_element_recursive($elements, $widget_id) {
 			false
 		);
 	}
+	  /**
+     * Editor scripts (Elementor backend editor)
+     * rael-import-template-notice.js
+     */
+    public function rael_enqueue_editor_scripts() {
+        wp_enqueue_script(
+            'rael-import-notice',
+            RAEL_URL . 'assets/js/editor/rael-import-template-notice.js',
+            array('jquery', 'elementor-editor'),
+            RAEL_VER,
+            true
+        );
+
+        wp_localize_script(
+            'rael-import-notice',
+            'rael_editor_data',
+            array(
+                'ajax_url' => admin_url( 'admin-ajax.php' ),
+                'rael_import_nonce' => wp_create_nonce( 'rael_import_nonce' ),
+                'post_id' => get_the_ID(),
+			)
+        );
+    }
 
 	/**
 	 * Include Admin css
@@ -1414,6 +1492,16 @@ private function rael_find_element_recursive($elements, $widget_id) {
 				'siteurl'        => site_url(),
 				'isRSTActivated' => is_plugin_active( 'responsive-add-ons/responsive-add-ons.php' ),
 				'nonce'          => wp_create_nonce( 'responsive-addons-for-elementor' ),
+			)
+		);
+		
+		
+		wp_localize_script(
+        	'responsive-addons-for-elementor-admin-jsfile',
+			'raelDuplicator',
+			array(
+				'ajaxurl'	=> admin_url( 'admin-ajax.php' ),
+				'nonce' 	=> wp_create_nonce('rael_save_dup_settings'),
 			)
 		);
 
@@ -1632,262 +1720,257 @@ private function rael_find_element_recursive($elements, $widget_id) {
 			if ( $rael_widget['status'] ) {
 				switch ( $rael_widget['title'] ) {
 					case 'audio':
-						array_push( $css_files, $css_files_path . 'audio/audio' . $css_min_ext );
+						array_push( $css_files, $css_files_path . 'audio/rael-audio' . $css_min_ext );
 						break;
 					case 'back-to-top':
-						array_push( $js_files, $js_files_path . 'back-to-top/back-to-top' . $ext );
-						array_push( $css_files, $css_files_path . 'back-to-top/back-to-top' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'back-to-top/rael-back-to-top' . $ext );
+						array_push( $css_files, $css_files_path . 'back-to-top/rael-back-to-top' . $css_min_ext );
 						break;
 					case 'banner':
-						array_push( $js_files, $js_files_path . 'banner/banner' . $ext );
-						array_push( $css_files, $css_files_path . 'banner/banner' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'banner/rael-banner' . $ext );
+						array_push( $css_files, $css_files_path . 'banner/rael-banner' . $css_min_ext );
 						break;
 					case 'business-hour':
-						array_push( $css_files, $css_files_path . 'business-hour/business-hour' . $css_min_ext );
+						array_push( $css_files, $css_files_path . 'business-hour/rael-business-hour' . $css_min_ext );
 						break;
 					case 'button':
-						array_push( $css_files, $css_files_path . 'button/button' . $css_min_ext );
+						array_push( $css_files, $css_files_path . 'button/rael-button' . $css_min_ext );
 						break;
 					case 'call-to-action':
-						array_push( $css_files, $css_files_path . 'call-to-action/cta-frontend' . $css_min_ext );
+						array_push( $css_files, $css_files_path . 'call-to-action/rael-cta-frontend' . $css_min_ext );
 						break;
 					case 'content-switcher':
-						array_push( $js_files, $js_files_path . 'content-switcher/content-switcher' . $ext );
-						array_push( $css_files, $css_files_path . 'content-switcher/content-switcher' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'content-switcher/rael-content-switcher' . $ext );
+						array_push( $css_files, $css_files_path . 'content-switcher/rael-content-switcher' . $css_min_ext );
 						break;
 					case 'countdown':
-						array_push( $js_files, $js_files_path . 'countdown/countdown' . $ext );
-						array_push( $css_files, $css_files_path . 'countdown/countdown-frontend' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'countdown/rael-countdown' . $ext );
+						array_push( $css_files, $css_files_path . 'countdown/rael-countdown-frontend' . $css_min_ext );
 						break;
 					case 'divider':
-						array_push( $css_files, $css_files_path . 'divider/divider' . $css_min_ext );
+						array_push( $css_files, $css_files_path . 'divider/rael-divider' . $css_min_ext );
 						break;
 					case 'dual-color-header':
-						array_push( $css_files, $css_files_path . 'dual-color-header/dual-color-header' . $css_min_ext );
+						array_push( $css_files, $css_files_path . 'dual-color-header/rael-dual-color-header' . $css_min_ext );
 						break;
 					case 'fancy-text':
-						array_push( $js_files, $js_files_path . 'fancy-text/fancy-text' . $ext );
-						array_push( $css_files, $css_files_path . 'fancy-text/fancy-text' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'fancy-text/rael-fancy-text' . $ext );
+						array_push( $css_files, $css_files_path . 'fancy-text/rael-fancy-text' . $css_min_ext );
 						break;
 					case 'faq':
-						array_push( $js_files, $js_files_path . 'faq/faq' . $ext );
-						array_push( $css_files, $css_files_path . 'faq/faq' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'faq/rael-faq' . $ext );
+						array_push( $css_files, $css_files_path . 'faq/rael-faq' . $css_min_ext );
 						break;
 					case 'feature-list':
-						array_push( $css_files, $css_files_path . 'feature-list/feature-list' . $css_min_ext );
+						array_push( $css_files, $css_files_path . 'feature-list/rael-feature-list' . $css_min_ext );
 						break;
 					case 'flip-box':
 						array_push( $css_files, $css_files_path . 'flipbox/rael-flipbox' . $css_min_ext );
 						break;
 					case 'icon-box':
-						array_push( $css_files, $css_files_path . 'infobox/infobox' . $css_min_ext );
+						array_push( $css_files, $css_files_path . 'infobox/rael-infobox' . $css_min_ext );
 						break;
 					case 'image-gallery':
-						array_push( $js_files, $js_files_path . 'image-gallery/image-gallery' . $ext );
-						array_push( $css_files, $css_files_path . 'image-gallery/image-gallery' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'image-gallery/rael-image-gallery' . $ext );
+						array_push( $css_files, $css_files_path . 'image-gallery/rael-image-gallery' . $css_min_ext );
 						break;
 					case 'image-hotspot':
-						array_push( $css_files, $css_files_path . 'image-hotspot/image-hotspot' . $css_min_ext );
+						array_push( $css_files, $css_files_path . 'image-hotspot/rael-image-hotspot' . $css_min_ext );
 						break;
 					case 'mc-styler':
-						array_push( $js_files, $js_files_path . 'mailchimp/mailchimp' . $ext );
-						array_push( $css_files, $css_files_path . 'mcstyler/mcstyler' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'mailchimp/rael-mailchimp' . $ext );
+						array_push( $css_files, $css_files_path . 'mcstyler/rael-mcstyler' . $css_min_ext );
 						break;
 					case 'multi-button':
-						array_push( $css_files, $css_files_path . 'multi-button/multi-button' . $css_min_ext );
+						array_push( $css_files, $css_files_path . 'multi-button/rael-multi-button' . $css_min_ext );
 						break;
 					case 'progress-bar':
-						array_push( $js_files, $js_files_path . 'progress-bar/progress-bar' . $ext );
-						array_push( $css_files, $css_files_path . 'progress-bar/progress-bar' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'progress-bar/rael-progress-bar' . $ext );
+						array_push( $css_files, $css_files_path . 'progress-bar/rael-progress-bar' . $css_min_ext );
 						break;
 					case 'reviews':
-						if ( ! in_array( $js_files_path . 'testimonial/testimonial' . $ext, $js_files, true ) ) {
-							array_push( $included_js, $js_files_path . 'testimonial/testimonial' . $ext );
-							array_push( $js_files, $js_files_path . 'testimonial/testimonial' . $ext );
+						if ( ! in_array( $js_files_path . 'testimonial/rael-testimonial' . $ext, $js_files, true ) ) {
+							array_push( $included_js, $js_files_path . 'testimonial/rael-testimonial' . $ext );
+							array_push( $js_files, $js_files_path . 'testimonial/rael-testimonial' . $ext );
 						}
-						array_push( $css_files, $css_files_path . 'reviews/reviews' . $css_min_ext );
+						array_push( $css_files, $css_files_path . 'reviews/rael-reviews' . $css_min_ext );
 						break;
 					case 'search-form':
-						array_push( $js_files, $js_files_path . 'search-form/search-form' . $ext );
-						array_push( $css_files, $css_files_path . 'search-form/search-form' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'search-form/rael-search-form' . $ext );
+						array_push( $css_files, $css_files_path . 'search-form/rael-search-form' . $css_min_ext );
 						break;
 					case 'slider':
 						array_push( $js_files, $js_files_path . 'rael-slider/rael-slider' . $ext );
 						array_push( $css_files, $css_files_path . 'slider/rael-frontend' . $css_min_ext );
 						break;
 					case 'timeline':
-						array_push( $js_files, $js_files_path . 'timeline/timeline' . $ext );
-						array_push( $css_files, $css_files_path . 'timeline/timeline' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'timeline/rael-timeline' . $ext );
+						array_push( $css_files, $css_files_path . 'timeline/rael-timeline' . $css_min_ext );
 						break;
 					case 'wpf-styler':
-						array_push( $css_files, $css_files_path . 'wpfstyler/wpfstyler' . $css_min_ext );
+						array_push( $css_files, $css_files_path . 'wpfstyler/rael-wpfstyler' . $css_min_ext );
 						break;
 					case 'sticky-video':
-						array_push( $js_files, $js_files_path . 'sticky-video/sticky-video' . $ext );
-						array_push( $css_files, $css_files_path . 'sticky-video/sticky-video' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'sticky-video/rael-sticky-video' . $ext );
+						array_push( $css_files, $css_files_path . 'sticky-video/rael-sticky-video' . $css_min_ext );
 						break;
 					case 'table-of-contents':
-						array_push( $js_files, $js_files_path . 'table-of-contents/table-of-contents' . $ext );
-						array_push( $css_files, $css_files_path . 'table-of-contents/table-of-contents' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'table-of-contents/rael-table-of-contents' . $ext );
+						array_push( $css_files, $css_files_path . 'table-of-contents/rael-table-of-contents' . $css_min_ext );
 						break;
 					case 'team-member':
-						array_push( $js_files, $js_files_path . 'team-member/team-member' . $ext );
-						array_push( $css_files, $css_files_path . 'team-member/team-member' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'team-member/rael-team-member' . $ext );
+						array_push( $css_files, $css_files_path . 'team-member/rael-team-member' . $css_min_ext );
 						break;
 					case 'testimonial-slider':
-						if ( ! in_array( $js_files_path . 'testimonial/testimonial' . $ext, $js_files, true ) ) {
-							array_push( $included_js, $js_files_path . 'testimonial/testimonial' . $ext );
-							array_push( $js_files, $js_files_path . 'testimonial/testimonial' . $ext );
+						if ( ! in_array( $js_files_path . 'testimonial/rael-testimonial' . $ext, $js_files, true ) ) {
+							array_push( $included_js, $js_files_path . 'testimonial/rael-testimonial' . $ext );
+							array_push( $js_files, $js_files_path . 'testimonial/rael-testimonial' . $ext );
 						}
-						array_push( $css_files, $css_files_path . 'testimonial-slider/testimonial-slider' . $css_min_ext );
-						array_push( $css_files, $css_files_path . 'media-carousel/media-carousel' . $css_min_ext );
+						array_push( $css_files, $css_files_path . 'testimonial-slider/rael-testimonial-slider' . $css_min_ext );
+
+						array_push( $css_files, $css_files_path . 'media-carousel/rael-media-carousel' . $css_min_ext );
 						break;
 					case 'twitter-feed':
-						array_push( $js_files, $js_files_path . 'twitter-feed/twitter-feed' . $ext );
-						array_push( $css_files, $css_files_path . 'twitter-feed/twitter-feed' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'twitter-feed/rael-twitter-feed' . $ext );
+						array_push( $css_files, $css_files_path . 'twitter-feed/rael-twitter-feed' . $css_min_ext );
 						break;
 					case 'video':
-						array_push( $js_files, $js_files_path . 'video/video' . $ext );
-						array_push( $css_files, $css_files_path . 'video/video' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'video/rael-video' . $ext );
+						array_push( $css_files, $css_files_path . 'video/rael-video' . $css_min_ext );
 						break;
 					case 'one-page-navigation':
-						array_push( $js_files, $js_files_path . 'one-page-navigation/one-page-navigation' . $ext );
-						array_push( $css_files, $css_files_path . 'one-page-navigation/one-page-navigation' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'one-page-navigation/rael-one-page-navigation' . $ext );
+						array_push( $css_files, $css_files_path . 'one-page-navigation/rael-one-page-navigation' . $css_min_ext );
 						break;
 					case 'logo-carousel':
-						array_push( $js_files, $js_files_path . 'logo-carousel/logo-carousel' . $ext );
-						array_push( $css_files, $css_files_path . 'logo-carousel/logo-carousel' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'logo-carousel/rael-logo-carousel' . $ext );
+						array_push( $css_files, $css_files_path . 'logo-carousel/rael-logo-carousel' . $css_min_ext );
 						break;
 					case 'data-table':
-						array_push( $js_files, $js_files_path . 'data-table/data-table' . $ext );
-						array_push( $css_files, $css_files_path . 'data-table/data-table' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'data-table/rael-data-table' . $ext );
+						array_push( $css_files, $css_files_path . 'data-table/rael-data-table' . $css_min_ext );
 						break;
 					case 'content-ticker':
-						array_push( $js_files, $js_files_path . 'content-ticker/content-ticker' . $ext );
-						array_push( $css_files, $css_files_path . 'content-ticker/content-ticker' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'content-ticker/rael-content-ticker' . $ext );
+						array_push( $css_files, $css_files_path . 'content-ticker/rael-content-ticker' . $css_min_ext );
 						break;
 					case 'cf-styler':
-						array_push( $js_files, $js_files_path . 'contact-form/contact-form' . $ext );
-						array_push( $css_files, $css_files_path . 'cf7/cf7styler' . $css_min_ext );
+						array_push( $css_files, $css_files_path . 'cf7/rael-cf7styler' . $css_min_ext );
 						break;
 					case 'advanced-tabs':
-						array_push( $js_files, $js_files_path . 'advanced-tabs/advanced-tabs' . $ext );
-						array_push( $css_files, $css_files_path . 'advanced-tabs/advanced-tabs' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'advanced-tabs/rael-advanced-tabs' . $ext );
+						array_push( $css_files, $css_files_path . 'advanced-tabs/rael-advanced-tabs' . $css_min_ext );
 						break;
 					case 'pricing-table':
-						array_push( $css_files, $css_files_path . 'pricing-table/pricing-table-frontend' . $css_min_ext );
+						array_push( $css_files, $css_files_path . 'pricing-table/rael-pricing-table-frontend' . $css_min_ext );
 						break;
 					case 'price-list':
-						array_push( $css_files, $css_files_path . 'price-list/price-list-frontend' . $css_min_ext );
+						array_push( $css_files, $css_files_path . 'price-list/rael-price-list-frontend' . $css_min_ext );
 						break;
 					case 'posts':
-						array_push( $js_files, $js_files_path . 'posts/posts' . $ext );
-						array_push( $js_files, $js_files_path . 'posts/posts-cards' . $ext );
-						array_push( $css_files, $css_files_path . 'posts/posts' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'posts/rael-posts' . $ext );
+						array_push( $js_files, $js_files_path . 'posts/rael-posts-cards' . $ext );
+						array_push( $css_files, $css_files_path . 'posts/rael-posts' . $css_min_ext );
 						break;
 					case 'price-box':
-						array_push( $js_files, $js_files_path . 'price-box/price-box' . $ext );
-						array_push( $css_files, $css_files_path . 'price-box/price-box' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'price-box/rael-price-box' . $ext );
+						array_push( $css_files, $css_files_path . 'price-box/rael-price-box' . $css_min_ext );
 						break;
 					case 'post-carousel':
-						array_push( $js_files, $js_files_path . 'post-carousel/post-carousel' . $ext );
-						array_push( $css_files, $css_files_path . 'post-carousel/post-carousel' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'post-carousel/rael-post-carousel' . $ext );
+						array_push( $css_files, $css_files_path . 'post-carousel/rael-post-carousel' . $css_min_ext );
 						break;
 					case 'offcanvas':
-						array_push( $js_files, $js_files_path . 'offcanvas/offcanvas' . $ext );
-						array_push( $css_files, $css_files_path . 'offcanvas/offcanvas' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'offcanvas/rael-offcanvas' . $ext );
+						array_push( $css_files, $css_files_path . 'offcanvas/rael-offcanvas' . $css_min_ext );
 						break;
 					case 'nav-menu':
-						array_push( $js_files, $js_files_path . 'nav-menu/nav-menu' . $ext );
-						array_push( $css_files, $css_files_path . 'nav-menu/nav-menu' . $css_min_ext );
-						array_push( $css_files, $css_files_path . 'nav-menu/pointer' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'nav-menu/rael-nav-menu' . $ext );
+						array_push( $css_files, $css_files_path . 'nav-menu/rael-nav-menu' . $css_min_ext );
+						array_push( $css_files, $css_files_path . 'nav-menu/rael-pointer' . $css_min_ext );
 						break;
 					case 'login-register':
-						array_push( $js_files, $js_files_path . 'login-register/login-register' . $ext );
-						array_push( $css_files, $css_files_path . 'login-register/login-register' . $css_min_ext );
-						break;
-					case 'media-carousel':
-						array_push( $js_files, $js_files_path . 'media-carousel/base-slider' . $ext );
-						array_push( $js_files, $js_files_path . 'media-carousel/media-carousel' . $ext );
-						array_push( $css_files, $css_files_path . 'media-carousel/media-carousel' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'login-register/rael-login-register' . $ext );
+						array_push( $css_files, $css_files_path . 'login-register/rael-login-register' . $css_min_ext );
 						break;
 					case 'google-map':
-						array_push( $js_files, $js_files_path . 'google-map/google-map' . $ext );
-						array_push( $css_files, $css_files_path . 'google-map/google-map' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'google-map/rael-google-map' . $ext );
+						array_push( $css_files, $css_files_path . 'google-map/rael-google-map' . $css_min_ext );
 						break;
 					case 'lottie':
-						array_push( $js_files, $js_files_path . 'lottie/lottie' . $ext );
-						array_push( $css_files, $css_files_path . 'lottie/lottie' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'lottie/rael-lottie' . $ext );
+						array_push( $css_files, $css_files_path . 'lottie/rael-lottie' . $css_min_ext );
 						break;
 					case 'woo-products':
-						if ( ! in_array( $js_files_path . 'product-carousel/quick-view' . $ext, $js_files, true ) ) {
-							array_push( $included_js, $js_files_path . 'product-carousel/quick-view' . $ext );
-							array_push( $js_files, $js_files_path . 'product-carousel/quick-view' . $ext );
+						if ( ! in_array( $js_files_path . 'product-carousel/rael-quick-view' . $ext, $js_files, true ) ) {
+							array_push( $included_js, $js_files_path . 'product-carousel/rael-quick-view' . $ext );
+							array_push( $js_files, $js_files_path . 'product-carousel/rael-quick-view' . $ext );
 						}
-						array_push( $js_files, $js_files_path . 'products/products' . $ext );
-						array_push( $js_files, $js_files_path . 'products/loadmore' . $ext );
-						array_push( $css_files, $css_files_path . 'products/products' . $css_min_ext );
-						array_push( $css_files, $css_files_path . 'products/loadmore' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'products/rael-products' . $ext );
+						array_push( $js_files, $js_files_path . 'products/rael-loadmore' . $ext );
+						array_push( $css_files, $css_files_path . 'products/rael-products' . $css_min_ext );
+						array_push( $css_files, $css_files_path . 'products/rael-loadmore' . $css_min_ext );
 						break;
 					case 'wc-add-to-cart':
-						array_push( $css_files, $css_files_path . 'add-to-cart/add-to-cart-frontend' . $css_min_ext );
+						array_push( $css_files, $css_files_path . 'add-to-cart/rael-add-to-cart-frontend' . $css_min_ext );
 						break;
 					case 'product-category-grid':
-						array_push( $css_files, $css_files_path . 'product-category-grid/product-category-grid' . $css_min_ext );
+						array_push( $css_files, $css_files_path . 'product-category-grid/rael-product-category-grid' . $css_min_ext );
 						break;
 					case 'product-carousel':
-						if ( ! in_array( $js_files_path . 'product-carousel/quick-view' . $ext, $js_files, true ) ) {
-							array_push( $included_js, $js_files_path . 'product-carousel/quick-view' . $ext );
-							array_push( $css_files, $css_files_path . 'quick-view/quick-view' . $css_min_ext );
-							array_push( $js_files, $js_files_path . 'product-carousel/quick-view' . $ext );
+						if ( ! in_array( $js_files_path . 'product-carousel/rael-quick-view' . $ext, $js_files, true ) ) {
+							array_push( $included_js, $js_files_path . 'product-carousel/rael-quick-view' . $ext );
+							array_push( $css_files, $css_files_path . 'quick-view/rael-quick-view' . $css_min_ext );
+							array_push( $js_files, $js_files_path . 'product-carousel/rael-quick-view' . $ext );
 						}
-						array_push( $css_files, $css_files_path . 'quick-view/quick-view' . $css_min_ext );
-						array_push( $js_files, $js_files_path . 'product-carousel/product-carousel' . $ext );
-						array_push( $css_files, $css_files_path . 'product-carousel/product-carousel' . $css_min_ext );
+						array_push( $css_files, $css_files_path . 'quick-view/rael-quick-view' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'product-carousel/rael-product-carousel' . $ext );
+						array_push( $css_files, $css_files_path . 'product-carousel/rael-product-carousel' . $css_min_ext );
 						break;
 					case 'woo-checkout':
-						array_push( $js_files, $js_files_path . 'woo-checkout/woo-checkout-main' . $ext );
-						array_push( $js_files, $js_files_path . 'woo-checkout/woo-checkout' . $ext );
-						array_push( $css_files, $css_files_path . 'woo-checkout/woo-checkout' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'woo-checkout/rael-woo-checkout-main' . $ext );
+						array_push( $js_files, $js_files_path . 'woo-checkout/rael-woo-checkout' . $ext );
+						array_push( $css_files, $css_files_path . 'woo-checkout/rael-woo-checkout' . $css_min_ext );
 						break;
 					case 'portfolio':
-						array_push( $js_files, $js_files_path . 'portfolio/portfolio' . $ext );
-						array_push( $css_files, $css_files_path . 'portfolio/portfolio-frontend' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'portfolio/rael-portfolio' . $ext );
+						array_push( $css_files, $css_files_path . 'portfolio/rael-portfolio-frontend' . $css_min_ext );
 						break;
 					case 'menu-cart':
-						array_push( $js_files, $js_files_path . 'menu-cart/menu-cart' . $ext );
-						array_push( $css_files, $css_files_path . 'wc-menu-cart/wc-menu-cart-frontend' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'menu-cart/rael-menu-cart' . $ext );
+						array_push( $css_files, $css_files_path . 'wc-menu-cart/rael-wc-menu-cart-frontend' . $css_min_ext );
 						break;
 					case 'modal-popup':
-						array_push( $js_files, $js_files_path . 'modal-popup/modal-popup' . $ext );
-						array_push( $css_files, $css_files_path . 'modal-popup/modal-popup' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'modal-popup/rael-modal-popup' . $ext );
+						array_push( $css_files, $css_files_path . 'modal-popup/rael-modal-popup' . $css_min_ext );
 						break;
 					case 'gf-styler':
-						array_push( $css_files, $css_files_path . 'gfstyler/gfstyler' . $css_min_ext );
+						array_push( $css_files, $css_files_path . 'gfstyler/rael-gfstyler' . $css_min_ext );
 						break;
 					case 'facebook-feed':
-						array_push( $js_files, $js_files_path . 'facebook-feed/facebook-feed' . $ext );
-						array_push( $css_files, $css_files_path . 'facebook-feed/facebook-feed' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'facebook-feed/rael-facebook-feed' . $ext );
+						array_push( $css_files, $css_files_path . 'facebook-feed/rael-facebook-feed' . $css_min_ext );
 						break;
 					case 'before-after-slider':
-						array_push( $js_files, $js_files_path . 'before-after-slider/before-after-slider' . $ext );
-						array_push( $css_files, $css_files_path . 'before-after-slider/before-after-slider' . $css_min_ext );
+						array_push( $js_files, $js_files_path . 'before-after-slider/rael-before-after-slider' . $ext );
+						array_push( $css_files, $css_files_path . 'before-after-slider/rael-before-after-slider' . $css_min_ext );
 						break;
 					case 'stacking-cards':
-						array_push( $css_files, $css_files_path . 'stacking-cards/stacking-cards' . $css_min_ext );
+						array_push( $css_files, $css_files_path . 'stacking-cards/rael-stacking-cards' . $css_min_ext );
 						break;
 				}
 			}
 		}
 		// Theme Builder & Module CSS.
 		$theme_builder_widget_css = array(
-			'theme-post-info/theme-post-info',
-			'theme-author-box/theme-author-box',
-			'theme-post-navigation/theme-post-navigation',
-			'product-meta/product-meta',
-			'product-archive/product-archive',
-			'theme-archive-posts/theme-archive-posts',
-			'theme-builder/style',
+			'theme-post-info/rael-theme-post-info',
+			'theme-author-box/rael-theme-author-box',
+			'theme-post-navigation/rael-theme-post-navigation',
+			'product-meta/rael-product-meta',
+			'product-archive/rael-product-archive',
+			'theme-archive-posts/rael-theme-archive-posts',
+			'theme-builder/rael-style',
 		);
 
 		foreach ( $theme_builder_widget_css as $file_name ) {
@@ -2464,5 +2547,139 @@ private function rael_find_element_recursive($elements, $widget_id) {
 		$rate_link = '<a target="_blank" href="' . esc_url( $rate_url ) . '" title="' . esc_attr__( 'Rate the plugin', 'responsive-addons-for-elementor' ) . '">' . esc_html__( 'Rate the plugin ★★★★★', 'responsive-addons-for-elementor' ) . '</a>';
 		$links[]   = $rate_link;
 		return $links;
+	}
+	// Count published posts/pages with RAE widgets by scanning _elementor_data used for sending review prompt
+	public function rael_get_published_with_widgets_count() {
+		global $wpdb;
+
+		// Count only published posts/pages that have _rael_has_widget = 1
+		$count = $wpdb->get_var( $wpdb->prepare(
+			"
+			SELECT COUNT(1)
+			FROM $wpdb->posts p
+			INNER JOIN $wpdb->postmeta pm ON p.ID = pm.post_id
+			WHERE p.post_type IN ('post','page')
+			AND p.post_status = 'publish'
+			AND pm.meta_key = %s
+			AND pm.meta_value = %s
+			",
+			'_rael_has_widget',
+			1
+		));
+
+		return (int) $count;
+	}
+	public function rael_check_widgets_in_post( $post_id, $post ) {
+		// Only scan published posts/pages
+		if ( 'publish' !== $post->post_status ) return;
+
+		// Avoid autosave loops
+		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) return;
+
+		// Get Elementor JSON data
+		$data = get_post_meta( $post_id, '_elementor_data', true );
+		if ( empty($data) ) {
+			return;
+		}
+
+		// Decode only if string
+		if ( is_string( $data ) ) {
+			$elements = json_decode( $data, true );
+			if ( json_last_error() !== JSON_ERROR_NONE ) {
+				return;
+			}
+		} elseif ( is_array( $data ) ) {
+			$elements = $data;
+		} else {
+			// Unexpected type
+			return;
+		}
+		
+		$elements_array = isset( $elements['elements'] ) ? $elements['elements'] : $elements;
+
+		// Check recursively for any RAE widget
+		$found = self::rael_has_widget( $elements_array );
+
+		if ( $found ) {
+			update_post_meta( $post_id, '_rael_has_widget', 1 );
+		} else {
+			delete_post_meta( $post_id, '_rael_has_widget' );
+		}
+	}
+	// Recursive function to detect RAE widgets in Elementor JSON
+	public function rael_has_widget( $elements ) {
+		foreach ( $elements as $el ) {
+			if ( isset( $el['widgetType'] ) && strpos( $el['widgetType'], 'rael' ) === 0 ) {
+				return true;
+			}
+			if ( ! empty( $el['elements'] ) && $this->rael_has_widget( $el['elements'] ) ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public function rael_mark_template_imported() {
+		check_ajax_referer( 'rael_import_nonce', 'nonce' );
+
+		$post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
+
+		if ( $post_id ) {
+			update_post_meta( $post_id, '_rael_template_imported', 1 );
+
+			// Clear and reset transient after new import
+			delete_transient( 'rael_template_imported_any' );
+			set_transient( 'rael_template_imported_any', 1, 30 * DAY_IN_SECONDS );
+		}
+
+		wp_send_json_success();
+	}
+
+	public function rael_save_duplicator_settings() {
+		check_ajax_referer( 'rael_save_dup_settings', 'nonce' );
+
+		// Get selected post types from JS
+		$post_types = isset($_POST['post_types']) ? (array) $_POST['post_types'] : array();
+		// Sanitize all values
+		$post_types = array_map('sanitize_text_field', $post_types);
+
+		// Save to WP options table
+		update_option('rael_duplicator_allowed_post_types', $post_types);
+
+		wp_send_json_success(array(
+			'message' => 'Saved',
+			'saved_value' => $post_types
+		));
+	}
+
+	public function rae_load_duplicator_scripts( $hook ) {
+
+		// Load ONLY on list table screens
+		if ( $hook === 'edit.php' ) {
+
+			wp_enqueue_script(
+				'rae-duplicator-admin',
+				RAEL_URL . 'admin/js/rae-duplicator-admin.js',
+				array('jquery'),
+				RAEL_VER,
+				true
+			);
+
+			wp_localize_script(
+				'rae-duplicator-admin',
+				'raeDuplicatorjs',
+				[
+					'allowed_types' => get_option('rael_duplicator_allowed_post_types', ['all']),
+				]
+			);
+			// NEW: add duplicate URL for Quick Edit button
+			wp_localize_script(
+				'rae-duplicator-admin',
+				'RAEDup',
+				[
+					'duplicate_url' => admin_url( 'admin.php?action=rael_duplicate_post' ),
+				]
+			);
+		}
 	}
 }

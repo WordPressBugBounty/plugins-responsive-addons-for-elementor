@@ -13,6 +13,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 use Elementor\Controls_Manager;
 use Elementor\Plugin;
+use Responsive_Addons_For_Elementor\Helper\Helper;
 
 if ( ! class_exists( 'RAEL_Particles_Background' ) ) {
 	/**
@@ -33,7 +34,8 @@ if ( ! class_exists( 'RAEL_Particles_Background' ) ) {
 		 *
 		 * Initializes the particle background functionality.
 		 */
-		private function __construct() {
+		private function __construct()
+		{
 			add_action( 'wp_footer', array( $this, 'enqueue_scripts' ) );
 			add_action( 'elementor/element/after_section_end', array( $this, 'register_controls' ), 10, 3 );
 
@@ -44,6 +46,7 @@ if ( ! class_exists( 'RAEL_Particles_Background' ) ) {
 			add_action( 'elementor/frontend/column/before_render', array( $this, 'before_render' ), 10, 1 );
 			add_action( 'elementor/frontend/section/before_render', array( $this, 'before_render' ), 10, 1 );
 			add_action( 'elementor/frontend/container/before_render', array( $this, 'before_render' ), 10, 1 );
+		
 		}
 
 		/**
@@ -152,6 +155,10 @@ if ( ! class_exists( 'RAEL_Particles_Background' ) ) {
 		 * @param array  $args Additional arguments.
 		 */
 		public function register_controls( $element, $section_id, $args ) {
+			// Only add controls if extension is active
+			if ( ! Helper::is_extension_active( 'particle-backgrounds' ) ) {
+				return;
+			}
 			if ( ( 'section' === $element->get_name() && 'section_background' === $section_id ) || ( 'column' === $element->get_name() && 'section_style' === $section_id ) || ( 'container' === $element->get_name() && 'section_background' === $section_id ) ) {
 
 				$element->start_controls_section(
@@ -168,7 +175,7 @@ if ( ! class_exists( 'RAEL_Particles_Background' ) ) {
 					array(
 						'type'         => Controls_Manager::SWITCHER,
 						'label'        => __( 'Enable Particle Background', 'responsive-addons-for-elementor' ),
-						'default'      => '',
+						'default'      => 'no',
 						'label_on'     => __( 'Yes', 'responsive-addons-for-elementor' ),
 						'label_off'    => __( 'No', 'responsive-addons-for-elementor' ),
 						'return_value' => 'yes',
@@ -423,7 +430,9 @@ if ( ! class_exists( 'RAEL_Particles_Background' ) ) {
 		 * @param object $element for current element.
 		 */
 		public function before_render( $element ) {
-
+			 if ( ! Helper::is_extension_active('particle-backgrounds') ) {
+				return;
+			}
 			if ( 'section' !== $element->get_name() && 'column' !== $element->get_name() && 'container' !== $element->get_name() ) {
 				return;
 			}
@@ -467,6 +476,9 @@ if ( ! class_exists( 'RAEL_Particles_Background' ) ) {
 		 * @param object $widget for current widget.
 		 */
 		public function print_template( $template, $widget ) {
+			if ( ! Helper::is_extension_active('particle-backgrounds') ) {
+				return $template; // Do not render template in editor
+			}
 			if ( 'section' !== $widget->get_name() && 'column' !== $widget->get_name() && 'container' !== $widget->get_name() ) {
 				return $template;
 			}

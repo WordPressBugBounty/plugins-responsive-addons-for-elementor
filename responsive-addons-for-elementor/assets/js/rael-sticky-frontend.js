@@ -217,34 +217,46 @@
         originalOffsetTop: null,
     
         init: function init() {
-          var isStickyEnabled = this.getSectionSetting('rael_sticky_section_sticky') === 'yes';
-    
-          $(window).off('scroll.raelSticky-' + this.getUniqueID());
-          $(window).off('resize.raelSticky-' + this.getUniqueID());
-    
+          var isStickyEnabled =
+            this.getSectionSetting("rael_sticky_section_sticky") === "yes";
+
+          $(window).off("scroll.raelSticky-" + this.getUniqueID());
+          $(window).off("resize.raelSticky-" + this.getUniqueID());
+
           this.removeStickyStyles();
-    
+
           if (!isStickyEnabled) {
             return;
           }
-    
-          this.originalOffsetTop = this.target.offset().top;
-    
-          this.makeStickyOnScroll(this.target[0]);
-    
+
+          // Delay sticky init until the section is visible
           var self = this;
-          $(window).on('resize.raelSticky-' + this.getUniqueID(), function resizeHandler() {
-            self.originalOffsetTop = self.target.offset().top;
-          });
-    
-          var devices = this.getSectionSetting('rael_sticky_section_sticky_visibility') || [];
-          if (-1 !== devices.indexOf('desktop')) {
+          var checkVisibility = setInterval(function () {
+            if (self.target.is(":visible") && self.target.offset().top > 0) {
+              clearInterval(checkVisibility);
+              self.originalOffsetTop = self.target.offset().top;
+              self.makeStickyOnScroll(self.target[0]);
+            }
+          }, 300);
+
+          var self = this;
+          $(window).on(
+            "resize.raelSticky-" + this.getUniqueID(),
+            function resizeHandler() {
+              self.originalOffsetTop = self.target.offset().top;
+            }
+          );
+
+          var devices =
+            this.getSectionSetting("rael_sticky_section_sticky_visibility") ||
+            [];
+          if (-1 !== devices.indexOf("desktop")) {
             RaelSticky.getStickySectionsDesktop.push($scope);
           }
-          if (-1 !== devices.indexOf('tablet')) {
+          if (-1 !== devices.indexOf("tablet")) {
             RaelSticky.getStickySectionsTablet.push($scope);
           }
-          if (-1 !== devices.indexOf('mobile')) {
+          if (-1 !== devices.indexOf("mobile")) {
             RaelSticky.getStickySectionsMobile.push($scope);
           }
         },
@@ -252,21 +264,47 @@
         makeStickyOnScroll: function makeStickyOnScroll(element) {
           var $el = $(element);
           this.placeholder = $('<div>').height($el.outerHeight()).hide();
+         const $parent = $el.parent(); // column wrapper
+          const elementWidth = $el.outerWidth();
     
           var self = this;
           this.scrollHandler = function scrollHandler() {
             var scrollTop = $(window).scrollTop();
+              
+
+  if (scrollTop >= self.originalOffsetTop && !self.isSticky) {
+    $el.after(self.placeholder.show());
+    // base props (always applied)
+    // Fetch values from Elementor settings
+    const stickyZIndex =
+      self.getSectionSetting("rael_sticky_section_sticky_z_index");
+    const stickyMaxWidthSetting = self.getSectionSetting(
+      "rael_sticky_section_sticky_max_width"
+    );
+    const stickyMaxWidth =
+      stickyMaxWidthSetting && stickyMaxWidthSetting.size
+        ? stickyMaxWidthSetting.size + (stickyMaxWidthSetting.unit || "px")
+        : "";
+
+    let cssProps = {
+      position: "fixed",
+      top: 0,
+      width: elementWidth + "px",
+      zIndex: stickyZIndex,
+      maxWidth: stickyMaxWidth,
+    };
     
-            if (scrollTop >= self.originalOffsetTop && !self.isSticky) {
-              $el.after(self.placeholder.show());
-              $el.css({
-                position: 'fixed',
-                top: 0,
-                width: $el.outerWidth() + 'px',
-                zIndex: 1100
-              });
-              self.isSticky = true;
-            } else if (scrollTop < self.originalOffsetTop && self.isSticky) {
+    // only apply offset if section has more than one column
+
+    if ($parent.children(".elementor-element.e-con").length > 1) {
+      const elementOffsetLeft = $el.offset().left;
+      let elementOffsetValue = elementOffsetLeft;
+
+      cssProps["inset-inline-start"] = elementOffsetValue + "px";
+    }
+    $el.css(cssProps);
+    self.isSticky = true;
+  } else if (scrollTop < self.originalOffsetTop && self.isSticky) {
               self.removeStickyStyles();
             }
           };
@@ -277,10 +315,12 @@
         removeStickyStyles: function removeStickyStyles() {
           var $el = $(this.target[0]);
           $el.css({
-            position: '',
-            top: '',
-            width: '',
-            zIndex: ''
+            position: "",
+            top: "",
+            width: "",
+            zIndex: "",
+            insetInlineStart: "",
+            maxWidth: "",
           });
     
           if (this.placeholder) {

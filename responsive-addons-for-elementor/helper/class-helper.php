@@ -1394,7 +1394,25 @@ class Helper {
 		}
 		return $default;
 	}
+	/**
+	 * Function to check if the extension is active
+	 */
+	public static function is_extension_active( $extension ) {
+		$rael_widgets = get_option( 'rael_widgets', array() );
 
+		if ( ! is_array( $rael_widgets ) ) {
+			return false;
+		}
+
+		foreach ( $rael_widgets as $widget ) {
+			if ( isset( $widget['title'] ) && $widget['title'] === $extension ) {
+				$status = isset( $widget['status'] ) ? (int) $widget['status'] : 0;
+				return ( $status === 1 );
+			}
+		}
+
+		return false; 
+	}
 	/**
 	 *
 	 * Strip tag based on allowed html tag

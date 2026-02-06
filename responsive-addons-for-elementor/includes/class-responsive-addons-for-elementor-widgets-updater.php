@@ -38,6 +38,11 @@ class Responsive_Addons_For_Elementor_Widgets_Updater {
 				'category' => 'content',
 			),
 			array(
+				'title'    => 'animations',
+				'docs'     => 'https://cyberchimps.com/docs/responsive-addons-for-elementor/widgets/rae-animations/',
+				'category' => 'extensions',
+			),
+			array(
 				'title'    => 'audio',
 				'docs'     => 'https://cyberchimps.com/docs/responsive-addons-for-elementor/widgets/audio-player',
 				'category' => 'content',
@@ -144,6 +149,11 @@ class Responsive_Addons_For_Elementor_Widgets_Updater {
 				'title'    => 'dual-color-header',
 				'docs'     => 'https://cyberchimps.com/docs/responsive-addons-for-elementor/widgets/dual-color-header',
 				'category' => 'creativity',
+			),
+			array(
+				'title'    => 'duplicator',
+				'docs'     => 'https://cyberchimps.com/docs/responsive-addons-for-elementor/widgets/rae-duplicator/',
+				'category' => 'extensions',
 			),
 			array(
 				'title'    => 'facebook-feed',
@@ -259,6 +269,11 @@ class Responsive_Addons_For_Elementor_Widgets_Updater {
 				'title'    => 'one-page-navigation',
 				'docs'     => 'https://cyberchimps.com/docs/responsive-addons-for-elementor/widgets/one-page-navigation',
 				'category' => 'creativity',
+			),
+			array(
+				'title'    => 'particle-backgrounds',
+				'docs'     => 'https://cyberchimps.com/docs/responsive-addons-for-elementor/widgets/particle-backgrounds-for-elementor/',
+				'category' => 'extensions',
 			),
 			array(
 				'title'    => 'portfolio',
@@ -441,6 +456,11 @@ class Responsive_Addons_For_Elementor_Widgets_Updater {
 				'category' => 'creativity',
 			),
 			array(
+				'title'    => 'sticky-section',
+				'docs'     => 'https://cyberchimps.com/docs/responsive-addons-for-elementor/widgets/sticky-section/',
+				'category' => 'extensions',
+			),
+			array(
 				'title'    => 'sticky-video',
 				'docs'     => 'https://cyberchimps.com/docs/responsive-addons-for-elementor/widgets/sticky-video',
 				'category' => 'marketing',
@@ -557,7 +577,6 @@ class Responsive_Addons_For_Elementor_Widgets_Updater {
 			add_option( 'rael_widgets', $widgets );
 		}
 	}
-
 	/**
 	 * Reset the RAEL widgets into the database.
 	 */

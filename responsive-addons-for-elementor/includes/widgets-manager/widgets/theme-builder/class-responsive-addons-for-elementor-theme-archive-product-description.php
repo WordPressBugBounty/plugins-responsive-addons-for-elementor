@@ -171,7 +171,7 @@ class Responsive_Addons_For_Elementor_Theme_Archive_Product_Description extends 
 	protected function render() {
 		$this->add_render_attribute( 'wrapper', 'class', 'rael-woocommerce-archive-description' );
 
-    	echo '<div ' . $this->get_render_attribute_string( 'wrapper' ) . '>';
+    	echo '<div ' . wp_kses_post($this->get_render_attribute_string( 'wrapper' )) . '>';
 		// Frontend render
 		do_action( 'woocommerce_archive_description' );
 

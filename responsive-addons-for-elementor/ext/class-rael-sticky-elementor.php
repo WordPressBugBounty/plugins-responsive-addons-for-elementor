@@ -10,7 +10,7 @@
 if ( ! defined( 'WPINC' ) ) {
 	die; // If this file is called directly, abort.
 }
-
+use Responsive_Addons_For_Elementor\Helper\Helper;
 if ( ! class_exists( 'Rael_Sticky_Elementor' ) ) {
 
 	/**
@@ -49,15 +49,18 @@ if ( ! class_exists( 'Rael_Sticky_Elementor' ) ) {
 		 * Initializes the plugin by adding actions and filters.
 		 */
 		public function __construct() {
-
 			add_action( 'elementor/element/column/section_advanced/after_section_end', array( $this, 'after_section_column_layout' ), 10, 2 );
-
-			add_action( 'elementor/frontend/column/before_render', array( $this, 'column_before_render' ) );
-			add_action( 'elementor/frontend/element/before_render', array( $this, 'column_before_render' ) );
+			//  Register frontend hooks *after* Elementor initializes
+    		add_action( 'elementor/frontend/init', array( $this, 'register_frontend_sticky_hooks' ) );
 
 			add_action( 'elementor/element/after_section_end', array( $this, 'register_sticky_controls' ), 10, 3 );
 
 			add_action( 'elementor/frontend/before_enqueue_scripts', array( $this, 'enqueue_scripts' ), 9 );
+		}
+		public function register_frontend_sticky_hooks() {
+			add_action( 'element_ready/column', array( $this, 'column_before_render' ) );
+			add_action( 'element_ready/container', array( $this, 'column_before_render' ) );
+			add_action( 'element_ready/global', array( $this, 'column_before_render' ) );
 		}
 
 		/**
@@ -68,7 +71,9 @@ if ( ! class_exists( 'Rael_Sticky_Elementor' ) ) {
 		 * @return void
 		 */
 		public function after_section_column_layout( $obj, $args ) {
-
+			if ( ! Helper::is_extension_active('sticky-section') ) {
+				return;
+			}
 			$obj->start_controls_section(
 				'rael_sticky_column_sticky_section',
 				array(
@@ -153,6 +158,9 @@ if ( ! class_exists( 'Rael_Sticky_Elementor' ) ) {
 		 * @return void
 		 */
 		public function column_before_render( $element ) {
+			if ( ! Helper::is_extension_active('sticky-section') ) {
+				return;
+			}
 			$data     = $element->get_data();
 			$type     = isset( $data['elType'] ) ? $data['elType'] : 'column';
 			$settings = $data['settings'];
@@ -193,7 +201,10 @@ if ( ! class_exists( 'Rael_Sticky_Elementor' ) ) {
 		 * @param array  $args    Element arguments.
 		 */
 		public function register_sticky_controls( $section, $section_id, $args ) {
-
+			// Only add controls if extension is active
+			if ( ! Helper::is_extension_active( 'sticky-section' ) ) {
+				return;
+			}
 			if ( ! ( ( 'section' === $section->get_name() && 'section_background' === $section_id ) || ( 'container' === $section->get_name() && 'section_background' === $section_id ) ) ) {
 				return;
 			}
@@ -244,8 +255,8 @@ if ( ! class_exists( 'Rael_Sticky_Elementor' ) ) {
 				array(
 					'label'       => esc_html__( 'Z-index', 'responsive-addons-for-elementor' ),
 					'type'        => Elementor\Controls_Manager::NUMBER,
-					'placeholder' => 1100,
-					'default'     => 1100,
+					'placeholder' => '',
+					'default'     => '1100',
 					'min'         => 1,
 					'max'         => 10000,
 					'step'        => 1,
@@ -255,6 +266,7 @@ if ( ! class_exists( 'Rael_Sticky_Elementor' ) ) {
 					'condition'   => array(
 						'rael_sticky_section_sticky' => 'yes',
 					),
+					'frontend_available' => true,
 				)
 			);
 
@@ -275,6 +287,7 @@ if ( ! class_exists( 'Rael_Sticky_Elementor' ) ) {
 					'condition' => array(
 						'rael_sticky_section_sticky' => 'yes',
 					),
+					'frontend_available' => true,
 				)
 			);
 
@@ -381,7 +394,9 @@ if ( ! class_exists( 'Rael_Sticky_Elementor' ) ) {
 		 * @return void
 		 */
 		public function enqueue_scripts() {
-
+			if ( ! Helper::is_extension_active('sticky-section') ) {
+				return;
+			}
 			wp_enqueue_script(
 				'jsticky',
 				RAEL_URL . 'assets/lib/jsticky/jquery.jsticky.min.js',
