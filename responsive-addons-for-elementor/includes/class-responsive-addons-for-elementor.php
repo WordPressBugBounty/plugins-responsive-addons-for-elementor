@@ -1576,23 +1576,23 @@ private function rael_find_element_recursive($elements, $widget_id) {
 			)
 		);
 
-		//wp_enqueue_script( 'rael-rst-admin', RAEL_URL . '/admin/js/rael-rst-plugin-install.js', array( 'jquery' ), true, RAEL_VER );
-		//wp_enqueue_script( 'updates' );
-		// wp_localize_script(
-		// 	'rael-rst-admin',
-		// 	'rstPluginInstall',
-		// 	array(
-		// 		'installing'            => esc_html__( 'Installing ', 'responsive-addons-for-elementor' ),
-		// 		'activating'            => esc_html__( 'Activating ', 'responsive-addons-for-elementor' ),
-		// 		'verify_network'        => esc_html__( 'Not connect. Verify Network.', 'responsive-addons-for-elementor' ),
-		// 		'page_not_found'        => esc_html__( 'Requested page not found. [404]', 'responsive-addons-for-elementor' ),
-		// 		'internal_server_error' => esc_html__( 'Internal Server Error [500]', 'responsive-addons-for-elementor' ),
-		// 		'json_parse_failed'     => esc_html__( 'Requested JSON parse failed', 'responsive-addons-for-elementor' ),
-		// 		'timeout_error'         => esc_html__( 'Time out error', 'responsive-addons-for-elementor' ),
-		// 		'ajax_req_aborted'      => esc_html__( 'Ajax request aborted', 'responsive-addons-for-elementor' ),
-		// 		'uncaught_error'        => esc_html__( 'Uncaught Error', 'responsive-addons-for-elementor' ),
-		// 	)
-		// );
+		wp_enqueue_script( 'rael-rst-admin', RAEL_URL . '/admin/js/rael-rst-plugin-install.js', array( 'jquery' ), true, RAEL_VER );
+		wp_enqueue_script( 'updates' );
+		wp_localize_script(
+			'rael-rst-admin',
+			'rstPluginInstall',
+			array(
+				'installing'            => esc_html__( 'Installing ', 'responsive-addons-for-elementor' ),
+				'activating'            => esc_html__( 'Activating ', 'responsive-addons-for-elementor' ),
+				'verify_network'        => esc_html__( 'Not connect. Verify Network.', 'responsive-addons-for-elementor' ),
+				'page_not_found'        => esc_html__( 'Requested page not found. [404]', 'responsive-addons-for-elementor' ),
+				'internal_server_error' => esc_html__( 'Internal Server Error [500]', 'responsive-addons-for-elementor' ),
+				'json_parse_failed'     => esc_html__( 'Requested JSON parse failed', 'responsive-addons-for-elementor' ),
+				'timeout_error'         => esc_html__( 'Time out error', 'responsive-addons-for-elementor' ),
+				'ajax_req_aborted'      => esc_html__( 'Ajax request aborted', 'responsive-addons-for-elementor' ),
+				'uncaught_error'        => esc_html__( 'Uncaught Error', 'responsive-addons-for-elementor' ),
+			)
+		);
 
 		remove_filter( 'update_footer', 'core_update_footer' );
 	}
@@ -1940,8 +1940,6 @@ private function rael_find_element_recursive($elements, $widget_id) {
 						array_push( $css_files, $css_files_path . 'price-list/rael-price-list-frontend' . $css_min_ext );
 						break;
 					case 'posts':
-						array_push( $js_files, $js_files_path . 'posts/rael-posts' . $ext );
-						array_push( $js_files, $js_files_path . 'posts/rael-posts-cards' . $ext );
 						array_push( $css_files, $css_files_path . 'posts/rael-posts' . $css_min_ext );
 						break;
 					case 'price-box':
