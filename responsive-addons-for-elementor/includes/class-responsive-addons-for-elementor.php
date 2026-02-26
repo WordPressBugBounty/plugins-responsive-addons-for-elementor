@@ -81,7 +81,7 @@ class Responsive_Addons_For_Elementor {
 		// Remove all admin notices from specific pages.
 		add_action( 'admin_init', array( $this, 'responsive_addons_for_elementor_admin_init' ) );
 
-		add_action( 'elementor/frontend/after_register_scripts', array( $this, 'load_assets' ), 15 );
+		add_action( 'wp_enqueue_scripts', array( $this, 'load_assets' ), 15 );
 
 		// Enqueues the necessary scripts and styles for the plugin's admin interface
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );

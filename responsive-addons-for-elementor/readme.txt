@@ -7,7 +7,7 @@ Tested up to: 6.9
 Elementor tested up to: 3.35
 Elementor Pro tested up to: 3.35
 Requires PHP: 5.6
-Stable tag: 2.1.2
+Stable tag: 2.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -279,6 +279,9 @@ If you like Responsive Addons for Elementor, consider checking out our other Wor
 The Development Version of the Responsive Addons for Elementor plugin is located at [https://github.com/cyberchimps/responsive-addons-for-elementor](https://github.com/cyberchimps/responsive-addons-for-elementor)
 
 == Changelog ==
+
+= 2.1.3 – 26th February 2026 =
+- Fix: Minor bug fixes.
 
 = 2.1.2 – 23rd February 2026 =
 - Fix: RAE - Starter Templates activation issue.
