@@ -22,7 +22,9 @@ if ( ! class_exists( 'Responsive_Addons_For_Elementor_Attachment' ) ) {
 		public function __construct() {
 			add_filter( 'attachment_fields_to_edit', array( $this, 'rae_custom_field_attachment_link' ), 11, 2 );
 			add_filter( 'attachment_fields_to_save', array( $this, 'rae_custom_field_attachment_link_save' ), 11, 2 );
-		}
+			add_action('import_end', array($this, 'rae_sync_attachment_categories'));	
+			add_action('add_attachment', array($this, 'rae_sync_duplicate_attachment_categories'));
+	}
 
 		/**
 		 * Add Custom Link field to media uploader and categories for the Image Gallery Widget
@@ -67,6 +69,88 @@ if ( ! class_exists( 'Responsive_Addons_For_Elementor_Attachment' ) ) {
 			}
 
 			return $post;
+		}
+
+		public function rae_sync_attachment_categories()
+		{
+
+			global $wpdb;
+
+			$attachments = get_posts(array(
+				'post_type' => 'attachment',
+				'posts_per_page' => -1,
+				'post_status' => 'inherit'
+			));
+
+			$map = array();
+
+			foreach ($attachments as $att) {
+
+				$file = get_post_meta($att->ID, '_wp_attached_file', true);
+				$cat  = get_post_meta($att->ID, 'rael-categories', true);
+
+				if (!$file) continue;
+
+				if (!isset($map[$file]) && $cat) {
+					$map[$file] = $cat;
+				}
+			}
+
+			foreach ($attachments as $att) {
+
+				$file = get_post_meta($att->ID, '_wp_attached_file', true);
+
+				if (!empty($map[$file])) {
+
+					update_post_meta(
+						$att->ID,
+						'rael-categories',
+						$map[$file]
+					);
+				}
+			}
+		}
+		public function rae_sync_duplicate_attachment_categories($post_id)
+		{
+
+			$file = get_post_meta($post_id, '_wp_attached_file', true);
+
+			if (! $file) {
+				return;
+			}
+
+			// Normalize filename (remove -1, -300x300 etc)
+			$filename = preg_replace('/-\d+x\d+(?=\.)|-\d+(?=\.)/', '', basename($file));
+
+			$attachments = get_posts(array(
+				'post_type'      => 'attachment',
+				'post_status'    => 'inherit',
+				'posts_per_page' => -1,
+			));
+
+			$category = '';
+
+			foreach ($attachments as $att) {
+
+				$att_file = get_post_meta($att->ID, '_wp_attached_file', true);
+				if (! $att_file) continue;
+
+				$att_name = preg_replace('/-\d+x\d+(?=\.)|-\d+(?=\.)/', '', basename($att_file));
+
+				if ($att_name === $filename) {
+
+					$cat = get_post_meta($att->ID, 'rael-categories', true);
+
+					if ($cat) {
+						$category = $cat;
+						break;
+					}
+				}
+			}
+
+			if ($category) {
+				update_post_meta($post_id, 'rael-categories', $category);
+			}
 		}
 	}
 

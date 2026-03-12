@@ -8,12 +8,12 @@
 
 .elementor-widget-rael-testimonial-slider .responsive-testimonial-swiper {
   width: 98%;
-  padding-bottom: 40px;
-  padding-top: 20px;
-  padding-left: 8px; }
+  padding-bottom: 0px;
+  padding-top: 0px;
+  padding-left: 0px; }
   .elementor-widget-rael-testimonial-slider .responsive-testimonial-swiper .swiper-slide {
     height: auto;
-    padding: 20px; }
+    padding: 30px; }
   .elementor-widget-rael-testimonial-slider .responsive-testimonial-swiper .responsive-swiper-button-prev {
     left: 0; }
   .elementor-widget-rael-testimonial-slider .responsive-testimonial-swiper .responsive-swiper-button-next {

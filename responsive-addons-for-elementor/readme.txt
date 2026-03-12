@@ -7,7 +7,7 @@ Tested up to: 6.9
 Elementor tested up to: 3.35
 Elementor Pro tested up to: 3.35
 Requires PHP: 5.6
-Stable tag: 2.1.3
+Stable tag: 2.1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -279,6 +279,13 @@ If you like Responsive Addons for Elementor, consider checking out our other Wor
 The Development Version of the Responsive Addons for Elementor plugin is located at [https://github.com/cyberchimps/responsive-addons-for-elementor](https://github.com/cyberchimps/responsive-addons-for-elementor)
 
 == Changelog ==
+
+= 2.1.4 – 12th March 2026 =
+- Improvement: RAE Banner Widget – Removed duplicate border controls from the General and Container tabs to avoid redundant settings.
+- Fix: Resolved an issue where filter options were missing in Gallery and other image widgets after importing templates.
+- Fix: Testimonial Slider Widget – Improved padding behavior by removing the default container padding and allowing full control through widget settings.
+- Fix: Google Map Widget – Fixed the default marker size mismatch and an issue where the marker size slider did not properly update the custom marker image.
+- Fix: Archive Post Widget – Fixed a layout issue in the Classic Skin where post items were misaligned in the grid.
 
 = 2.1.3 – 26th February 2026 =
 - Fix: Minor bug fixes.

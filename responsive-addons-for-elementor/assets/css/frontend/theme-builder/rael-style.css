@@ -47,4 +47,7 @@
 .elementor-widget-rael-theme-post-featured-image.rael-theme-builder-post-featured-image .wp-caption img {
   display: inline-block; }
 
+.elementor-widget-rael-theme-archive-posts .hentry {
+  margin-top: 0;
+  margin-bottom: 0; }
 /*# sourceMappingURL=style.css.map */

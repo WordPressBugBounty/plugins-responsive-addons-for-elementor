@@ -757,26 +757,6 @@ class Responsive_Addons_For_Elementor_Banner extends Widget_Base {
 			)
 		);
 
-		$this->add_group_control(
-			Group_Control_Border::get_type(),
-			array(
-				'name'     => 'rael_banner_image_border',
-				'selector' => '{{WRAPPER}} .rael-banner-image-banner',
-			)
-		);
-
-		$this->add_responsive_control(
-			'rael_banner_image_border_radius',
-			array(
-				'label'      => __( 'Border Radius', 'responsive-addons-for-elementor' ),
-				'type'       => Controls_Manager::SLIDER,
-				'size_units' => array( 'px', '%', 'em' ),
-				'selectors'  => array(
-					'{{WRAPPER}} .rael-banner-image-banner' => 'border-radius: {{SIZE}}{{UNIT}};',
-				),
-			)
-		);
-
 		$this->add_control(
 			'rael_blend_mode',
 			array(
