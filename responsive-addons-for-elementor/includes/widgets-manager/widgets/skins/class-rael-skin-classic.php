@@ -47,7 +47,7 @@ class RAEL_Skin_Classic extends RAEL_Skin_Base {
 	 */
 	protected function _register_controls_actions() {
 		parent::_register_controls_actions();
-		add_action( 'elementor/element/rael-posts/rael_classic_section_design_layout/after_section_end', array( $this, 'register_additional_design_controls' ) );
+		add_action( 'elementor/element/rael-posts/rael_classic_section_design_meta/after_section_end', array( $this, 'register_additional_design_controls' ) );
 	}
 	/**
 	 * Register additional design controls.
@@ -87,16 +87,10 @@ class RAEL_Skin_Classic extends RAEL_Skin_Base {
 			'box_border_radius',
 			array(
 				'label'      => __( 'Border Radius', 'responsive-addons-for-elementor' ),
-				'type'       => Controls_Manager::SLIDER,
+				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', '%' ),
-				'range'      => array(
-					'px' => array(
-						'min' => 0,
-						'max' => 200,
-					),
-				),
 				'selectors'  => array(
-					'{{WRAPPER}} .elementor-post' => 'border-radius: {{SIZE}}{{UNIT}}',
+					'{{WRAPPER}} .elementor-post' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}',
 				),
 			)
 		);

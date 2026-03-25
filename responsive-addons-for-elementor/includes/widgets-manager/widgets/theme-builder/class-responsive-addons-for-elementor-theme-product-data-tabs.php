@@ -54,6 +54,15 @@ class Responsive_Addons_For_Elementor_Theme_Product_Data_Tabs extends Woo_Widget
 	}
 
 	/**
+	 * Get widget categories.
+	 *
+	 * @return array Widget categories.
+	 */
+	public function get_categories() {
+		return array( 'rae-single' );
+	}
+
+	/**
 	 * Get widget keywords.
 	 *
 	 * Retrieve widget keywords.

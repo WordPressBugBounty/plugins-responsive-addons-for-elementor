@@ -217,7 +217,7 @@ class Helper {
 
 	public static function rating_markup( $html, $rating, $count ) {
 
-		if ( 0 === $rating ) {
+		if ( 0 === $rating || '0' === $rating ) {
 			$html  = '<div class="star-rating">';
 			$html .= wc_get_star_rating_html( $rating, $count );
 			$html .= '</div>';

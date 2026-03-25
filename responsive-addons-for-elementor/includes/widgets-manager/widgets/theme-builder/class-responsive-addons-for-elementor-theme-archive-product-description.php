@@ -80,9 +80,7 @@ class Responsive_Addons_For_Elementor_Theme_Archive_Product_Description extends 
 	 * @return string Widget categories.
 	 */
 	public function get_categories() {
-		return array(
-			'responsive-addons-for-elementor',
-		);
+		return array( 'rae-archive' );
 	}
 	/**
 	 * Register all the control settings for the widget

@@ -16,6 +16,10 @@ use Elementor\Group_Control_Typography;
 use Elementor\Skin_Base as Elementor_Skin_Base;
 use Elementor\Widget_Base;
 use Elementor\Plugin;
+use Elementor\Icons_Manager;
+use Elementor\Group_Control_Background;
+use Elementor\Group_Control_Border;
+use Elementor\Group_Control_Text_Shadow;
 use Elementor\Group_Control_Box_Shadow;
 use Responsive_Addons_For_Elementor\Helper\Helper;
 
@@ -39,6 +43,7 @@ abstract class RAEL_Skin_Base extends Elementor_Skin_Base {
 	protected function _register_controls_actions() {
 		add_action( 'elementor/element/rael-posts/section_layout/before_section_end', array( $this, 'register_controls' ) );
 		add_action( 'elementor/element/rael-posts/rael_section_query/after_section_end', array( $this, 'register_style_sections' ) );
+		add_action( 'elementor/element/rael-posts/section_layout/after_section_end', array( $this, 'register_meta_content_section' ) );
 	}
 	/**
 	 * Registers style sections for a given widget.
@@ -56,6 +61,7 @@ abstract class RAEL_Skin_Base extends Elementor_Skin_Base {
 	 */
 	public function register_design_controls() {
 		$this->register_design_layout_controls();
+		$this->register_design_meta_controls();
 		$this->register_design_image_controls();
 		$this->register_design_content_controls();
 	}
@@ -73,7 +79,6 @@ abstract class RAEL_Skin_Base extends Elementor_Skin_Base {
 		$this->register_thumbnail_controls();
 		$this->register_title_controls();
 		$this->register_excerpt_controls();
-		$this->register_meta_data_controls();
 		$this->register_read_more_controls();
 		$this->register_link_controls();
 
@@ -81,6 +86,30 @@ abstract class RAEL_Skin_Base extends Elementor_Skin_Base {
 			$this->register_data_position_controls();
 		}
 	}
+
+	/**
+	 * Registers content section for a given widget.
+	 *
+	 * @param Widget_Base $widget The widget for which style sections are being registered.
+	 * @return void
+	 */
+	public function register_meta_content_section( Widget_Base $widget ) {
+
+		$this->parent = $widget;
+
+		$this->start_controls_section(
+			'section_meta_content',
+			array(
+				'label' => __( 'Meta', 'responsive-addons-for-elementor' ),
+				'tab'   => Controls_Manager::TAB_CONTENT,
+			)
+		);
+
+		$this->register_meta_data_controls();
+
+		$this->end_controls_section();
+	}
+
 	/**
 	 * Register control thumbnail
 	 */
@@ -460,6 +489,18 @@ abstract class RAEL_Skin_Base extends Elementor_Skin_Base {
 	 * Function register_meta_data_controls
 	 */
 	protected function register_meta_data_controls() {
+
+		$this->add_control(
+			'meta_enable',
+			array(
+				'label'       => __( 'Show Meta', 'responsive-addons-for-elementor' ),
+				'type'        => Controls_Manager::SWITCHER,
+				'label_on'    => __( 'Yes', 'responsive-addons-for-elementor' ),
+				'label_off'   => __( 'No', 'responsive-addons-for-elementor' ),
+				'default'     => 'yes',
+			)
+		);
+
 		$this->add_control(
 			'meta_data',
 			array(
@@ -474,9 +515,75 @@ abstract class RAEL_Skin_Base extends Elementor_Skin_Base {
 					'time'     => __( 'Time', 'responsive-addons-for-elementor' ),
 					'comments' => __( 'Comments', 'responsive-addons-for-elementor' ),
 				),
-				'separator'   => 'before',
+				'condition' => array(
+					$this->get_control_id( 'meta_enable' ) => 'yes',
+				),
 			)
 		);
+
+		$this->add_control(
+            'meta_data_enable_author_image',
+            array(
+                'label'     => esc_html__( 'Show Author Image', 'responsive-addons-for-elementor' ),
+                'type'      => Controls_Manager::SWITCHER,
+                'label_on'  => esc_html__( 'Yes', 'responsive-addons-for-elementor' ),
+                'label_off' => esc_html__( 'No', 'responsive-addons-for-elementor' ),
+                'default'   => 'no',
+                'condition' => array(
+					$this->get_control_id( 'meta_enable' ) => 'yes',
+					$this->get_control_id( 'meta_data' )   => 'author',
+				),
+			),
+        );
+
+		$this->add_control(
+            'meta_data_author_icons',
+            array(
+                'label' => esc_html__( 'Author Icon', 'responsive-addons-for-elementor' ),
+                'type' => Controls_Manager::ICONS,
+                'condition' => array(
+					$this->get_control_id( 'meta_data_enable_author_image!' ) => 'yes',
+					$this->get_control_id( 'meta_enable' )                    => 'yes',
+					$this->get_control_id( 'meta_data' )                      => 'author',
+				)
+			)
+        );
+
+		$this->add_control(
+            'meta_data_date_icons',
+            array(
+                'label' => esc_html__( 'Date Icon', 'responsive-addons-for-elementor' ),
+                'type' => Controls_Manager::ICONS,
+                'condition' => array(
+					$this->get_control_id( 'meta_enable' ) => 'yes',
+					$this->get_control_id( 'meta_data' )   => 'date',
+				),
+			)
+        );
+
+		$this->add_control(
+            'meta_data_time_icons',
+            array(
+                'label' => esc_html__( 'Time Icon', 'responsive-addons-for-elementor' ),
+                'type' => Controls_Manager::ICONS,
+                'condition' => array(
+                    $this->get_control_id( 'meta_enable' ) => 'yes',
+					$this->get_control_id( 'meta_data' )   => 'time',
+				),
+			)
+        );
+
+		$this->add_control(
+            'meta_data_comment_icons',
+            array(
+                'label' => esc_html__( 'Comment Icon', 'responsive-addons-for-elementor' ),
+                'type' => Controls_Manager::ICONS,
+                'condition' => array(
+                    $this->get_control_id( 'meta_enable' ) => 'yes',
+					$this->get_control_id( 'meta_data' )   => 'comments',
+				),
+			)
+        );
 
 		$this->add_control(
 			'meta_separator',
@@ -484,11 +591,13 @@ abstract class RAEL_Skin_Base extends Elementor_Skin_Base {
 				'label'     => __( 'Separator Between', 'responsive-addons-for-elementor' ),
 				'type'      => Controls_Manager::TEXT,
 				'default'   => '///',
+				'separator' => 'before',
 				'selectors' => array(
 					'{{WRAPPER}} .elementor-post__meta-data span + span:before' => 'content: "{{VALUE}}"',
 				),
 				'condition' => array(
-					$this->get_control_id( 'meta_data!' ) => array(),
+					$this->get_control_id( 'meta_enable' ) => 'yes',
+					$this->get_control_id( 'meta_data!' )  => array(),
 				),
 			)
 		);
@@ -669,6 +778,342 @@ abstract class RAEL_Skin_Base extends Elementor_Skin_Base {
 
 		$this->end_controls_section();
 	}
+
+	/**
+	 * Meta Design Controls.
+	 */
+	protected function register_design_meta_controls() {
+
+		$this->start_controls_section(
+			'section_design_meta',
+			array(
+				'label' => __( 'Meta', 'responsive-addons-for-elementor' ),
+				'tab'   => Controls_Manager::TAB_STYLE,
+				'condition' => array(
+					$this->get_control_id( 'meta_enable' ) => 'yes',
+					$this->get_control_id( 'meta_data!' )  => array(),
+				),
+			)
+		);
+
+		$this->add_control(
+			'meta_alignment',
+			array(
+				'label'        => __( 'Alignment', 'responsive-addons-for-elementor' ),
+				'type'         => Controls_Manager::CHOOSE,
+				'options'      => array(
+					'left'   => array(
+						'title' => __( 'Left', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-left',
+					),
+					'center' => array(
+						'title' => __( 'Center', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-center',
+					),
+					'right'  => array(
+						'title' => __( 'Right', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-right',
+					),
+				),
+				'selectors'    => array(
+					'{{WRAPPER}} .elementor-post__meta-data' => 'text-align: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+            'meta_container_padding',
+            array(
+                'label'     => esc_html__( 'Container Padding', 'responsive-addons-for-elementor' ),
+                'type'      => Controls_Manager::DIMENSIONS,
+                'size_units'=> array( 'px', '%', 'em' ),
+                'selectors' => array(
+                    '{{WRAPPER}} .elementor-post__meta-data' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+        );
+
+		$this->add_responsive_control(
+            'meta_container_margin',
+            array(
+                'label'     => esc_html__( 'Container Margin', 'responsive-addons-for-elementor' ),
+                'type'      => Controls_Manager::DIMENSIONS,
+                'size_units'=> array( 'px', '%', 'em' ),
+                'selectors' => array(
+                    '{{WRAPPER}} .elementor-post__meta-data' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+        );
+
+		$this->add_responsive_control(
+           'meta_item_margin',
+           	array(
+               'label'     => esc_html__( 'Item Margin', 'responsive-addons-for-elementor' ),
+               'type'      => Controls_Manager::DIMENSIONS,
+               'size_units'=> array( 'px', '%', 'em' ),
+               'selectors' => array(
+            		'{{WRAPPER}} .elementor-post__meta-data > span' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+			   	),
+			)
+       	);
+
+		$this->add_responsive_control(
+           'meta_item_padding',
+           	array(
+               'label'     => esc_html__( 'Item Padding', 'responsive-addons-for-elementor' ),
+               'type'      => Controls_Manager::DIMENSIONS,
+               'size_units'=> array( 'px', '%', 'em' ),
+               'selectors' => array(
+            		'{{WRAPPER}} .elementor-post__meta-data > span' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+			   	),
+			)
+       	);
+
+		$this->add_responsive_control(
+           'meta_icon_spacing',
+           	array(
+               'label'     => esc_html__( 'Item Spacing', 'responsive-addons-for-elementor' ),
+               'type'      => Controls_Manager::DIMENSIONS,
+               'size_units'=> array( 'px', '%', 'em' ),
+               'selectors' => array(
+            		'{{WRAPPER}} .elementor-post__meta-data > span > svg,
+					{{WRAPPER}} .elementor-post__meta-data > span > span > img' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+			   	),
+			)
+       	);
+
+		$this->add_responsive_control(
+            'meta_icon_size',
+            array(
+                'label' => esc_html__( 'Icon Size', 'responsive-addons-for-elementor' ),
+                'type' => Controls_Manager::SLIDER,
+                'range' => array(
+                    'px' => array(
+                        'min' => 6,
+                        'max' => 300,
+					),
+				),
+                'selectors' => array(
+                    '{{WRAPPER}} .elementor-post__meta-data > span > svg,
+					{{WRAPPER}} .elementor-post__meta-data > span > span > img' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
+				),
+			)
+        );
+
+		$this->add_control(
+			'meta_separator_color',
+			array(
+				'label'     => __( 'Separator Color', 'responsive-addons-for-elementor' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .elementor-post__meta-data span:before' => 'color: {{VALUE}};',
+				),
+				'condition' => array(
+					$this->get_control_id( 'meta_data!' ) => array(),
+				),
+			)
+		);
+
+		$this->add_group_control(
+			Group_Control_Typography::get_type(),
+			array(
+				'name'      => 'meta_typography',
+				'global'    => array(
+					'default' => Global_Typography::TYPOGRAPHY_SECONDARY,
+				),
+				'selector'  => '{{WRAPPER}} .elementor-post__meta-data',
+				'condition' => array(
+					$this->get_control_id( 'meta_data!' ) => array(),
+				),
+			)
+		);
+
+		$this->add_control(
+			'meta_spacing',
+			array(
+				'label'     => __( 'Spacing', 'responsive-addons-for-elementor' ),
+				'type'      => Controls_Manager::SLIDER,
+				'range'     => array(
+					'px' => array(
+						'max' => 100,
+					),
+				),
+				'selectors' => array(
+					'{{WRAPPER}} .elementor-post__meta-data' => 'margin-bottom: {{SIZE}}{{UNIT}};',
+				),
+				'condition' => array(
+					$this->get_control_id( 'meta_data!' ) => array(),
+				),
+			)
+		);
+
+		$this->start_controls_tabs(
+            'meta_background_normal_and_hover_tab'
+        );
+
+        $this->start_controls_tab(
+            'meta_background_normal_tab',
+            array(
+                'label' => esc_html__( 'Normal', 'responsive-addons-for-elementor' ),
+			)
+		);
+
+		$this->add_control(
+			'meta_color',
+			array(
+				'label'     => __( 'Color', 'responsive-addons-for-elementor' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .elementor-post__meta-data' => 'color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_control(
+            'meta_color_icon_normal',
+            array(
+                'label'      => esc_html__( 'Icon Color', 'responsive-addons-for-elementor' ),
+                'type'       => Controls_Manager::COLOR,
+                'selectors'  => array(
+                    '{{WRAPPER}} .elementor-post__meta-data > span > svg' => 'color: {{VALUE}}; fill: {{VALUE}};',
+				),
+			)
+        );
+
+		$this->add_group_control(
+			Group_Control_Background::get_type(),
+			array(
+				'name' => 'meta_background_normal',
+				'label' => esc_html__( 'Background', 'responsive-addons-for-elementor' ),
+				'types' => [ 'classic', 'gradient', ],
+                'selector' => '{{WRAPPER}} .elementor-post__meta-data > span',
+                'exclude' => [ 'image']
+			)
+        );
+
+		$this->add_group_control(
+			Group_Control_Border::get_type(),
+			array(
+				'name' => 'meta_border_normal',
+				'label' => esc_html__( 'Border', 'responsive-addons-for-elementor' ),
+				'selector' => '{{WRAPPER}} .elementor-post__meta-data > span',
+			)
+		);
+
+		$this->add_control(
+            'meta_border_radius_normal',
+            array(
+                'label' => esc_html__( 'Border Radius', 'responsive-addons-for-elementor' ),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => array( 'px', '%', 'em' ),
+                'selectors' => array(
+                    '{{WRAPPER}} .elementor-post__meta-data > span' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+        );
+
+		$this->add_group_control(
+			Group_Control_Box_Shadow::get_type(),
+			array(
+				'name' => 'meta_box_shadow_normal',
+				'label' => esc_html__( 'Box Shadow', 'responsive-addons-for-elementor' ),
+				'selector' => '{{WRAPPER}} .elementor-post__meta-data > span',
+			)
+        );
+
+		$this->add_group_control(
+            Group_Control_Text_Shadow::get_type(), array(
+                'name'       => 'meta_shadow_normal',
+                'selector'   => '{{WRAPPER}} .elementor-post__meta-data > span',
+			)
+        );
+
+		$this->end_controls_tab();
+
+		$this->start_controls_tab(
+            'meta_background_hover_tab',
+            array(
+                'label' => esc_html__( 'Hover', 'responsive-addons-for-elementor' ),
+			)
+        );
+
+		$this->add_control(
+            'meta_color_hover',
+            array(
+                'label'      => esc_html__( 'Color', 'responsive-addons-for-elementor' ),
+                'type'       => Controls_Manager::COLOR,
+                'selectors'  => array(
+                    '{{WRAPPER}} .elementor-post__meta-data > span:hover' => 'color: {{VALUE}}; fill: {{VALUE}};',
+				),
+			)
+        );
+
+		$this->add_control(
+            'meta_color_icon_hover',
+            array(
+                'label'      => esc_html__( 'Icon Color', 'responsive-addons-for-elementor' ),
+                'type'       => Controls_Manager::COLOR,
+                'selectors'  => array(
+                    '{{WRAPPER}} .elementor-post__meta-data > span:hover :is(i, svg)' => 'color: {{VALUE}}; fill: {{VALUE}};',
+				),
+			)
+        );
+
+		$this->add_group_control(
+			Group_Control_Background::get_type(),
+			array(
+				'name'     => 'meta_background_hover',
+				'label'    => esc_html__( 'Background', 'responsive-addons-for-elementor' ),
+				'types'    => [ 'classic', 'gradient', ],
+                'selector' => '{{WRAPPER}} .elementor-post__meta-data > span:hover',
+                'exclude'  => [ 'image' ]
+			)
+        );
+
+		$this->add_group_control(
+			Group_Control_Border::get_type(),
+			[
+				'name'     => 'meta_border_hover',
+				'label'    => esc_html__( 'Border', 'responsive-addons-for-elementor' ),
+				'selector' => '{{WRAPPER}} .elementor-post__meta-data > span:hover',
+			]
+		);
+
+		$this->add_control(
+            'meta_border_radius_hover',
+            array(
+                'label'      => esc_html__( 'Border Radius', 'responsive-addons-for-elementor' ),
+                'type'       => Controls_Manager::DIMENSIONS,
+                'size_units' => array( 'px', '%', 'em' ),
+                'selectors'  => array(
+                    '{{WRAPPER}} .elementor-post__meta-data > span:hover' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+        );
+
+		$this->add_group_control(
+			Group_Control_Box_Shadow::get_type(),
+			array(
+				'name'     => 'meta_box_shadow_hover',
+				'label'    => esc_html__( 'Box Shadow', 'responsive-addons-for-elementor' ),
+				'selector' => '{{WRAPPER}} .elementor-post__meta-data > span:hover',
+			)
+        );
+
+		$this->add_group_control(
+            Group_Control_Text_Shadow::get_type(), [
+                'name'       => 'meta_shadow_hover',
+                'selector'   => '{{WRAPPER}} .elementor-post__meta-data > span:hover',
+            ]
+        );
+
+		$this->end_controls_tab();
+
+		$this->end_controls_tabs();
+
+		$this->end_controls_section();
+	}
+
 	/**
 	 * Function register_design_content_controls
 	 */
@@ -688,6 +1133,31 @@ abstract class RAEL_Skin_Base extends Elementor_Skin_Base {
 				'type'      => Controls_Manager::HEADING,
 				'condition' => array(
 					$this->get_control_id( 'show_title' ) => 'yes',
+				),
+			)
+		);
+
+		$this->add_control(
+			'title_alignment',
+			array(
+				'label'        => __( 'Alignment', 'responsive-addons-for-elementor' ),
+				'type'         => Controls_Manager::CHOOSE,
+				'options'      => array(
+					'left'   => array(
+						'title' => __( 'Left', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-left',
+					),
+					'center' => array(
+						'title' => __( 'Center', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-center',
+					),
+					'right'  => array(
+						'title' => __( 'Right', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-right',
+					),
+				),
+				'selectors'    => array(
+					'{{WRAPPER}} .elementor-post__title' => 'text-align: {{VALUE}};',
 				),
 			)
 		);
@@ -743,79 +1213,6 @@ abstract class RAEL_Skin_Base extends Elementor_Skin_Base {
 		);
 
 		$this->add_control(
-			'heading_meta_style',
-			array(
-				'label'     => __( 'Meta', 'responsive-addons-for-elementor' ),
-				'type'      => Controls_Manager::HEADING,
-				'separator' => 'before',
-				'condition' => array(
-					$this->get_control_id( 'meta_data!' ) => array(),
-				),
-			)
-		);
-
-		$this->add_control(
-			'meta_color',
-			array(
-				'label'     => __( 'Color', 'responsive-addons-for-elementor' ),
-				'type'      => Controls_Manager::COLOR,
-				'selectors' => array(
-					'{{WRAPPER}} .elementor-post__meta-data' => 'color: {{VALUE}};',
-				),
-				'condition' => array(
-					$this->get_control_id( 'meta_data!' ) => array(),
-				),
-			)
-		);
-
-		$this->add_control(
-			'meta_separator_color',
-			array(
-				'label'     => __( 'Separator Color', 'responsive-addons-for-elementor' ),
-				'type'      => Controls_Manager::COLOR,
-				'selectors' => array(
-					'{{WRAPPER}} .elementor-post__meta-data span:before' => 'color: {{VALUE}};',
-				),
-				'condition' => array(
-					$this->get_control_id( 'meta_data!' ) => array(),
-				),
-			)
-		);
-
-		$this->add_group_control(
-			Group_Control_Typography::get_type(),
-			array(
-				'name'      => 'meta_typography',
-				'global'    => array(
-					'default' => Global_Typography::TYPOGRAPHY_SECONDARY,
-				),
-				'selector'  => '{{WRAPPER}} .elementor-post__meta-data',
-				'condition' => array(
-					$this->get_control_id( 'meta_data!' ) => array(),
-				),
-			)
-		);
-
-		$this->add_control(
-			'meta_spacing',
-			array(
-				'label'     => __( 'Spacing', 'responsive-addons-for-elementor' ),
-				'type'      => Controls_Manager::SLIDER,
-				'range'     => array(
-					'px' => array(
-						'max' => 100,
-					),
-				),
-				'selectors' => array(
-					'{{WRAPPER}} .elementor-post__meta-data' => 'margin-bottom: {{SIZE}}{{UNIT}};',
-				),
-				'condition' => array(
-					$this->get_control_id( 'meta_data!' ) => array(),
-				),
-			)
-		);
-
-		$this->add_control(
 			'heading_excerpt_style',
 			array(
 				'label'     => __( 'Excerpt', 'responsive-addons-for-elementor' ),
@@ -823,6 +1220,31 @@ abstract class RAEL_Skin_Base extends Elementor_Skin_Base {
 				'separator' => 'before',
 				'condition' => array(
 					$this->get_control_id( 'show_excerpt' ) => 'yes',
+				),
+			)
+		);
+
+		$this->add_control(
+			'excerpt_alignment',
+			array(
+				'label'        => __( 'Alignment', 'responsive-addons-for-elementor' ),
+				'type'         => Controls_Manager::CHOOSE,
+				'options'      => array(
+					'left'   => array(
+						'title' => __( 'Left', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-left',
+					),
+					'center' => array(
+						'title' => __( 'Center', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-center',
+					),
+					'right'  => array(
+						'title' => __( 'Right', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-right',
+					),
+				),
+				'selectors'    => array(
+					'{{WRAPPER}} .elementor-post__excerpt' => 'text-align: {{VALUE}};',
 				),
 			)
 		);
@@ -882,6 +1304,31 @@ abstract class RAEL_Skin_Base extends Elementor_Skin_Base {
 				'separator' => 'before',
 				'condition' => array(
 					$this->get_control_id( 'show_read_more' ) => 'yes',
+				),
+			)
+		);
+
+		$this->add_control(
+			'readmore_alignment',
+			array(
+				'label'        => __( 'Alignment', 'responsive-addons-for-elementor' ),
+				'type'         => Controls_Manager::CHOOSE,
+				'options'      => array(
+					'left'   => array(
+						'title' => __( 'Left', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-left',
+					),
+					'center' => array(
+						'title' => __( 'Center', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-center',
+					),
+					'right'  => array(
+						'title' => __( 'Right', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-right',
+					),
+				),
+				'selectors'    => array(
+					'{{WRAPPER}} .elementor-post__read-more__container' => 'text-align: {{VALUE}};',
 				),
 			)
 		);
@@ -1633,31 +2080,37 @@ abstract class RAEL_Skin_Base extends Elementor_Skin_Base {
 	 * Function render_meta_data
 	 */
 	protected function render_meta_data() {
+
+		$is_meta_enabled = $this->get_instance_value( 'meta_enable' );
+		if ( 'yes' !== $is_meta_enabled ) {
+			return;
+		}
+
 		/**
 		 * The setting array
 		 *
 		 * @var array $settings e.g. [ 'author', 'date', ... ]
 		 */
-		$settings = $this->get_instance_value( 'meta_data' );
-		if ( empty( $settings ) ) {
+		$meta_settings = $this->get_instance_value( 'meta_data' );
+		if ( empty( $meta_settings ) ) {
 			return;
 		}
 		?>
 		<div class="elementor-post__meta-data">
 			<?php
-			if ( in_array( 'author', $settings, true ) ) {
+			if ( in_array( 'author', $meta_settings, true ) ) {
 				$this->render_author();
 			}
 
-			if ( in_array( 'date', $settings, true ) ) {
+			if ( in_array( 'date', $meta_settings, true ) ) {
 				$this->render_date();
 			}
 
-			if ( in_array( 'time', $settings, true ) ) {
+			if ( in_array( 'time', $meta_settings, true ) ) {
 				$this->render_time();
 			}
 
-			if ( in_array( 'comments', $settings, true ) ) {
+			if ( in_array( 'comments', $meta_settings, true ) ) {
 				$this->render_comments();
 			}
 			?>
@@ -1670,6 +2123,13 @@ abstract class RAEL_Skin_Base extends Elementor_Skin_Base {
 	protected function render_author() {
 		?>
 		<span class="elementor-post-author">
+			<?php
+			if ( 'yes' === $this->get_instance_value( 'meta_data_enable_author_image' ) ) {
+				?> <span class="rael_meta_data_author_image"><?php echo get_avatar( get_the_author_meta( "ID" )); ?></span> <?php
+			} else {
+				Icons_Manager::render_icon( $this->get_instance_value( 'meta_data_author_icons' ), [ 'aria-hidden' => 'true', 'class' => 'rael_meta_data_author_icon' ] );
+			}
+			?>
 			<?php the_author(); ?>
 		</span>
 		<?php
@@ -1680,6 +2140,7 @@ abstract class RAEL_Skin_Base extends Elementor_Skin_Base {
 	protected function render_date() {
 		?>
 		<span class="elementor-post-date">
+			<?php Icons_Manager::render_icon( $this->get_instance_value( 'meta_data_date_icons' ), [ 'aria-hidden' => 'true', 'class' => 'rael_meta_data_date_icon' ] ); ?>
 			<?php
 			/** This filter is documented in wp-includes/general-template.php */
 			echo esc_html( apply_filters( 'the_date', get_the_date(), get_option( 'date_format' ), '', '' ) );
@@ -1693,6 +2154,7 @@ abstract class RAEL_Skin_Base extends Elementor_Skin_Base {
 	protected function render_time() {
 		?>
 		<span class="elementor-post-time">
+			<?php Icons_Manager::render_icon( $this->get_instance_value( 'meta_data_time_icons' ), [ 'aria-hidden' => 'true', 'class' => 'rael_meta_data_time_icon' ] ); ?>
 			<?php the_time(); ?>
 		</span>
 		<?php
@@ -1703,6 +2165,7 @@ abstract class RAEL_Skin_Base extends Elementor_Skin_Base {
 	protected function render_comments() {
 		?>
 		<span class="elementor-post-avatar">
+			<?php Icons_Manager::render_icon( $this->get_instance_value( 'meta_data_comment_icons' ), [ 'aria-hidden' => 'true', 'class' => 'rael_meta_data_comment_icon' ] ); ?>
 			<?php comments_number(); ?>
 		</span>
 		<?php

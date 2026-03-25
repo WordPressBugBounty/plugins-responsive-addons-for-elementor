@@ -406,6 +406,32 @@ class Responsive_Addons_For_Elementor_Pricing_Table extends Widget_Base {
 			)
 		);
 
+		$this->add_control(
+			'ribbon_icon',
+			array(
+				'label' => __( 'Select Icon', 'responsive-addons-for-elementor' ),
+				'type'  => Controls_Manager::ICONS,
+				'separator' => 'before',
+			),
+		);
+
+		$this->add_control(
+			'ribbon_icon_position',
+			array(
+				'label'       => __( 'Icon Position', 'responsive-addons-for-elementor' ),
+				'type'        => Controls_Manager::SELECT,
+				'label_block' => false,
+				'options'     => array(
+					'before'  => __( 'Before Title', 'responsive-addons-for-elementor' ),
+					'after' => __( 'After Title', 'responsive-addons-for-elementor' ),
+				),
+				'default'     => 'before',
+				'condition'   => array(
+					'ribbon_icon[value]!' => '',
+				),
+			)
+		);
+
 		$this->end_controls_section();
 
 		$this->start_controls_section(
@@ -414,6 +440,37 @@ class Responsive_Addons_For_Elementor_Pricing_Table extends Widget_Base {
 				'label'      => __( 'Header', 'responsive-addons-for-elementor' ),
 				'tab'        => Controls_Manager::TAB_STYLE,
 				'show_label' => false,
+			)
+		);
+
+		$this->add_control(
+			'header_alignment',
+			array(
+				'label'                => __( 'Alignment', 'responsive-addons-for-elementor' ),
+				'type'                 => Controls_Manager::CHOOSE,
+				'options'              => array(
+					'left'   => array(
+						'title' => __( 'Left', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-left',
+					),
+					'center' => array(
+						'title' => __( 'Center', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-center',
+					),
+					'right'  => array(
+						'title' => __( 'Right', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-right',
+					),
+				),
+				'default'              => 'center',
+				'selectors_dictionary' => array(
+					'left'   => 'left',
+					'center' => 'center',
+					'right'  => 'right',
+				),
+				'selectors'            => array(
+					'{{WRAPPER}} .rael-price-table__header' => 'text-align: {{VALUE}}',
+				),
 			)
 		);
 
@@ -513,6 +570,37 @@ class Responsive_Addons_For_Elementor_Pricing_Table extends Widget_Base {
 				'label'      => __( 'Pricing', 'responsive-addons-for-elementor' ),
 				'tab'        => Controls_Manager::TAB_STYLE,
 				'show_label' => false,
+			)
+		);
+
+		$this->add_control(
+			'pricing_alignment',
+			array(
+				'label'     => esc_html__( 'Alignment', 'responsive-addons-for-elementor' ),
+				'type'      => Controls_Manager::CHOOSE,
+				'options'   => array(
+					'left' => array(
+						'title' => esc_html__( 'Left', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-left',
+					),
+					'center'     => array(
+						'title' => esc_html__( 'Center', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-center',
+					),
+					'right'   => array(
+						'title' => esc_html__( 'Right', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-right',
+					),
+				),
+				'default'   => 'center',
+				'selectors_dictionary' => array(
+					'left'   => 'left',
+					'center' => 'center',
+					'right'  => 'right',
+				),
+				'selectors' => array(
+					'{{WRAPPER}} .rael-price-table__price' => 'justify-content: {{VALUE}}; text-align: {{VALUE}};',
+				),
 			)
 		);
 
@@ -1071,6 +1159,37 @@ class Responsive_Addons_For_Elementor_Pricing_Table extends Widget_Base {
 		);
 
 		$this->add_control(
+			'footer_alignment',
+			array(
+				'label'                => __( 'Alignment', 'responsive-addons-for-elementor' ),
+				'type'                 => Controls_Manager::CHOOSE,
+				'options'              => array(
+					'left'   => array(
+						'title' => __( 'Left', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-left',
+					),
+					'center' => array(
+						'title' => __( 'Center', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-center',
+					),
+					'right'  => array(
+						'title' => __( 'Right', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-right',
+					),
+				),
+				'default'              => 'center',
+				'selectors_dictionary' => array(
+					'left'   => 'left',
+					'center' => 'center',
+					'right'  => 'right',
+				),
+				'selectors'            => array(
+					'{{WRAPPER}} .rael-price-table__footer' => 'text-align: {{VALUE}}',
+				),
+			)
+		);
+
+		$this->add_control(
 			'footer_bg_color',
 			array(
 				'label'     => __( 'Background Color', 'responsive-addons-for-elementor' ),
@@ -1407,6 +1526,90 @@ class Responsive_Addons_For_Elementor_Pricing_Table extends Widget_Base {
 			)
 		);
 
+		$this->add_control(
+			'ribbon_icon_color',
+			array(
+				'label'     => __( 'Icon Color', 'responsive-addons-for-elementor' ),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => '#fff',
+				'selectors' => array(
+					'{{WRAPPER}} .rael-price-table__ribbon-inner svg' => 'fill: {{VALUE}}',
+				),
+				'separator' => 'before',
+				'condition' => array(
+					'ribbon_icon[value]!' => '',
+				),
+			)
+		);
+
+		$this->add_control(
+			'ribbon_icon_bg_color',
+			array(
+				'label'     => __( 'Icon Background Color', 'responsive-addons-for-elementor' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .rael-price-table__ribbon-inner svg' => 'background-color: {{VALUE}}',
+				),
+				'condition' => array(
+					'ribbon_icon[value]!' => '',
+				),
+			)
+		);
+
+		$this->add_control(
+			'ribbon_icon_size',
+			array(
+				'label'     => __( 'Icon Size', 'responsive-addons-for-elementor' ),
+				'type'      => Controls_Manager::SLIDER,
+				'default'   => array(
+					'size' => 10,
+					'unit' => 'px',
+				),
+				'range'     => array(
+					'px' => array(
+						'min' => 0,
+						'max' => 100,
+					),
+				),
+				'selectors' => array(
+					'{{WRAPPER}} .rael-price-table__ribbon-inner svg' => 'width: {{SIZE}}{{UNIT}}',
+				),
+				'condition' => array(
+					'ribbon_icon[value]!' => '',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'ribbon_icon_margin',
+			array(
+				'label'      => __( 'Icon Margin', 'responsive-addons-for-elementor' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', '%', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .rael-price-table__ribbon-inner svg' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+				'condition' => array(
+					'ribbon_icon[value]!' => '',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'ribbon_icon_padding',
+			array(
+				'label'      => __( 'Icon Padding', 'responsive-addons-for-elementor' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', '%', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .rael-price-table__ribbon-inner svg' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+				'condition' => array(
+					'ribbon_icon[value]!' => '',
+				),
+			)
+		);
+
 		$this->end_controls_section();
 	}
 	/**
@@ -1616,7 +1819,19 @@ class Responsive_Addons_For_Elementor_Pricing_Table extends Widget_Base {
 
 			?>
 			<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'ribbon-wrapper' ) ); ?>>
-				<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'ribbon_title' ) ); ?>><?php echo wp_kses_post( $settings['ribbon_title'] ); ?></div>
+				<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'ribbon_title' ) ); ?>>
+					<?php
+					if ( ! empty( $settings['ribbon_icon']['value'] ) && ! empty( $settings['ribbon_icon_position'] ) && $settings['ribbon_icon_position'] === 'before' ) {
+						Icons_Manager::render_icon( $settings['ribbon_icon'], array( 'aria-hidden' => 'true' ) );
+					}
+					?>
+					<?php echo wp_kses_post( $settings['ribbon_title'] ); ?>
+					<?php
+					if ( ! empty( $settings['ribbon_icon']['value'] ) && ! empty( $settings['ribbon_icon_position'] ) && $settings['ribbon_icon_position'] === 'after' ) {
+						Icons_Manager::render_icon( $settings['ribbon_icon'], array( 'aria-hidden' => 'true' ) );
+					}
+					?>
+				</div>
 			</div>
 			<?php
 		endif;
@@ -1768,7 +1983,26 @@ class Responsive_Addons_For_Elementor_Pricing_Table extends Widget_Base {
 		ribbonClasses += ' elementor-ribbon-' + settings.ribbon_horizontal_position;
 		} #>
 		<div class="{{ ribbonClasses }}">
-			<div {{{ view.getRenderAttributeString( 'ribbon_title' ) }}}>{{ settings.ribbon_title }}</div>
+			<div {{{ view.getRenderAttributeString( 'ribbon_title' ) }}}>
+				<# 
+				if ( settings.ribbon_icon 
+					&& settings.ribbon_icon.value 
+					&& settings.ribbon_icon_position === 'before' ) { 
+				#>
+					
+					{{{ elementor.helpers.renderIcon( view, settings.ribbon_icon, { 'aria-hidden': true }, 'i' , 'object' ).value }}}
+				<# } #>
+
+				{{{ settings.ribbon_title }}}
+
+				<# 
+				if ( settings.ribbon_icon 
+					&& settings.ribbon_icon.value 
+					&& settings.ribbon_icon_position === 'after' ) { 
+				#>
+					{{{ elementor.helpers.renderIcon( view, settings.ribbon_icon, { 'aria-hidden': true }, 'i' , 'object' ).value }}}
+				<# } #>
+			</div>
 		</div>
 		<# } #>
 		<?php

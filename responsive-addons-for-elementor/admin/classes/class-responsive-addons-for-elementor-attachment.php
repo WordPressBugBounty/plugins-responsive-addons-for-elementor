@@ -129,6 +129,8 @@ if ( ! class_exists( 'Responsive_Addons_For_Elementor_Attachment' ) ) {
 			));
 
 			$category = '';
+			$content  = '';
+			$excerpt  = '';
 
 			foreach ($attachments as $att) {
 
@@ -138,6 +140,14 @@ if ( ! class_exists( 'Responsive_Addons_For_Elementor_Attachment' ) ) {
 				$att_name = preg_replace('/-\d+x\d+(?=\.)|-\d+(?=\.)/', '', basename($att_file));
 
 				if ($att_name === $filename) {
+
+					if ( $att->post_content ) {
+						$content = $att->post_content;
+					}
+
+					if ( $att->post_excerpt ) {
+						$excerpt = $att->post_excerpt;
+					}
 
 					$cat = get_post_meta($att->ID, 'rael-categories', true);
 
@@ -151,6 +161,23 @@ if ( ! class_exists( 'Responsive_Addons_For_Elementor_Attachment' ) ) {
 			if ($category) {
 				update_post_meta($post_id, 'rael-categories', $category);
 			}
+
+			$post_array = array(
+				'ID' => $post_id,
+			);
+
+			if ( $content ) {
+				$post_array['post_content'] = $content;
+			}
+
+			if ( $excerpt ) {
+				$post_array['post_excerpt'] = $excerpt;
+			}
+
+			if ( count( $post_array ) > 1 ) {
+				wp_update_post( $post_array );
+			}
+
 		}
 	}
 

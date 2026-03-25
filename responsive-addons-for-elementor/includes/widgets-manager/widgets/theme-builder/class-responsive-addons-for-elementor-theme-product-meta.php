@@ -60,6 +60,15 @@ class Responsive_Addons_For_Elementor_Theme_Product_Meta extends Woo_Widget_Base
 	}
 
 	/**
+	 * Get widget categories.
+	 *
+	 * @return array Widget categories.
+	 */
+	public function get_categories() {
+		return array( 'rae-single' );
+	}
+
+	/**
 	 * Get widget keywords.
 	 *
 	 * Retrieve widget keywords.

@@ -295,6 +295,48 @@ trait RAEL_Skin_Content_Base {
 		$editor       = Plugin::instance()->editor;
 		$is_edit_mode = $editor->is_edit_mode();
 
+		$allowed_tags = wp_kses_allowed_html( 'post' );
+
+		$svg_args = array(
+			'svg'	=> array(
+				'class'           => true,
+				'aria-hidden'     => true,
+				'aria-labelledby' => true,
+				'role'            => true,
+				'xmlns'           => true,
+				'width'           => true,
+				'height'          => true,
+				'viewbox'         => true,
+				'fill'            => true,
+				'stroke'          => true,
+				'stroke-width'    => true,
+				'stroke-linecap'  => true,
+				'stroke-linejoin' => true,
+				'focusable'       => true,
+			),
+			'g' 	=> array(
+				'fill' => true, 
+				'stroke' => true, 
+				'class' => true
+			),
+			'path'	=>array(
+				'd'      => true,
+				'fill'   => true,
+				'stroke' => true,
+				'stroke-width' => true,
+				'class' => true
+			),
+			'circle' => array(
+				'cx'     => true,
+				'cy'     => true,
+				'r'      => true,
+				'fill'   => true,
+				'stroke' => true,
+			),
+		);
+		
+		$allowed_tags = array_merge($allowed_tags, $svg_args);
+
 		if ( Plugin::instance()->preview->is_preview_mode( $post->ID ) ) {
 			$content = Plugin::instance()->preview->builder_wrapper( '' );
 		} else {
@@ -343,47 +385,6 @@ trait RAEL_Skin_Content_Base {
 				// Split to pages.
 				setup_postdata( $post );
 				
-				$allowed_tags = wp_kses_allowed_html( 'post' );
-
-				$svg_args = array(
-					'svg'	=> array(
-						'class'           => true,
-						'aria-hidden'     => true,
-						'aria-labelledby' => true,
-						'role'            => true,
-						'xmlns'           => true,
-						'width'           => true,
-						'height'          => true,
-						'viewbox'         => true,
-						'fill'            => true,
-						'stroke'          => true,
-						'stroke-width'    => true,
-						'stroke-linecap'  => true,
-						'stroke-linejoin' => true,
-						'focusable'       => true,
-					),
-					'g' 	=> array(
-						'fill' => true, 
-						'stroke' => true, 
-						'class' => true
-					),
-					'path'	=>array(
-						'd'      => true,
-						'fill'   => true,
-						'stroke' => true,
-						'stroke-width' => true,
-						'class' => true
-					),
-					'circle' => array(
-						'cx'     => true,
-						'cy'     => true,
-						'r'      => true,
-						'fill'   => true,
-						'stroke' => true,
-					),
-				);
-				
-				$allowed_tags = array_merge($allowed_tags, $svg_args);
 				/** This filter is documented in wp-includes/post-template.php */
 				$content = apply_filters( 'the_content', get_the_content() );
 				echo wp_kses( $content ,  $allowed_tags  );

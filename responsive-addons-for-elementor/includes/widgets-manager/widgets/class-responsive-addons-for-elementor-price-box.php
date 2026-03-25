@@ -1107,6 +1107,36 @@ class Responsive_Addons_For_Elementor_Price_Box extends Widget_Base {
 			)
 		);
 		$this->add_control(
+			'rael_header_alignment',
+			array(
+				'label'                => __( 'Alignment', 'responsive-addons-for-elementor' ),
+				'type'                 => Controls_Manager::CHOOSE,
+				'options'              => array(
+					'left'   => array(
+						'title' => __( 'Left', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-left',
+					),
+					'center' => array(
+						'title' => __( 'Center', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-center',
+					),
+					'right'  => array(
+						'title' => __( 'Right', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-right',
+					),
+				),
+				'default'              => 'center',
+				'selectors_dictionary' => array(
+					'left'   => 'left',
+					'center' => 'center',
+					'right'  => 'right',
+				),
+				'selectors'            => array(
+					'{{WRAPPER}} .rael-price-box-header' => 'text-align: {{VALUE}}',
+				),
+			)
+		);
+		$this->add_control(
 			'rael_header_bg_color',
 			array(
 				'label'     => __( 'Background Color', 'responsive-addons-for-elementor' ),
@@ -1473,6 +1503,37 @@ class Responsive_Addons_For_Elementor_Price_Box extends Widget_Base {
 				'label'      => __( 'Pricing', 'responsive-addons-for-elementor' ),
 				'tab'        => Controls_Manager::TAB_STYLE,
 				'show_label' => false,
+			)
+		);
+
+		$this->add_control(
+			'rael_pricing_alignment',
+			array(
+				'label'                => __( 'Alignment', 'responsive-addons-for-elementor' ),
+				'type'                 => Controls_Manager::CHOOSE,
+				'options'              => array(
+					'left'   => array(
+						'title' => __( 'Left', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-left',
+					),
+					'center' => array(
+						'title' => __( 'Center', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-center',
+					),
+					'right'  => array(
+						'title' => __( 'Right', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-right',
+					),
+				),
+				'default'              => 'center',
+				'selectors_dictionary' => array(
+					'left'   => 'left',
+					'center' => 'center',
+					'right'  => 'right',
+				),
+				'selectors'            => array(
+					'{{WRAPPER}} .rael-price-box__price-container' => 'justify-content: {{VALUE}}',
+				),
 			)
 		);
 
@@ -2459,6 +2520,37 @@ class Responsive_Addons_For_Elementor_Price_Box extends Widget_Base {
 				'label'      => __( 'Call To Action', 'responsive-addons-for-elementor' ),
 				'tab'        => Controls_Manager::TAB_STYLE,
 				'show_label' => false,
+			)
+		);
+
+		$this->add_control(
+			'rael_footer_alignment',
+			array(
+				'label'                => __( 'Alignment', 'responsive-addons-for-elementor' ),
+				'type'                 => Controls_Manager::CHOOSE,
+				'options'              => array(
+					'left'   => array(
+						'title' => __( 'Left', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-left',
+					),
+					'center' => array(
+						'title' => __( 'Center', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-center',
+					),
+					'right'  => array(
+						'title' => __( 'Right', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-right',
+					),
+				),
+				'default'              => 'center',
+				'selectors_dictionary' => array(
+					'left'   => 'left',
+					'center' => 'center',
+					'right'  => 'right',
+				),
+				'selectors'            => array(
+					'{{WRAPPER}} .rael-price-box__cta' => 'text-align: {{VALUE}}',
+				),
 			)
 		);
 

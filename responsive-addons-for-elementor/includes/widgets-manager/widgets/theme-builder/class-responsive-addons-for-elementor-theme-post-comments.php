@@ -55,7 +55,7 @@ class Responsive_Addons_For_Elementor_Theme_Post_Comments extends Widget_Base {
 	 * @return string Widget categories.
 	 */
 	public function get_categories() {
-		return array( 'responsive-addons-for-elementor' );
+		return array( 'rae-single' );
 	}
 
 	/**

@@ -90,6 +90,16 @@
   outline: thin dotted;
 }
 
+.rael-accordion-serial-number {
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.rtl .rael-accordion-serial-number {
+  margin-right: 0;
+  margin-left: 8px;
+}
+
 .rael-warning {
   margin: 10px 0 10px 0;
 }

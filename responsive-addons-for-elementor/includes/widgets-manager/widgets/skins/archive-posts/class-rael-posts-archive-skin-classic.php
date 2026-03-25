@@ -28,6 +28,7 @@ class RAEL_Posts_Archive_Skin_Classic extends RAEL_Skin_Classic {
 	protected function _register_controls_actions() {
 		add_action( 'elementor/element/rael-theme-archive-posts/section_layout/before_section_end', array( $this, 'register_controls' ) );
 		add_action( 'elementor/element/rael-theme-archive-posts/section_layout/after_section_end', array( $this, 'register_style_sections' ) );
+		add_action( 'elementor/element/rael-theme-archive-posts/section_layout/after_section_end', array( $this, 'register_meta_content_section' ) );
 	}
 	/**
 	 * Get post ID
@@ -68,7 +69,6 @@ class RAEL_Posts_Archive_Skin_Classic extends RAEL_Skin_Classic {
 		$this->register_thumbnail_controls();
 		$this->register_title_controls();
 		$this->register_excerpt_controls();
-		$this->register_meta_data_controls();
 		$this->register_read_more_controls();
 		$this->register_link_controls();
 		$this->register_data_position_controls();

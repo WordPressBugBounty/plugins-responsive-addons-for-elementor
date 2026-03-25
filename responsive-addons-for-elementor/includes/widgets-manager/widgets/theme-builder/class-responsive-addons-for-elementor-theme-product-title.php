@@ -63,7 +63,7 @@ class Responsive_Addons_For_Elementor_Theme_Product_Title extends Widget_Heading
 	 * @return array
 	 */
 	public function get_categories() {
-		return array( 'responsive-addons-for-elementor' );
+		return array( 'rae-single' );
 	}
 
 	/**

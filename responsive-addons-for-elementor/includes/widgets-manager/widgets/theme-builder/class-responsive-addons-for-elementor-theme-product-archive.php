@@ -58,9 +58,7 @@ class Responsive_Addons_For_Elementor_Theme_Product_Archive extends Responsive_A
 	 * @return string Widget icon.
 	 */
 	public function get_categories() {
-		return array(
-			'responsive-addons-for-elementor',
-		);
+		return array( 'rae-archive' );
 	}
 	/**
 	 * Get widget icon.

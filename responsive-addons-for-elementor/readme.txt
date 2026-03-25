@@ -7,7 +7,7 @@ Tested up to: 6.9
 Elementor tested up to: 3.35
 Elementor Pro tested up to: 3.35
 Requires PHP: 5.6
-Stable tag: 2.1.4
+Stable tag: 2.1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -279,6 +279,19 @@ If you like Responsive Addons for Elementor, consider checking out our other Wor
 The Development Version of the Responsive Addons for Elementor plugin is located at [https://github.com/cyberchimps/responsive-addons-for-elementor](https://github.com/cyberchimps/responsive-addons-for-elementor)
 
 == Changelog ==
+
+= 2.1.5 – 25th March 2026 =
+- New: RAE Testimonial Slider Widget: Marquee Feature – Introduced a Marquee mode with configurable settings to enable continuous scrolling of testimonials.
+- Improvement: RAE FAQ Widget – Renamed "FAQ" to "Accordion/FAQ", added per-item toggle control to keep slides open, introduced "Show Serial Number" option under Layout, added dedicated Active state styling, and enabled gradient background support across all title states.
+- Improvement: Elementor Panel Organization – Structured RAE widgets into dedicated panels including "RAE Archive" for archive widgets and “RAE Single” for singular post widgets to improve discoverability and workflow.
+- Improvement: Stacking Cards Widget Enhancements – Added image size controls for custom width adjustments, introduced spacing controls (margin/padding) for title and description, applied conditional settings to reduce unnecessary options for non-default presets, and added background overlay controls with color and opacity options.
+- Improvement: Price Box Widget – Added alignment controls for all individual elements to provide better layout flexibility.
+- Improvement: Pricing Table Widget Enhancements – Added alignment options for icon and heading, enabled icon upload for Ribbon in content settings, and introduced styling controls for Ribbon including icon color, size, padding, and background color.
+- Improvement: RAE Posts Widget – Added alignment options for title, excerpt, metadata, and the read more button, along with enhanced metadata settings for improved customization flexibility.
+- Fix: RAE Products Widget – Resolved issues with image size settings not applying correctly and rating stars not being visible.
+- Fix: RAE Image Gallery Widget – Resolved an issue where captions and descriptions were not displayed after importing Responsive Starter Templates.
+- Fix: RAE FAQ Widget – Resolved an issue where arrow icons were not displayed after importing Responsive Starter Templates.
+- Fix: RAE Animations Extension – Resolved an issue where a horizontal scrollbar appeared when using "Elementor Full Width" or "Elementor Canvas" page layouts.
 
 = 2.1.4 – 12th March 2026 =
 - Improvement: RAE Banner Widget – Removed duplicate border controls from the General and Container tabs to avoid redundant settings.

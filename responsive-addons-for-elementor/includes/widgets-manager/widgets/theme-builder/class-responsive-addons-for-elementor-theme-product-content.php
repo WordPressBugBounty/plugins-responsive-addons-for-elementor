@@ -51,7 +51,7 @@ class Responsive_Addons_For_Elementor_Theme_Product_Content extends Responsive_A
 	 * @access public
 	 */
 	public function get_categories() {
-		return array( 'responsive-addons-for-elementor' );
+		return array( 'rae-single' );
 	}
 
 	/**

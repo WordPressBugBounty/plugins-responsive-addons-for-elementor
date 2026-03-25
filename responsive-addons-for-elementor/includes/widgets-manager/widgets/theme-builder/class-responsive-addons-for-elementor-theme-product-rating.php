@@ -56,6 +56,15 @@ class Responsive_Addons_For_Elementor_Theme_Product_Rating extends Woo_Widget_Ba
 	}
 
 	/**
+	 * Get widget categories.
+	 *
+	 * @return array Widget categories.
+	 */
+	public function get_categories() {
+		return array( 'rae-single' );
+	}
+
+	/**
 	 * Get widget keywords.
 	 *
 	 * Retrieve widget keywords.

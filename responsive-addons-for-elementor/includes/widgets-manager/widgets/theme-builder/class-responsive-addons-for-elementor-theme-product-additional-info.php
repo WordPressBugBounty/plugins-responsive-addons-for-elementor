@@ -41,7 +41,16 @@ class Responsive_Addons_For_Elementor_Theme_Product_Additional_Info extends Woo_
 	}
 
 	/**
-	 * Get widget categories
+	 * Get widget categories.
+	 *
+	 * @return array Widget categories.
+	 */
+	public function get_categories() {
+		return array( 'rae-single' );
+	}
+
+	/**
+	 * Get widget keywords.
 	 */
 	public function get_keywords() {
 		return array( 'rael', 'woocommerce', 'shop', 'store', 'product', 'info', 'additional', 'custom' );

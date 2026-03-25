@@ -383,13 +383,30 @@ class Responsive_Addons_For_Elementor_Widgets_Manager {
 	 * @return mixed
 	 */
 	public function register_responsive_widget_category( $elements_manager ) {
-		$category = __( 'Responsive Addons for Elementor', 'responsive-addons-for-elementor' );
-
+		// Main category
 		$elements_manager->add_category(
 			'responsive-addons-for-elementor',
 			array(
-				'title' => $category,
+				'title' => __( 'Responsive Addons for Elementor', 'responsive-addons-for-elementor' ),
 				'icon'  => 'eicon-font',
+			)
+		);
+
+		// Archive category
+		$elements_manager->add_category(
+			'rae-archive',
+			array(
+				'title' => __( 'RAE Archive', 'responsive-addons-for-elementor' ),
+				'icon'  => 'eicon-archive',
+			)
+		);
+
+		// Single category
+		$elements_manager->add_category(
+			'rae-single',
+			array(
+				'title' => __( 'RAE Single', 'responsive-addons-for-elementor' ),
+				'icon'  => 'eicon-single-post',
 			)
 		);
 

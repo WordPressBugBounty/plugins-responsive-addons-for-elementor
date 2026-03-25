@@ -61,7 +61,7 @@ if ( 'rael_product_simple' === $grid_style_preset || 'rael_product_reveal' === $
 			}
 			?>
 			<?php
-			echo wp_kses_post( $product->get_image( 'woocommerce_thumbnail', array( 'loading' => 'eager' ) ) );
+			echo wp_kses_post( $product->get_image( $settings['rael_products_image_size_size'], array( 'loading' => 'eager' ) ) );
 			if ( $should_print_image_clickable ) {
 				echo '</a>';
 			}
@@ -115,7 +115,7 @@ if ( 'rael_product_simple' === $grid_style_preset || 'rael_product_reveal' === $
 			if ( $should_print_image_clickable ) {
 				echo '<a href="' . esc_url( $product->get_permalink() ) . '" class="woocommerce-LoopProduct-link woocommerce-loop-product__link">';
 			}
-			echo wp_kses_post( $product->get_image( 'woocommerce_thumbnail', array( 'loading' => 'eager' ) ) );
+			echo wp_kses_post( $product->get_image( $settings['rael_products_image_size_size'], array( 'loading' => 'eager' ) ) );
 			if ( $should_print_image_clickable ) {
 				echo '</a>';
 			}

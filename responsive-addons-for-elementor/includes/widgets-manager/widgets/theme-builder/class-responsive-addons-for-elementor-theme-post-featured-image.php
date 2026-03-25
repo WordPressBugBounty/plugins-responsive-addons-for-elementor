@@ -54,7 +54,7 @@ class Responsive_Addons_For_Elementor_Theme_Post_Featured_Image extends Elemento
 	 * @return array Widget categories.
 	 */
 	public function get_categories() {
-		return array( 'responsive-addons-for-elementor' );
+		return array( 'rae-single' );
 	}
 
 	/**

@@ -64,7 +64,25 @@
   font-size: 12px;
   margin-bottom: 13px;
   color: #adadad; }
-
+.responsive-posts .elementor-post__meta-data > 
+:is(.elementor-post-author,
+    .elementor-post-date,
+    .elementor-post-time,
+    .elementor-post-avatar) {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  vertical-align: middle;
+}
+.responsive-posts .elementor-post__meta-data > 
+:is(.elementor-post-author,
+    .elementor-post-date,
+    .elementor-post-time,
+    .elementor-post-avatar) > svg,
+.responsive-posts .elementor-post__meta-data > .elementor-post-author > .rael_meta_data_author_image > img {
+  width: 12px;
+  height: 12px;
+}
 .responsive-posts .elementor-post__read-more {
   font-size: 12px;
   font-weight: bold; }

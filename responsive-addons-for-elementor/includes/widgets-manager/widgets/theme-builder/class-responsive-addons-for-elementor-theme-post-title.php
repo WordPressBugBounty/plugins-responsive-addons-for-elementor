@@ -42,7 +42,7 @@ class Responsive_Addons_For_Elementor_Theme_Post_Title extends Base {
 	 * Get widget categories
 	 */
 	public function get_categories() {
-		return array( 'responsive-addons-for-elementor' );
+		return array( 'rae-single' );
 	}
 
 	/**

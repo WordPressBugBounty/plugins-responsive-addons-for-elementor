@@ -61,7 +61,7 @@ class Responsive_Addons_For_Elementor_Theme_Author_Box extends Widget_Base {
 	 * @return array Widget categories.
 	 */
 	public function get_categories() {
-		return array( 'responsive-addons-for-elementor' );
+		return array( 'rae-single' );
 	}
 
 	/**

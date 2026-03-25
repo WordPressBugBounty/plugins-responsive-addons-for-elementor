@@ -52,7 +52,7 @@ class Responsive_Addons_For_Elementor_Theme_Archive_Title extends Base {
 	 * @return array Widget categories.
 	 */
 	public function get_categories() {
-		return array( 'responsive-addons-for-elementor' );
+		return array( 'rae-archive' );
 	}
 
 	/**
