@@ -2650,6 +2650,8 @@ class Responsive_Addons_For_Elementor_Price_Box extends Widget_Base {
 				'selectors' => array(
 					'{{WRAPPER}} .rael-price-box__cta .rael-button-container i'   => 'font-size: {{SIZE}}{{UNIT}};',
 					'{{WRAPPER}} .rael-price-box__cta .rael-button-container svg' => 'height: {{SIZE}}{{UNIT}}; width: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .rael-price-box__cta .rael-price-box__cta-link i' => 'font-size: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .rael-price-box__cta .rael-price-box__cta-link svg' => 'height: {{SIZE}}{{UNIT}}; width: {{SIZE}}{{UNIT}};',
 				),
 			)
 		);

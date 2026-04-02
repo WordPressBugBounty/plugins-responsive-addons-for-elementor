@@ -138,6 +138,10 @@
 .rael-price-box--layout-2 .rael-price-box__cta {
   padding: 30px 20px; }
 
+.rael-price-box__cta .rael-price-box__cta-link svg {
+  vertical-align: top;
+}
+
 .rael-price-box--layout-2 .rael-pricing-value {
   font-size: 50px; }
 

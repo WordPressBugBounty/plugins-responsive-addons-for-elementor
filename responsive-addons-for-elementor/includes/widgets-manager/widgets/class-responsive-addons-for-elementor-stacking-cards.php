@@ -2177,12 +2177,57 @@ class Responsive_Addons_For_Elementor_Stacking_Cards extends Widget_Base
 
 		else  if ( $item['content_type'] === 'template' && ! empty( $item['item_template'] ) ) {
 
+			//Enqueue social icons css if not present
+			if ( class_exists( '\Elementor\Plugin' ) ) {
+				wp_enqueue_style( 'widget-social-icons' );
+				wp_enqueue_style( 'e-apple-webkit' );
+			}
+
 			$template_html = \Elementor\Plugin::$instance
 				->frontend
-				->get_builder_content_for_display( $item['item_template'] );
+				->get_builder_content_for_display( $item['item_template'], true );
+
+			// Allow SVG elements in template output
+			$kses_defaults = wp_kses_allowed_html( 'post' );
+
+			$svg_args = array(
+				'svg'   => array(
+					'class'           => true,
+					'aria-hidden'     => true,
+					'aria-labelledby' => true,
+					'role'            => true,
+					'xmlns'           => true,
+					'width'           => true,
+					'height'          => true,
+					'viewbox'         => true, 
+				),
+				'g'     => array( 'fill' => true ),
+				'title' => array( 'title' => true ),
+				'path'  => array( 
+					'd'               => true, 
+					'fill'            => true  
+				)
+			);
+
+			$style_args = array(
+				'style' => array(
+					'type'  => true,
+					'media' => true,
+					'id'    => true,
+				),
+				'link'  => array(
+					'rel'   => true,
+					'id'    => true,
+					'href'  => true,
+					'type'  => true,
+					'media' => true,
+				),
+			);
+
+			$allowed_tags = array_merge( $kses_defaults, $svg_args, $style_args );
 
 			echo '<div class="rael-card-template">';
-			echo wp_kses_post( $template_html ); // SAFE, rendered by Elementor
+			echo wp_kses( $template_html, $allowed_tags );
 			echo '</div>';
 		}
 		else{

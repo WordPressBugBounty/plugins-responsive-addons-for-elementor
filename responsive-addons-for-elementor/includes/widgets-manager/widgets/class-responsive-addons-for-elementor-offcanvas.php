@@ -1548,20 +1548,35 @@ class Responsive_Addons_For_Elementor_Offcanvas extends Widget_Base {
 				<?php $this->render_close_button(); ?>
 					<div class="rael-offcanvas-body">
 						<?php
-						if ( 'sidebar' == $settings['rael_offcanvas_content_type'] ) :
-							$this->render_sidebar();
-							elseif ( 'content' == $settings['rael_offcanvas_content_type'] ) :
+						$content_type = $settings['rael_offcanvas_content_type'];
+
+						$builder_content_map = array(
+							'saved_section'        => 'rael_off_saved_section',
+							'saved_page_templates' => 'rael_off_page_templates',
+							'saved_modules'        => 'rael_off_saved_modules',
+						);
+
+						switch ( $content_type ) {
+							case 'sidebar':
+								$this->render_sidebar();
+								break;
+							case 'content':
 								$this->render_custom_content();
-							elseif ( 'menu' == $settings['rael_offcanvas_content_type'] ) :
+								break;
+							case 'menu':
 								$this->render_nav_menu();
-							elseif ( 'saved_section' == $settings['rael_offcanvas_content_type'] && ! empty( $settings['rael_off_saved_section'] ) ) :
-								echo esc_html( \Elementor\Plugin::$instance->frontend->get_builder_content_for_display( $settings['rael_off_saved_section'] ) );
-							elseif ( 'saved_page_templates' == $settings['rael_offcanvas_content_type'] && ! empty( $settings['rael_off_page_templates'] ) ) :
-								echo esc_html( \Elementor\Plugin::$instance->frontend->get_builder_content_for_display( $settings['rael_off_page_templates'] ) );
-							elseif ( 'saved_modules' == $settings['rael_offcanvas_content_type'] && ! empty( $settings['rael_off_saved_modules'] ) ) :
-								echo esc_html( \Elementor\Plugin::$instance->frontend->get_builder_content_for_display( $settings['rael_off_saved_modules'] ) );
-							endif;
-							?>
+								break;
+							default:
+								if ( isset( $builder_content_map[ $content_type ] ) ) {
+									$setting_key = $builder_content_map[ $content_type ];
+									if ( ! empty( $settings[ $setting_key ] ) ) {
+										// `get_builder_content_for_display` is an Elementor function that handles its own sanitization internally.
+										// See `frontend.php` in Elementor's plugin for reference.
+										echo \Elementor\Plugin::$instance->frontend->get_builder_content_for_display( $settings[ $setting_key ] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped.
+									}
+								}
+						}
+						?>
 			</div>
 		</div>
 		<?php

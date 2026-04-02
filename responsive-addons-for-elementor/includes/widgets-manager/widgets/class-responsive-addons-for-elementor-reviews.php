@@ -1274,7 +1274,7 @@ $this->add_control(
 			echo '</div>';
 		} elseif ( 'star_unicode' === $settings['star_style'] ) {
 			$icon = ( 'outline' === $settings['unmarked_star_style'] ) ? '&#9734;' : '&#9733;';
-					
+			$stars_html = '';
 			for ( $stars = 1; $stars <= 5; $stars++ ) {
 				$rating_unicode        = (float) $slide['rating'] > 5 ? 5 : $slide['rating'];
 				$floored_rating_unicode = (int) $rating_unicode;
@@ -1287,7 +1287,7 @@ $this->add_control(
 					$stars_html .= '<i class="elementor-star-empty">' . $icon . '</i>';
 				}
 		}
-			echo '<div class="elementor-star-rating">' . esc_html( $stars_html ) . '</div>';
+			echo '<div class="elementor-star-rating">' . wp_kses_post( $stars_html ) . '</div>';
 
 		}
 			

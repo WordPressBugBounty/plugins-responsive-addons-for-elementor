@@ -7,7 +7,7 @@ Tested up to: 6.9
 Elementor tested up to: 3.35
 Elementor Pro tested up to: 3.35
 Requires PHP: 5.6
-Stable tag: 2.1.5
+Stable tag: 2.1.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -279,6 +279,12 @@ If you like Responsive Addons for Elementor, consider checking out our other Wor
 The Development Version of the Responsive Addons for Elementor plugin is located at [https://github.com/cyberchimps/responsive-addons-for-elementor](https://github.com/cyberchimps/responsive-addons-for-elementor)
 
 == Changelog ==
+
+= 2.1.6 – 2nd April 2026 =
+- Fix: RAE OffCanvas: Resolved an issue where the layout broke when the content type was set to Saved Sections.
+- Fix: RAE Reviews: Fixed an issue where rating stars were not displaying correctly.
+- Fix: RAE Price Box: Added an icon size control for the Call to Action when the CTA type is set to Text.
+- Fix: RAE Stacking Cards: Fixed an issue where icons were not visible when the item content type was set to Template.
 
 = 2.1.5 – 25th March 2026 =
 - New: RAE Testimonial Slider Widget: Marquee Feature – Introduced a Marquee mode with configurable settings to enable continuous scrolling of testimonials.
