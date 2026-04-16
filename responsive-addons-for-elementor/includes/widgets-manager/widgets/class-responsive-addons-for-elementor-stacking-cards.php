@@ -515,7 +515,7 @@ class Responsive_Addons_For_Elementor_Stacking_Cards extends Widget_Base
 					 array(
                 'item_title'    => __('Creative Approaches','responsive-addons-for-elementor'),
                 'item_desc'     => __('Harness pioneering technologies that redefine business operations and drive unprecedented productivity.','responsive-addons-for-elementor'),
-                'item_image'    => array( 'url' => RAEL_ASSETS_URL . 'images/stacking-cards/card1.png'),
+                'item_image'    => array( 'url' => RAEL_ASSETS_URL . 'images/stacking-cards/card1.jpg'),
                 'graphic_icon' => array('value' => 'fas fa-lightbulb', 'library' => 'fa-solid'),
             ),
             array(

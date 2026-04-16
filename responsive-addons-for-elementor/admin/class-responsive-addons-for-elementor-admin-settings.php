@@ -52,7 +52,7 @@ class Responsive_Addons_For_Elementor_Admin_Settings {
 	 * @since    1.0.0
 	 */
 	public function __construct() {
-		add_action( 'wp_ajax_' . self::OPTION_NAME_API_KEY . '_validate', array( $this, 'ajax_validate_api_token' ) );
+		add_action( 'wp_ajax_rael_mailchimp_settings_api_key_validate', array( $this, 'ajax_validate_api_token' ) );
 		add_action( 'wp_ajax_rael_save_api_key_settings', array( $this, 'save_rael_api_settings' ) );
 		add_action( 'wp_ajax_responsive-elementor-api-key-activate', array( $this, 'responsive_elementor_api_key_activate' ) );
 		add_action( 'wp_ajax_responsive-elementor-api-key-deactivate', array( $this, 'responsive_elementor_api_key_deactivate' ) );
@@ -64,7 +64,16 @@ class Responsive_Addons_For_Elementor_Admin_Settings {
 	 * @throws \Exception Invalid API Key.
 	 */
 	public function ajax_validate_api_token() {
-		check_ajax_referer( self::OPTION_NAME_API_KEY, '_nonce' );
+		check_ajax_referer( 'responsive-addons-for-elementor', '_nonce' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error(
+				array(
+					'message' => esc_html__( 'Unauthorized', 'responsive-addons-for-elementor' ),
+				)
+			);
+		}
+
 		if ( ! isset( $_POST['api_key'] ) ) {
 			wp_send_json_error();
 		}
@@ -99,7 +108,16 @@ class Responsive_Addons_For_Elementor_Admin_Settings {
 	 * @since    1.9.2
 	 */
 	public function save_rael_api_settings() {
-		check_ajax_referer( 'rael_save_api_key_settings', 'nonce' );
+		check_ajax_referer( 'responsive-addons-for-elementor', 'nonce' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error(
+				array(
+					'message' => esc_html__( 'Unauthorized', 'responsive-addons-for-elementor' ),
+				)
+			);
+		}
+
 		$mailchimp_api_key      = isset( $_POST['mailchimpAPIKey'] ) ? sanitize_text_field( wp_unslash( $_POST['mailchimpAPIKey'] ) ) : '';
 		$gmap_api_key           = isset( $_POST['gmapAPIKey'] ) ? sanitize_text_field( wp_unslash( $_POST['gmapAPIKey'] ) ) : '';
 		$gmap_localization_lang = isset( $_POST['gmapLocalizationLang'] ) ? sanitize_text_field( wp_unslash( $_POST['gmapLocalizationLang'] ) ) : '';

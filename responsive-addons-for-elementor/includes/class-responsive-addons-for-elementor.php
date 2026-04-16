@@ -147,7 +147,6 @@ class Responsive_Addons_For_Elementor {
 
 
 		add_action( 'wp_ajax_rael_save_duplicator_settings', array( $this, 'rael_save_duplicator_settings' ) );
-		add_action( 'wp_ajax_nopriv_rael_save_duplicator_settings', array( $this, 'rael_save_duplicator_settings' ) );
 
 		// RST icon in editor
 		//add_action( 'elementor/editor/after_enqueue_styles', array( $this, 'rael_editor_promo_styles' ) );
@@ -1542,42 +1541,96 @@ private function rael_find_element_recursive($elements, $widget_id) {
 			return;
 		}
 		// Registering Bootstrap scripts.
-		wp_enqueue_script( 'rael-frontend', RAEL_URL . 'admin/assets/lib/bootstrap/js/bootstrap.bundle.min.js', array( 'jquery' ), RAEL_VER, true );
-		wp_enqueue_script( 'rael-frontend-toastify', RAEL_URL . 'admin/assets/lib/toastify/js/toastify-js.js', array( 'jquery' ), RAEL_VER, true );
+		wp_enqueue_style( 'rael-admin-toastify', RAEL_URL . 'admin/assets/lib/toastify/css/toastify.min.css', false, RAEL_VER );
+		wp_enqueue_script( 'rael-admin-toastify', RAEL_URL . 'admin/assets/lib/toastify/js/toastify-js.js', array( 'jquery' ), RAEL_VER, true );
 
 		// Responsive Ready Sites admin styles.
-		wp_register_style( 'responsive-addons-for-elementor-admin', RAEL_URL . 'admin/css/rael-admin.css', false, RAEL_VER );
+		wp_register_style( 'responsive-addons-for-elementor-admin', RAEL_URL . 'admin/css/rael-dashboard.css', false, RAEL_VER );
 		wp_enqueue_style( 'responsive-addons-for-elementor-admin' );
 		wp_enqueue_script(
 			'responsive-addons-for-elementor-admin-jsfile',
-			RAEL_URL . 'admin/js/rael-admin.js',
-			array( 'jquery' ),
+			RAEL_URL . 'admin/js/dashboard/index.js',
+			array( 'jquery', 'react', 'react-dom', 'wp-components' ),
 			RAEL_VER,
 			true
+		);
+
+		wp_enqueue_style( 'wp-components' );
+
+		wp_enqueue_script( 'updates' );
+
+		$rst_path = 'responsive-add-ons/responsive-add-ons.php';
+
+		$rst_nonce = add_query_arg(
+			array(
+				'action'        => 'activate',
+				'plugin'        => rawurlencode( $rst_path ),
+				'plugin_status' => 'all',
+				'paged'         => '1',
+				'_wpnonce'      => wp_create_nonce( 'activate-plugin_' . $rst_path ),
+			),
+			network_admin_url( 'plugins.php' )
+		);
+
+		$rbea_path = 'responsive-block-editor-addons/responsive-block-editor-addons.php';
+
+		$rbea_nonce = add_query_arg(
+			array(
+				'action'        => 'activate',
+				'plugin'        => rawurlencode( $rbea_path ),
+				'plugin_status' => 'all',
+				'paged'         => '1',
+				'_wpnonce'      => wp_create_nonce( 'activate-plugin_' . $rbea_path ),
+			),
+			network_admin_url( 'plugins.php' )
+		);
+
+		$theme_slug = 'responsive';
+
+		$responsive_nonce = add_query_arg(
+			array(
+				'action'   => 'activate',
+				'stylesheet' => rawurlencode( $theme_slug ),
+				'_wpnonce' => wp_create_nonce( 'switch-theme_' . $theme_slug ),
+			),
+			admin_url( 'themes.php' )
 		);
 
 		wp_localize_script(
 			'responsive-addons-for-elementor-admin-jsfile',
 			'localize',
 			array(
-				'ajaxurl'        => admin_url( 'admin-ajax.php' ),
-				'raelurl'        => RAEL_URL,
-				'siteurl'        => site_url(),
-				'isRSTActivated' => is_plugin_active( 'responsive-add-ons/responsive-add-ons.php' ),
-				'nonce'          => wp_create_nonce( 'responsive-addons-for-elementor' ),
-			)
-		);
-		
-		
-		wp_localize_script(
-        	'responsive-addons-for-elementor-admin-jsfile',
-			'raelDuplicator',
-			array(
-				'ajaxurl'	=> admin_url( 'admin-ajax.php' ),
-				'nonce' 	=> wp_create_nonce('rael_save_dup_settings'),
+				'ajaxurl'               => admin_url( 'admin-ajax.php' ),
+				'raelurl'               => RAEL_URL,
+				'siteurl'               => site_url(),
+				'themebuilderurl'       => admin_url( 'edit.php?post_type=rael-theme-template' ),
+				'isRSTActivated'        => is_plugin_active( $rst_path ),
+				'nonce'                 => wp_create_nonce( 'responsive-addons-for-elementor' ),
+				'rael_version'          => RAEL_VER,
+				'pageurl'               => admin_url( 'post-new.php?post_type=page' ),
+				'rael_widgets'          => get_option( 'rael_widgets' ),
+				'rst_status'            => $this->rael_plugin_status( $rst_path ),
+				'rbea_status'           => $this->rael_plugin_status( $rbea_path ),
+				'responsive_status'     => $this->rael_get_responsive_theme_status(),
+				'rst_nonce'             => $rst_nonce,
+				'rbea_nonce'            => $rbea_nonce,
+				'responsive_nonce'      => $responsive_nonce,
+				'rst_redirect'          => admin_url( 'admin.php?page=responsive_add_ons' ),
+				'rae_redirect'          => admin_url( 'admin.php?page=rael_getting_started' ),
+				'responsive_redirect'   => admin_url( 'admin.php?page=responsive' ),
+				'review_link'           => esc_url( 'https://wordpress.org/support/plugin/responsive-addons-for-elementor/reviews/#new-post' ),
+				'selected_posttype'     => get_option( 'rael_duplicator_allowed_post_types', array( 'all' ) ),
+				'all_cpts'              => $this->rael_get_all_cpts(),
+				'mailchimp_api_key'     => get_option( 'rael_mailchimp_settings_api_key', '' ),
+				'google_map_api_key'    => get_option( 'rael_google_map_settings_api_key', '' ),
+				'google_map_language'   => get_option( 'rael_google_map_settings_localization_language', '' ),
+				'google_map_local_lang' => $this->rael_google_map_local_lang(),
+				'recaptcha_site_key'    => get_option( 'rael_login_reg_setting_site_key', '' ),
+				'recaptcha_secret_key'  => get_option( 'rael_login_reg_setting_secret_key', '' ),
 			)
 		);
 
+		add_filter( 'admin_footer_text', '__return_false' );
 		wp_enqueue_script( 'rael-rst-admin', RAEL_URL . '/admin/js/rael-rst-plugin-install.js', array( 'jquery' ), true, RAEL_VER );
 		wp_enqueue_script( 'updates' );
 		wp_localize_script(
@@ -1674,7 +1727,7 @@ private function rael_find_element_recursive($elements, $widget_id) {
 		if ( ! class_exists( 'Elementor\Plugin' ) ) {
 			$this->admin_notice_missing_main_plugin();
 		}
-		include_once RAEL_DIR . 'admin/partials/responsive-addons-for-elementor-admin-getting-started.php';
+		echo '<div id="rael-getting-started-page-app"></div>';
 	}
 
 	/**
@@ -1741,28 +1794,40 @@ private function rael_find_element_recursive($elements, $widget_id) {
 
 		check_ajax_referer( 'responsive-addons-for-elementor', '_nonce' );
 
-		$rael_widgets = get_option( 'rael_widgets' );
-
-		if ( isset( $_POST['toggle_value'] ) ) {
-			$status = filter_var( wp_unslash( $_POST['toggle_value'] ), FILTER_VALIDATE_BOOLEAN ) ? 1 : 0;
-			foreach ( $rael_widgets as &$widget ) {
-				$widget['status'] = $status;
-			}
-		} else {
-
-			if ( ! isset( $_POST['index'] ) || ! isset( $_POST['value'] ) ) {
-				wp_send_json_error();
-			}
-
-			$index = sanitize_key( $_POST['index'] );
-			$value = sanitize_key( $_POST['value'] );
-
-			$rael_widgets[ $index ]['status'] = filter_var( $value, FILTER_VALIDATE_BOOLEAN );
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error(
+				array(
+					'message' => esc_html__( 'Unauthorized', 'responsive-addons-for-elementor' ),
+				)
+			);	
 		}
+
+		// Pre-sanitizing the response using a custom function to ensure all values are cleaned.
+		// PHPCS incorrectly flags this as unsanitized, so the warning is suppressed.
+		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$rael_widgets = $this->recursive_sanitize_text_field( json_decode( stripslashes( wp_unslash( $_POST['value'] ) ), true ) );
+		// phpcs:enable
 
 		update_option( 'rael_widgets', $rael_widgets );
 
 		$this->update_frontend_assets( $rael_widgets );
+	}
+
+	/**
+	 * Recursively sanitize the response fields from $_POST.
+	 *
+	 * @return mixed
+	 */
+	public function recursive_sanitize_text_field($array) {
+		foreach ( $array as $key => &$value ) {
+			if ( is_array( $value ) ) {
+				$value = $this->recursive_sanitize_text_field($value);
+			}
+			else {
+				$value = sanitize_text_field( wp_unslash( $value ) );
+			}
+		}
+		return $array;
 	}
 
 	/**
@@ -2707,7 +2772,15 @@ private function rael_find_element_recursive($elements, $widget_id) {
 	}
 
 	public function rael_save_duplicator_settings() {
-		check_ajax_referer( 'rael_save_dup_settings', 'nonce' );
+		check_ajax_referer( 'responsive-addons-for-elementor', '_nonce' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error(
+				array(
+					'message' => esc_html__( 'Unauthorized', 'responsive-addons-for-elementor' ),
+				)
+			);	
+		}
 
 		// Get selected post types from JS
 		$post_types = isset($_POST['post_types']) ? (array) $_POST['post_types'] : array();
@@ -2863,6 +2936,172 @@ private function rael_find_element_recursive($elements, $widget_id) {
 		wp_send_json_success([
 			'message' => __( 'RST Plugin Activated', 'responsive-addons-for-elementor' ),
 		]);
+	}
+
+	/**
+	 * Check if plugin is installed or activated.
+	 *
+	 * @return string
+	 */
+	public function rael_plugin_status( $path ) {
+
+		if ( is_plugin_active( $path ) ) {
+			return 'activated';
+		}
+
+		// Check if RST is installed.
+		$installed_plugins = get_plugins();
+
+		if ( isset( $installed_plugins[ $path ] ) ) {
+			return 'activate';
+		} else {
+			return 'install';
+		}
+	}
+
+	/**
+	 * Get responsive theme status.
+	 * 
+	 * @return string 'activated' if active, 'activate' if installed, 'install' if not found.
+	 */
+	public function rael_get_responsive_theme_status() {
+		
+		$theme_slug = 'responsive';
+		$current_theme = wp_get_theme();
+		
+		// Check if responsive theme or its child theme is active.
+		if ($current_theme->get_stylesheet() === $theme_slug || $current_theme->get('Template') === $theme_slug) {
+			return 'activated';
+		}
+		
+		// Check if responsive theme is installed
+		$themes = wp_get_themes();
+		if (isset($themes[$theme_slug])) {
+			return 'activate';
+		}
+		
+		// Check if any child theme of responsive is installed
+		foreach ($themes as $theme) {
+			if ($theme->get('Template') === $theme_slug) {
+				return 'activate';
+			}
+		}
+		
+		return 'install';
+	}
+
+	/**
+	 * Retrieve all public custom post types and automatically filtering out Elementor / Theme Builder related CPTs.
+	 *
+	 * @return array Associative array of filtered custom post types.
+	 */
+	public function rael_get_all_cpts() {
+		$custom_post_types = get_post_types(
+			array(
+				'public'   => true,
+				'_builtin' => false,
+			),
+			'objects'
+		);
+
+		$filtered_cpts = array();
+		
+		foreach ($custom_post_types as $slug => $pt) {
+
+			// AUTO-REMOVE all Elementor / Theme Builder CPTs
+			if (
+				// Elementor common slug patterns
+				strpos($slug, 'elementor') === 0 ||
+				strpos($slug, 'e-') === 0 ||
+				strpos($slug, 'elementor-') === 0 ||
+				strpos($slug, 'etheme') === 0 ||
+
+				// Elementor Pro Theme Builder labels
+				stripos($pt->label, 'elementor') !== false ||
+				stripos($pt->label, 'template') !== false ||
+				stripos($pt->label, 'theme') !== false ||
+				stripos($pt->label, 'builder') !== false ||
+
+				// Some versions use "Kit" for Theme Style Library
+				stripos($pt->label, 'kit') !== false
+			) {
+				continue;
+			}
+
+			// Exclude if needed
+			if (in_array($slug, ['attachment'], true)) {
+				continue;
+			}
+
+			$filtered_cpts[$slug] = $pt->label;
+		}
+
+		return $filtered_cpts;
+	}
+
+	/**
+	 * Retrieves Google Map localization languages.
+	 *
+	 * @return array Associative array of Google Map localization languages.
+	 */
+	public function rael_google_map_local_lang() {
+		$langs = array(
+			'ar'    => __( 'ARABIC', 'responsive-addons-for-elementor' ),
+			'eu'    => __( 'BASQUE', 'responsive-addons-for-elementor' ),
+			'bg'    => __( 'BULGARIAN', 'responsive-addons-for-elementor' ),
+			'bn'    => __( 'BENGALI', 'responsive-addons-for-elementor' ),
+			'ca'    => __( 'CATALAN', 'responsive-addons-for-elementor' ),
+			'cs'    => __( 'CZECH', 'responsive-addons-for-elementor' ),
+			'da'    => __( 'DANISH', 'responsive-addons-for-elementor' ),
+			'de'    => __( 'GERMAN', 'responsive-addons-for-elementor' ),
+			'el'    => __( 'GREEK', 'responsive-addons-for-elementor' ),
+			'en'    => __( 'ENGLISH', 'responsive-addons-for-elementor' ),
+			'en-AU' => __( 'ENGLISH (AUSTRALIAN)', 'responsive-addons-for-elementor' ),
+			'en-GB' => __( 'ENGLISH (GREAT BRITAIN)', 'responsive-addons-for-elementor' ),
+			'es'    => __( 'SPANISH', 'responsive-addons-for-elementor' ),
+			'fa'    => __( 'FARSI', 'responsive-addons-for-elementor' ),
+			'fi'    => __( 'FINNISH', 'responsive-addons-for-elementor' ),
+			'fil'   => __( 'FILIPINO', 'responsive-addons-for-elementor' ),
+			'fr'    => __( 'FRENCH', 'responsive-addons-for-elementor' ),
+			'gl'    => __( 'GALACIAN', 'responsive-addons-for-elementor' ),
+			'gu'    => __( 'GUJARATI', 'responsive-addons-for-elementor' ),
+			'hi'    => __( 'HINDI', 'responsive-addons-for-elementor' ),
+			'hr'    => __( 'CROATIAN', 'responsive-addons-for-elementor' ),
+			'hu'    => __( 'HUNGARIAN', 'responsive-addons-for-elementor' ),
+			'id'    => __( 'INDONESIAN', 'responsive-addons-for-elementor' ),
+			'it'    => __( 'ITALIAN', 'responsive-addons-for-elementor' ),
+			'iw'    => __( 'HEBREW', 'responsive-addons-for-elementor' ),
+			'ja'    => __( 'JAPANESE', 'responsive-addons-for-elementor' ),
+			'kn'    => __( 'KANNADA', 'responsive-addons-for-elementor' ),
+			'ko'    => __( 'KOREAN', 'responsive-addons-for-elementor' ),
+			'lt'    => __( 'LITHUANIAN', 'responsive-addons-for-elementor' ),
+			'lv'    => __( 'LATVIAN', 'responsive-addons-for-elementor' ),
+			'ml'    => __( 'MALAYALAM', 'responsive-addons-for-elementor' ),
+			'mr'    => __( 'MARATHI', 'responsive-addons-for-elementor' ),
+			'nl'    => __( 'DUTCH', 'responsive-addons-for-elementor' ),
+			'no'    => __( 'NORWEGIAN', 'responsive-addons-for-elementor' ),
+			'pl'    => __( 'POLISH', 'responsive-addons-for-elementor' ),
+			'pt'    => __( 'PORTUGUESE', 'responsive-addons-for-elementor' ),
+			'pt-BR' => __( 'PORTUGUESE (BRAZIL)', 'responsive-addons-for-elementor' ),
+			'pt-PR' => __( 'PORTUGUESE (PORTUGAL)', 'responsive-addons-for-elementor' ),
+			'ro'    => __( 'ROMANIAN', 'responsive-addons-for-elementor' ),
+			'ru'    => __( 'RUSSIAN', 'responsive-addons-for-elementor' ),
+			'sk'    => __( 'SLOVAK', 'responsive-addons-for-elementor' ),
+			'sl'    => __( 'SLOVENIAN', 'responsive-addons-for-elementor' ),
+			'sr'    => __( 'SERBIAN', 'responsive-addons-for-elementor' ),
+			'sv'    => __( 'SWEDISH', 'responsive-addons-for-elementor' ),
+			'tl'    => __( 'TAGALOG', 'responsive-addons-for-elementor' ),
+			'ta'    => __( 'TAMIL', 'responsive-addons-for-elementor' ),
+			'te'    => __( 'TELUGU', 'responsive-addons-for-elementor' ),
+			'th'    => __( 'THAI', 'responsive-addons-for-elementor' ),
+			'tr'    => __( 'TURKISH', 'responsive-addons-for-elementor' ),
+			'uk'    => __( 'UKRANIAN', 'responsive-addons-for-elementor' ),
+			'vi'    => __( 'VIETNAMESE', 'responsive-addons-for-elementor' ),
+			'zh-CN' => __( 'CHINESE (SIMPLIFIED)', 'responsive-addons-for-elementor' ),
+			'zh-TW' => __( 'CHINESE (TRADITIONAL)', 'responsive-addons-for-elementor' ),
+		);
+
+		return $langs;
 	}
 
 
