@@ -705,11 +705,11 @@ class Responsive_Addons_For_Elementor_Modal_Popup extends Widget_Base {
 				'options' => array(
 					'img'  => array(
 						'title' => __( 'Image', 'responsive-addons-for-elementor' ),
-						'icon'  => 'fa fa-picture-o',
+						'icon'  => 'eicon-image',
 					),
 					'icon' => array(
 						'title' => __( 'Icon', 'responsive-addons-for-elementor' ),
-						'icon'  => 'fa fa-info-circle',
+						'icon'  => 'eicon-info-circle',
 					),
 				),
 				'default' => 'icon',

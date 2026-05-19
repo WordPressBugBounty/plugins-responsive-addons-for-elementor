@@ -889,11 +889,11 @@ class Responsive_Addons_For_Elementor_Theme_Author_Box extends Widget_Base {
 			}
 		}
 
-		if ( $print_link && ! empty( $settings['rael_ab_button_hover_animation'] ) ) {
+		if ( $print_link && ! empty( $settings['rael_ab_button_animation_hover'] ) ) {
 			$this->add_render_attribute(
 				'rael_ab_button',
 				'class',
-				'rael-author-box__button-animation--' . $settings['button_hover_animation']
+				'elementor-animation-' . $settings['rael_ab_button_animation_hover']
 			);
 		}
 

@@ -82,7 +82,7 @@ class Responsive_Addons_For_Elementor_Theme_Post_Content extends Widget_Base {
 	public function get_custom_help_url() {
 		return 'https://cyberchimps.com/docs/responsive-addons-for-elementor/widgets/post-content/';
 	}
-
+	
 	/**
 	 * Register controls for Post content widget
 	 */
@@ -148,6 +148,16 @@ class Responsive_Addons_For_Elementor_Theme_Post_Content extends Widget_Base {
 				),
 			)
 		);
+		$this->add_control(
+			'rael_password_input_width_hidden',
+			array(
+				'type' => Controls_Manager::HIDDEN,
+				'default' => '30',
+				'selectors' => array(
+					'{{WRAPPER}} .post-password-form input[type="password"]' => 'width: {{VALUE}}%;',
+				),
+			)
+		);
 
 		$this->end_controls_section();
 	}
@@ -158,6 +168,7 @@ class Responsive_Addons_For_Elementor_Theme_Post_Content extends Widget_Base {
 	 * @access public
 	 */
 	protected function render() {
+
 		$this->render_post_content();
 	}
 
@@ -205,4 +216,5 @@ class Responsive_Addons_For_Elementor_Theme_Post_Content extends Widget_Base {
 
 		$this->content_removed_filters = array();
 	}
+	
 }

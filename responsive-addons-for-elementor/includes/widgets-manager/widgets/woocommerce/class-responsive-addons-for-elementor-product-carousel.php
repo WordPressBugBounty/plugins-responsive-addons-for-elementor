@@ -34,6 +34,13 @@ class Responsive_Addons_For_Elementor_Product_Carousel extends Widget_Base {
 	use Missing_Dependency;
 
 	/**
+     * Page ID for the current document.
+     *
+     * @var int|null
+     */
+    protected $page_id = null;
+
+	/**
 	 * Constructor for the RAE Product Carousel widget class.
 	 *
 	 * @param array $data  Optional. An array of widget data. Default is an empty array.
@@ -494,7 +501,7 @@ class Responsive_Addons_For_Elementor_Product_Carousel extends Widget_Base {
 			array(
 				'label'     => __( 'Quick view Title Tag', 'responsive-addons-for-elementor' ),
 				'type'      => Controls_Manager::SELECT,
-				'default'   => 'h1',
+				'default'   => 'h2',
 				'separator' => 'after',
 				'options'   => array(
 					'h1'   => __( 'H1', 'responsive-addons-for-elementor' ),
@@ -1413,7 +1420,7 @@ class Responsive_Addons_For_Elementor_Product_Carousel extends Widget_Base {
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '#fff',
 				'selectors' => array(
-					'{{WRAPPER}} .woocommerce ul.products li.product .outofstock-badge, {{WRAPPER}} .woocommerce ul.products li.product .eael-onsale.outofstock' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .woocommerce ul.products li.product .outofstock-badge, {{WRAPPER}} .woocommerce ul.products li.product .rael-pc__out-of-stock' => 'color: {{VALUE}};',
 				),
 			)
 		);
@@ -1819,7 +1826,7 @@ class Responsive_Addons_For_Elementor_Product_Carousel extends Widget_Base {
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '#ccc',
 				'selectors' => array(
-					'.rael-pc__popup-details-render{{WRAPPER}} div.product table tbody tr, {{WRAPPER}} .rael-pc__product-popup.woocommerce div.product .product_meta' => 'border-color: {{VALUE}};',
+					'.rael-pc__popup-details-render{{WRAPPER}} div.product table tbody tr, {{WRAPPER}} .rael-pc__product-popup.woocommerce div.product .product_meta' => 'border-bottom: 1px solid {{VALUE}};',
 				),
 			)
 		);
@@ -2586,33 +2593,6 @@ class Responsive_Addons_For_Elementor_Product_Carousel extends Widget_Base {
 			)
 		);
 		$this->add_responsive_control(
-			'rael_pc_image_dots_width',
-			array(
-				'label'      => __( 'Width', 'responsive-addons-for-elementor' ),
-				'type'       => Controls_Manager::SLIDER,
-				'size_units' => array( 'px', '%' ),
-				'range'      => array(
-					'px' => array(
-						'min'  => 0,
-						'max'  => 1000,
-						'step' => 5,
-					),
-					'%'  => array(
-						'min' => 0,
-						'max' => 100,
-					),
-				),
-				'devices'    => array( 'desktop', 'tablet', 'mobile' ),
-				'default'    => array(
-					'unit' => 'px',
-					'size' => 350,
-				),
-				'selectors'  => array(
-					'{{WRAPPER}} .rael-pc__gallery-pagination' => 'width: {{SIZE}}{{UNIT}} !important;',
-				),
-			)
-		);
-		$this->add_responsive_control(
 			'rael_pc_image_dots_height',
 			array(
 				'label'      => __( 'Height', 'responsive-addons-for-elementor' ),
@@ -2994,11 +2974,7 @@ class Responsive_Addons_For_Elementor_Product_Carousel extends Widget_Base {
 
 		if ( 'yes' === $settings['rael_pc_dots'] ) {
 			?>
-			<div class="swiper-pagination swiper-pagination-
-			<?php
-			echo esc_attr( $this->get_id() ) . ' ' . wp_kses_post( $settings['rael_pc_dots_preset'] );
-			?>
-			">
+			<div class="swiper-pagination swiper-pagination-<?php echo esc_attr( $this->get_id() ) . ' ' . wp_kses_post( $settings['rael_pc_dots_preset'] ); ?>">
 			</div>
 			<?php
 		}

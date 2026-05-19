@@ -108,7 +108,7 @@ if ( 'two' === $settings['rael_post_preset_style'] ) :
 						if ( empty( $settings['rael_title_length'] ) ) {
 							echo esc_html( get_the_title() );
 						} else {
-							echo implode( ' ', wp_kses_post( array_slice( explode( ' ', get_the_title() ), 0, $settings['rael_title_length'] ) ) );
+							echo wp_kses_post( wp_trim_words( get_the_title(), $settings['rael_title_length'], '' ) );
 						}
 						echo '</a>';
 						echo '</' . esc_html( $settings['rael_title_tag'] ) . '>';
@@ -133,7 +133,9 @@ if ( 'two' === $settings['rael_post_preset_style'] ) :
 						woocommerce_template_loop_add_to_cart();
 						echo '</p>';
 					} else {
-						echo '<div class="rael-post-carousel__readmore-wrap"><a href="' . esc_url( get_the_permalink() ) . '" class="rael-post-carousel__readmore-btn"' . wp_kses_post( $settings['rael_read_more_link_nofollow'] ) . '' . wp_kses_post( $settings['rael_read_more_link_target_blank'] ) . '>' . esc_attr( $settings['rael_read_more_button_text'] ) . '</a></div>';
+						if ( 'yes' === $settings['rael_show_read_more_button'] ) {
+							echo '<div class="rael-post-carousel__readmore-wrap"><a href="' . esc_url( get_the_permalink() ) . '" class="rael-post-carousel__readmore-btn"' . wp_kses_post( $settings['rael_read_more_link_nofollow'] ) . '' . wp_kses_post( $settings['rael_read_more_link_target_blank'] ) . '>' . esc_attr( $settings['rael_read_more_button_text'] ) . '</a></div>';
+						}
 					}
 					echo '</div>
                         </div>';
@@ -200,7 +202,7 @@ elseif ( 'three' === $settings['rael_post_preset_style'] ) :
 				}
 
 				if ( isset( $settings['rael_post_hover_animation'] ) && 'none' !== $settings['rael_post_hover_animation'] ) {
-					echo '<div class="eael-entry-overlay ' . esc_attr( $settings['rael_post_hover_animation'] ) . '">';
+					echo '<div class="rael-post-carousel__entry-overlay ' . esc_attr( $settings['rael_post_hover_animation'] ) . '">';
 
 					if ( isset( $settings['__fa4_migrated']['rael_post_bg_hover_icon_new'] ) || empty( $settings['rael_post_bg_hover_icon'] ) ) {
 						echo '<i class="' . esc_attr( $settings['rael_post_bg_hover_icon_new']['value'] ) . '" aria-hidden="true"></i>';
@@ -234,7 +236,7 @@ elseif ( 'three' === $settings['rael_post_preset_style'] ) :
 					if ( empty( $settings['rael_title_length'] ) ) {
 						echo esc_html( get_the_title() );
 					} else {
-						echo implode( ' ', wp_kses_post( array_slice( explode( ' ', get_the_title() ), 0, $settings['rael_title_length'] ) ) );
+						echo wp_kses_post( wp_trim_words( get_the_title(), $settings['rael_title_length'], '' ) );
 					}
 					echo '</a>';
 					echo '</' . esc_html( $settings['rael_title_tag'] ) . '>';
@@ -261,7 +263,9 @@ elseif ( 'three' === $settings['rael_post_preset_style'] ) :
 					woocommerce_template_loop_add_to_cart();
 					echo '</p>';
 				} else {
-					echo '<div class="rael-post-carousel__readmore-wrap"><a href="' . esc_url( get_the_permalink() ) . '" class="rael-post-carousel__readmore-btn"' . wp_kses_post( $settings['rael_read_more_link_nofollow'] ) . '' . wp_kses_post( $settings['rael_read_more_link_target_blank'] ) . '>' . esc_attr( $settings['rael_read_more_button_text'] ) . '</a></div>';
+					if ( 'yes' === $settings['rael_show_read_more_button'] ) {
+						echo '<div class="rael-post-carousel__readmore-wrap"><a href="' . esc_url( get_the_permalink() ) . '" class="rael-post-carousel__readmore-btn"' . wp_kses_post( $settings['rael_read_more_link_nofollow'] ) . '' . wp_kses_post( $settings['rael_read_more_link_target_blank'] ) . '>' . esc_attr( $settings['rael_read_more_button_text'] ) . '</a></div>';
+					}
 				}
 					echo '</div>
                 </div>';
@@ -325,7 +329,7 @@ else :
 					if ( empty( $settings['rael_title_length'] ) ) {
 						echo esc_html( get_the_title() );
 					} else {
-						echo implode( ' ', wp_kses_post( array_slice( explode( ' ', get_the_title() ), 0, $settings['rael_title_length'] ) ) );
+						echo wp_kses_post( wp_trim_words( get_the_title(), $settings['rael_title_length'], '' ) );
 					}
 					echo '</a>';
 					echo '</' . esc_html( $settings['rael_title_tag'] ) . '>';
@@ -352,7 +356,9 @@ else :
 					woocommerce_template_loop_add_to_cart();
 					echo '</p>';
 				} else {
-					echo '<div class="rael-post-carousel__readmore-wrap"><a href="' . esc_url( get_the_permalink() ) . '" class="rael-post-carousel__readmore-btn"' . wp_kses_post( $settings['rael_read_more_link_nofollow'] ) . '' . wp_kses_post( $settings['rael_read_more_link_target_blank'] ) . '>' . esc_attr( $settings['rael_read_more_button_text'] ) . '</a></div>';
+					if ( 'yes' === $settings['rael_show_read_more_button'] ) {
+						echo '<div class="rael-post-carousel__readmore-wrap"><a href="' . esc_url( get_the_permalink() ) . '" class="rael-post-carousel__readmore-btn"' . wp_kses_post( $settings['rael_read_more_link_nofollow'] ) . '' . wp_kses_post( $settings['rael_read_more_link_target_blank'] ) . '>' . esc_attr( $settings['rael_read_more_button_text'] ) . '</a></div>';
+					}
 				}
 					echo '</div>
                 </div>';

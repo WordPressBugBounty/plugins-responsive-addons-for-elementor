@@ -1474,6 +1474,66 @@ class Responsive_Addons_For_Elementor_Price_Box extends Widget_Base {
 				),
 			)
 		);
+		$this->add_control(
+			'rael_description_bg_color_layout_2',
+			array(
+				'label'     => __( 'Background Color', 'responsive-addons-for-elementor' ),
+				'type'      => Controls_Manager::COLOR,
+				'condition' => array(
+					'rael_price_box_layout' => '2',
+				),
+				'selectors' => array(
+					'{{WRAPPER}} .rael-price-box-description *' => 'background-color: {{VALUE}}',
+				),
+			)
+		);
+		$this->add_control(
+			'rael_description_alignment_layout_2',
+			array(
+				'label'                => __( 'Alignment', 'responsive-addons-for-elementor' ),
+				'type'                 => Controls_Manager::CHOOSE,
+				'options'              => array(
+					'left'   => array(
+						'title' => __( 'Left', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-left',
+					),
+					'center' => array(
+						'title' => __( 'Center', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-center',
+					),
+					'right'  => array(
+						'title' => __( 'Right', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-right',
+					),
+				),
+				'default'              => 'center',
+				'selectors_dictionary' => array(
+					'left'   => 'left',
+					'center' => 'center',
+					'right'  => 'right',
+				),
+				'selectors'            => array(
+					'{{WRAPPER}} .rael-price-box-description' => 'text-align: {{VALUE}}',
+				),
+				'condition' => array(
+					'rael_price_box_layout' => '2',
+				),
+			)
+		);
+		$this->add_responsive_control(
+			'rael_description_padding_layout_2',
+			array(
+				'label'      => __( 'Padding', 'responsive-addons-for-elementor' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', '%', 'em' ),
+				'condition'  => array(
+					'rael_price_box_layout' => '2',
+				),
+				'selectors'  => array(
+					'{{WRAPPER}} .rael-price-box-description *' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+			)
+		);
 		$this->add_group_control(
 			Group_Control_Typography::get_type(),
 			array(
@@ -4191,7 +4251,7 @@ class Responsive_Addons_For_Elementor_Price_Box extends Widget_Base {
 							view.addRenderAttribute( 'rael_disclaimer_text', 'class', 'rael-price-box__disclaimer' );
 						#>
 
-							<div {{ _.escape(view.getRenderAttributeString( 'rael_disclaimer_text' )) }}>
+							<div {{{ view.getRenderAttributeString( 'rael_disclaimer_text' ) }}}>
 								{{ _.escape(settings.rael_disclaimer_text) }}
 
 							</div>

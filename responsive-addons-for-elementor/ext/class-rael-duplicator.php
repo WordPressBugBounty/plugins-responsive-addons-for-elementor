@@ -296,7 +296,7 @@ private function rae_duplicate( $post_id ) {
 				continue;
 			}
 
-			add_post_meta( $new_post_id, $key, $value );
+			update_post_meta( $new_post_id, $key, maybe_unserialize( $value ) );
 			
 		}
 

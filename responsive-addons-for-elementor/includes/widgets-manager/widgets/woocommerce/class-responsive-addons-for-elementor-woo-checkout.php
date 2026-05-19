@@ -121,6 +121,10 @@ class Responsive_Addons_For_Elementor_Woo_Checkout extends Widget_Base {
 		return array( 'responsive-addons-for-elementor' );
 	}
 
+	public function get_script_depends() {
+		return [ 'jquery', 'wc-checkout' ];
+	}
+
 	/**
 	 * Register widget controls.
 	 *
@@ -813,7 +817,7 @@ class Responsive_Addons_For_Elementor_Woo_Checkout extends Widget_Base {
 					),
 				),
 				'selectors' => array(
-					'{{WRAPPER}} .split-tabs, {{WRAPPER}} .split-tab li.active' => 'border-radius: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .split-tabs, {{WRAPPER}} .split-tabs li' => 'border-radius: {{SIZE}}{{UNIT}}!important;',
 				),
 				'condition' => array(
 					'rael_woo_checkout_layout' => 'split',
@@ -2083,7 +2087,7 @@ class Responsive_Addons_For_Elementor_Woo_Checkout extends Widget_Base {
 			array(
 				'label'     => __( 'Background Color', 'responsive-addons-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
-				'default'   => '#ff793f',
+				'default'   => '#ffffff',
 				'selectors' => array(
 					'{{WRAPPER}} .rael-woo-checkout .woo-checkout-coupon' => 'background-color: {{VALUE}};',
 				),
@@ -2137,11 +2141,27 @@ class Responsive_Addons_For_Elementor_Woo_Checkout extends Widget_Base {
 		$this->add_group_control(
 			Group_Control_Border::get_type(),
 			array(
-				'name'        => 'rael_woo_checkout_coupon_border',
-				'label'       => __( 'Border', 'responsive-addons-for-elementor' ),
-				'placeholder' => '1px',
-				'default'     => '1px',
-				'selector'    => '{{WRAPPER}} .rael-woo-checkout .woo-checkout-coupon',
+				'name'           => 'rael_woo_checkout_coupon_border',
+				'label'          => __( 'Border', 'responsive-addons-for-elementor' ),
+				'placeholder'    => '1px',
+				'selector'       => '{{WRAPPER}} .rael-woo-checkout .woo-checkout-coupon',
+				'fields_options' => array(
+					'border' => array(
+						'default' => 'solid',
+					),
+					'width'  => array(
+						'default' => array(
+							'top'      => '1',
+							'right'    => '1',
+							'bottom'   => '1',
+							'left'     => '1',
+							'isLinked' => true,
+						),
+					),
+					'color'  => array(
+						'default' => '#e5e5e5',
+					),
+				),
 			)
 		);
 		$this->add_responsive_control(
@@ -2412,7 +2432,7 @@ class Responsive_Addons_For_Elementor_Woo_Checkout extends Widget_Base {
 			Group_Control_Typography::get_type(),
 			array(
 				'name'     => 'rael_section_woo_checkout_notices_typo',
-				'selector' => '{{WRAPPER}} .rael-woo-checkout .woocommerce-error, {{WRAPPER}} .rael-woo-checkout .woocommerce-info, {{WRAPPER}} .rael-woo-checkout .woocommerce-message',
+				'selector' => '{{WRAPPER}} .rael-woo-checkout .woocommerce .woocommerce-error, {{WRAPPER}} .rael-woo-checkout .woocommerce .woocommerce-info, {{WRAPPER}} .rael-woo-checkout .woocommerce .woocommerce-message',
 			)
 		);
 		$this->add_group_control(
@@ -2422,7 +2442,7 @@ class Responsive_Addons_For_Elementor_Woo_Checkout extends Widget_Base {
 				'label'       => __( 'Border', 'responsive-addons-for-elementor' ),
 				'placeholder' => '1px',
 				'default'     => '1px',
-				'selector'    => '{{WRAPPER}} .rael-woo-checkout .woocommerce-error',
+				'selector'    => '{{WRAPPER}} .rael-woo-checkout .woocommerce .woocommerce-error, {{WRAPPER}} .rael-woo-checkout .woocommerce .woocommerce-info, {{WRAPPER}} .rael-woo-checkout .woocommerce .woocommerce-message',
 			)
 		);
 
@@ -2444,7 +2464,7 @@ class Responsive_Addons_For_Elementor_Woo_Checkout extends Widget_Base {
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '#d1ecf1',
 				'selectors' => array(
-					'{{WRAPPER}} .rael-woo-checkout .woocommerce-info' => 'background-color: {{VALUE}};',
+					'{{WRAPPER}} .rael-woo-checkout .woocommerce .woocommerce-info' => 'background-color: {{VALUE}};',
 				),
 			)
 		);
@@ -2493,7 +2513,7 @@ class Responsive_Addons_For_Elementor_Woo_Checkout extends Widget_Base {
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '#FFF3F5',
 				'selectors' => array(
-					'{{WRAPPER}} .rael-woo-checkout .woocommerce-error' => 'background-color: {{VALUE}};',
+					'{{WRAPPER}} .rael-woo-checkout .woocommerce .woocommerce-error' => 'background-color: {{VALUE}};',
 				),
 			)
 		);
@@ -2542,7 +2562,7 @@ class Responsive_Addons_For_Elementor_Woo_Checkout extends Widget_Base {
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '#d4edda',
 				'selectors' => array(
-					'{{WRAPPER}} .rael-woo-checkout .woocommerce-message' => 'background-color: {{VALUE}};',
+					'{{WRAPPER}} .rael-woo-checkout .woocommerce .woocommerce-message' => 'background-color: {{VALUE}};',
 				),
 			)
 		);
@@ -2618,8 +2638,8 @@ class Responsive_Addons_For_Elementor_Woo_Checkout extends Widget_Base {
 				),
 				'size_units' => array( 'px', 'em', '%' ),
 				'selectors'  => array(
-					'{{WRAPPER}} .rael-woo-checkout .woocommerce-notices-wrapper .woocommerce-error, {{WRAPPER}} .rael-woo-checkout .woocommerce-info, {{WRAPPER}} .rael-woo-checkout .woocommerce-message' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} calc({{LEFT}}{{UNIT}} + 30px);',
-					'{{WRAPPER}} .rael-woo-checkout .woocommerce-error::before, , {{WRAPPER}} .rael-woo-checkout .woocommerce-info::before, {{WRAPPER}} .rael-woo-checkout .woocommerce-message::before' => 'top: {{TOP}}{{UNIT}}; left: {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} .rael-woo-checkout .woocommerce-error, {{WRAPPER}} .rael-woo-checkout .woocommerce-info, {{WRAPPER}} .rael-woo-checkout .woocommerce-message' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} calc({{LEFT}}{{UNIT}} + 30px) !important;',
+					'{{WRAPPER}} .rael-woo-checkout .woocommerce-error::before, {{WRAPPER}} .rael-woo-checkout .woocommerce-info::before, {{WRAPPER}} .rael-woo-checkout .woocommerce-message::before' => 'top: {{TOP}}{{UNIT}}; left: {{LEFT}}{{UNIT}};',
 				),
 			)
 		);
@@ -2737,7 +2757,7 @@ class Responsive_Addons_For_Elementor_Woo_Checkout extends Widget_Base {
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '#443e6d',
 				'selectors' => array(
-					'{{WRAPPER}} #customer_details input, {{WRAPPER}} #customer_details select, {{WRAPPER}} #customer_details textarea' => 'color: {{VALUE}};',
+					'{{WRAPPER}} #customer_details input, {{WRAPPER}} #customer_details select, {{WRAPPER}} #customer_details textarea, {{WRAPPER}} #customer_details .select2-container--default .select2-selection--single .select2-selection__rendered' => 'color: {{VALUE}};',
 				),
 			)
 		);
@@ -2768,8 +2788,7 @@ class Responsive_Addons_For_Elementor_Woo_Checkout extends Widget_Base {
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '#7866ff',
 				'selectors' => array(
-					'{{WRAPPER}} #customer_details input:hover, {{WRAPPER}} #customer_details input:focus, {{WRAPPER}} #customer_details input:active' => 'border-color: {{VALUE}};',
-					'{{WRAPPER}} #customer_details textarea:hover, {{WRAPPER}} #customer_details textarea:focus, {{WRAPPER}} #customer_details textarea:active' => 'border-color: {{VALUE}};',
+					'{{WRAPPER}} #customer_details input:hover, {{WRAPPER}} #customer_details input:focus, {{WRAPPER}} #customer_details input:active, {{WRAPPER}} #customer_details textarea:hover, {{WRAPPER}} #customer_details textarea:focus, {{WRAPPER}} #customer_details textarea:active, {{WRAPPER}} #customer_details .select2-container--default:hover .select2-selection--single, {{WRAPPER}} #customer_details .select2-container--default.select2-container--focus .select2-selection--single' => 'border-color: {{VALUE}};',
 				),
 			)
 		);
@@ -2953,7 +2972,7 @@ class Responsive_Addons_For_Elementor_Woo_Checkout extends Widget_Base {
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '#ffffff',
 				'selectors' => array(
-					'.rael-woo-checkout {{WRAPPER}} .woo-checkout-payment .woo-checkout-section-title' => 'color: {{VALUE}};',
+					'.rael-woo-checkout {{WRAPPER}} .woo-checkout-payment .woo-checkout-section-title' => 'color: {{VALUE}}!important;',
 				),
 			)
 		);
@@ -3026,7 +3045,7 @@ class Responsive_Addons_For_Elementor_Woo_Checkout extends Widget_Base {
 			array(
 				'label'     => __( 'Color', 'responsive-addons-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
-				'default'   => '#b8b6ca',
+				'default'   => '#ffffff',
 				'selectors' => array(
 					'.rael-woo-checkout {{WRAPPER}} .woocommerce .woo-checkout-payment #payment .payment_methods .wc_payment_method input[type="radio"] + label' => 'color: {{VALUE}};',
 				),
@@ -3084,7 +3103,7 @@ class Responsive_Addons_For_Elementor_Woo_Checkout extends Widget_Base {
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '#ffffff',
 				'selectors' => array(
-					'.rael-woo-checkout {{WRAPPER}} .woo-checkout-payment .payment_box' => 'color: {{VALUE}}!important;',
+					'.rael-woo-checkout {{WRAPPER}} .woo-checkout-payment .payment_box, .rael-woo-checkout {{WRAPPER}} .woo-checkout-payment .payment_box p' => 'color: {{VALUE}}!important;',
 				),
 			)
 		);
@@ -3103,9 +3122,9 @@ class Responsive_Addons_For_Elementor_Woo_Checkout extends Widget_Base {
 			array(
 				'label'     => esc_html__( 'Color', 'responsive-addons-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
-				'default'   => '#b8b6ca',
+				'default'   => '#ffffff',
 				'selectors' => array(
-					'.rael-woo-checkout {{WRAPPER}} .woo-checkout-payment .woocommerce-privacy-policy-text' => 'color: {{VALUE}}!important;',
+					'.rael-woo-checkout {{WRAPPER}} .woo-checkout-payment .woocommerce-privacy-policy-text, .rael-woo-checkout {{WRAPPER}} .woo-checkout-payment .woocommerce-privacy-policy-text p' => 'color: {{VALUE}}!important;',
 				),
 			)
 		);
@@ -3113,7 +3132,7 @@ class Responsive_Addons_For_Elementor_Woo_Checkout extends Widget_Base {
 			Group_Control_Typography::get_type(),
 			array(
 				'name'     => 'rael_woo_checkout_privacy_policy_typo',
-				'selector' => '.rael-woo-checkout {{WRAPPER}} .woo-checkout-payment .woocommerce-privacy-policy-text',
+				'selector' => '.rael-woo-checkout {{WRAPPER}} .woo-checkout-payment .woocommerce-privacy-policy-text, .rael-woo-checkout {{WRAPPER}} .woo-checkout-payment .woocommerce-privacy-policy-text p',
 			)
 		);
 		$this->add_control(
@@ -3693,4 +3712,5 @@ class Responsive_Addons_For_Elementor_Woo_Checkout extends Widget_Base {
 		</div>
 		<?php
 	}
+	
 }

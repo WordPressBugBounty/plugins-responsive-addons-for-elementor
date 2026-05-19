@@ -5,8 +5,7 @@
   background-color: #d4d4d4; }
 
 .rael-post-navigation {
-  display: flex;
-  overflow: hidden; }
+  display: flex; }
 
 .rael-post-navigation__arrow-wrapper {
   color: #d4d4d4; }
@@ -21,7 +20,6 @@
 
 .rael-post-navigation__link--next,
 .rael-post-navigation__link--prev {
-  overflow: hidden;
   display: flex;
   flex-direction: column; }
 
@@ -47,6 +45,9 @@
 .rael-post-navigation__next--title,
 .rael-post-navigation__prev--label,
 .rael-post-navigation__prev--title {
+  line-height: normal;
+  padding-top: 4px;
+  margin-top: -4px;
   overflow: hidden;
   text-overflow: ellipsis; }
 

@@ -64,11 +64,7 @@ trait Woo_Checkout_Helper {
 
 		// Get checkout object.
 		$checkout = WC()->checkout();
-
-		if ( ! wp_verify_nonce( $_POST ) ) {
-			wc_get_template( 'checkout/cart-errors.php', array( 'checkout' => $checkout ) );
-			wc_clear_notices();
-		}
+		
 
 		if ( ( empty( $_POST ) && wc_notice_count( 'error' ) > 0 ) ) { // WPCS: input var ok, CSRF ok.
 
@@ -143,7 +139,7 @@ trait Woo_Checkout_Helper {
 		$order_id = absint( $order_id );
 
 		// Pay for existing order.
-		if ( ( isset( $_GET['pay_for_order'], $_GET['key'] ) && $order_id ) || ( ! wp_verify_nonce( $_GET ) ) ) { // WPCS: input var ok, CSRF ok.
+		if ( ( isset( $_GET['pay_for_order'], $_GET['key'] ) && $order_id ) ) { // WPCS: input var ok, CSRF ok.
 			try {
 				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
 				$order_key          = isset( $_GET['key'] ) ? wc_clean( wp_unslash( $_GET['key'] ) ) : ''; // WPCS: input var ok, CSRF ok.
@@ -313,7 +309,7 @@ trait Woo_Checkout_Helper {
 					</p>
 
 					<p class="form-row form-row-last">
-						<button type="submit" class="button" name="apply_coupon" value="<?php wp_kses_post( $settings['rael_woo_checkout_coupon_button_text'], 'responsive-addons-for-elementor' ); ?>"><?php wp_kses_post( $settings['rael_woo_checkout_coupon_button_text'], 'responsive-addons-for-elementor' ); ?></button>
+						<button type="submit" class="button" name="apply_coupon" value="<?php wp_kses_post( $settings['rael_woo_checkout_coupon_button_text'], 'responsive-addons-for-elementor' ); ?>"><?php echo wp_kses_post( $settings['rael_woo_checkout_coupon_button_text'], 'responsive-addons-for-elementor' ); ?></button>
 					</p>
 
 					<div class="clear"></div>

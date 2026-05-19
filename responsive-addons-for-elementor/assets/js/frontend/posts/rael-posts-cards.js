@@ -379,16 +379,16 @@ jQuery(window).on("elementor/frontend/init", function() {
     elementorFrontend.hooks.addAction("frontend/element_ready/rael-posts.rael_cards", addHandler);
 });
 
-var paged_no = 1;
 var $ = jQuery.noConflict();
 
 $('.rael_post_filterable_tabs li').click(function(e) {
+    if ($(this).parent().data('skin') !== 'rael_cards') return;
     e.preventDefault();
     let $scope = $(this).closest('.elementor-widget-rael-posts');
     var term = $(this).data('term');
     var postPerPage = $(this).parent().data('post-per-page');
     var paged = $(this).parent().data('paged');
-    paged_no = paged;
+    $scope.find('.responsive-posts-container').data('paged', paged);
     var pid = $(this).parent().data('pid');
     var skin = $(this).parent().data('skin');
     var $this = $(this);
@@ -396,31 +396,32 @@ $('.rael_post_filterable_tabs li').click(function(e) {
     $this.addClass('rael_post_active_filterable_tab');
 
     if ($scope.find('.responsive-posts-container').data('pagination') !== '') {
-        if ($('.rael-post-pagination').length) {
-            $('<div class="responsive-post-loader"></div>').insertAfter($('.rael-post-pagination'));
+        if ($scope.find('.rael-post-pagination').length) {
+            $('<div class="responsive-post-loader"></div>').insertAfter($scope.find('.rael-post-pagination'));
         } else {
-            $('<div class="responsive-post-loader"></div>').insertAfter($('.responsive-posts-container'));
+            $('<div class="responsive-post-loader"></div>').insertAfter($scope.find('.responsive-posts-container'));
         }
     } else {
-        $('<div class="responsive-post-loader"></div>').insertAfter($('.responsive-posts-container'));
+        $('<div class="responsive-post-loader"></div>').insertAfter($scope.find('.responsive-posts-container'));
     }
 
     callAjax(term, postPerPage, paged, pid, $scope, skin);
 });
 
 $('body').on('change', '.rael_post_filterable_tabs_wrapper_dropdown .rael_post_filterable_tabs_dropdown', function(e) {
+    if ($(this).data('skin') !== 'rael_cards') return;
     let $scope = $(this).closest('.elementor-widget-rael-posts');
     let term = $scope.find('.rael_post_filterable_tabs_wrapper_dropdown .rael_post_filterable_tabs_dropdown option:selected').data('term');
     var postPerPage = $(this).data('post-per-page');
     var paged = $(this).data('paged');
-    paged_no = paged;
+    $scope.find('.responsive-posts-container').data('paged', paged);
     var pid = $(this).data('pid');
     var skin = $(this).data('skin');
 
     if ($scope.find('.responsive-posts-container').data('pagination') !== '') {
-        $('<div class="responsive-post-loader"></div>').insertAfter($('.rael-post-pagination'));
+        $('<div class="responsive-post-loader"></div>').insertAfter($scope.find('.rael-post-pagination'));
     } else {
-        $('<div class="responsive-post-loader"></div>').insertAfter($('.responsive-posts-container'));
+        $('<div class="responsive-post-loader"></div>').insertAfter($scope.find('.responsive-posts-container'));
     }
 
     callAjax(term, postPerPage, paged, pid, $scope, skin);
@@ -428,6 +429,7 @@ $('body').on('change', '.rael_post_filterable_tabs_wrapper_dropdown .rael_post_f
 
 $('body').on('click', '.rael-post-pagination .page-numbers', function(e) {
     let $scope = $(this).closest('.elementor-widget-rael-posts');
+    if ($scope.find('.responsive-posts-container').data('skin') !== 'rael_cards') return;
     if ($scope.length > 0) {
         e.preventDefault();
     }
@@ -464,7 +466,7 @@ $('body').on('click', '.rael-post-pagination .page-numbers', function(e) {
     var postPerPage = $scope.find('.responsive-posts-container').data('post-per-page');
     var paged = page_number;
     if ($scope.length > 0) {
-        $('<div class="responsive-post-loader"></div>').insertAfter($('.rael-post-pagination'));
+        $('<div class="responsive-post-loader"></div>').insertAfter($scope.find('.rael-post-pagination'));
     }
 
     $("html, body").animate({
@@ -476,6 +478,8 @@ $('body').on('click', '.rael-post-pagination .page-numbers', function(e) {
 
 $('body').on('click', '.rael-post-pagination .rael_pagination_load_more', function(e) {
     let $scope = $(this).closest('.elementor-widget-rael-posts');
+    if ($scope.find('.responsive-posts-container').data('skin') !== 'rael_cards') return;
+    console.log("calling here ...... heheh");
     $('<div class="responsive-post-load-more-loader"> <div class="responsive-post-load-more-loader-dot"></div> <div class="responsive-post-load-more-loader-dot"></div> <div class="responsive-post-load-more-loader-dot"></div> </div>').insertAfter($scope.find('.rael-post-pagination'));
     $scope.find('.rael-post-pagination').hide();
     var pid = $scope.find('.responsive-posts-container').data('pid');
@@ -486,8 +490,8 @@ $('body').on('click', '.rael-post-pagination .rael_pagination_load_more', functi
         var term = $scope.find('.rael_post_active_filterable_tab').data('term') === undefined ? '*all' : $scope.find('.rael_post_active_filterable_tab').data('term');
     }
     var postPerPage = $scope.find('.responsive-posts-container').data('post-per-page');
-    paged_no += 1;
-    var paged = paged_no;
+    var paged = parseInt($scope.find('.responsive-posts-container').data('paged') || 1, 10);
+    paged += 1;
     $scope.find('.responsive-posts-container').data('paged', paged);
     let widget_id = $scope.data('id');
 
@@ -510,7 +514,7 @@ $('body').on('click', '.rael-post-pagination .rael_pagination_load_more', functi
                 if ( sel.data('pagination') === 'infinite' ) {
                     $scope.find( '.responsive-post-load-more-loader' ).remove()
                     sel.append(data.html)
-                    sel.next('.rael-post-pagination').first().remove();
+                    sel.nextAll('.rael-post-pagination').remove();
                     $(data.pagination).insertAfter(sel);
                 }
             }
@@ -538,9 +542,14 @@ function callAjax(term,postPerPage,paged,pid,$scope,skin) {
                 var sel = $scope.find( '.responsive-posts-container' );
                 sel.empty();
                 sel.append(data.html)
-                sel.next('.rael-post-pagination').first().remove();
+
+                console.log("checking the control ");
+                
+                // Remove old pagination regardless of what siblings exist between them
+                sel.nextAll('.rael-post-pagination').remove();
+                $scope.find('.responsive-post-loader').remove(); 
                 $(data.pagination).insertAfter(sel);
-                $('div.responsive-post-loader').remove();
+                $scope.find('div.responsive-post-loader').remove();
 
                   if (typeof imagesLoaded !== 'undefined') {
                         imagesLoaded(sel[0], function () {

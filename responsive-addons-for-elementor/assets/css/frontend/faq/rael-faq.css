@@ -86,10 +86,6 @@
   margin-bottom: 0;
 }
 
-.rael-question-span:focus {
-  outline: thin dotted;
-}
-
 .rael-accordion-serial-number {
   display: inline-block;
   margin-right: 8px;
@@ -161,5 +157,14 @@
 }
 .rael-faq-container.rael-faq-layout-grid .rael-accordion-content{
   display: block; 
+}
+h1.rael-question-span,
+h2.rael-question-span,
+h3.rael-question-span,
+h4.rael-question-span,
+h5.rael-question-span,
+h6.rael-question-span,
+p.rael-question-span{
+  margin-top:0;
 }
 /*# sourceMappingURL=faq.css.map */

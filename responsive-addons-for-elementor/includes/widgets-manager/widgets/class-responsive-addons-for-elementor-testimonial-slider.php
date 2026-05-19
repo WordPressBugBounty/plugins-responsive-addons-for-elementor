@@ -620,6 +620,9 @@ class Responsive_Addons_For_Elementor_Testimonial_Slider extends Widget_Base
 			array(
 				'label'              => __('Space Between', 'responsive-addons-for-elementor'),
 				'type'               => Controls_Manager::SLIDER,
+				'condition'          => array(
+					'enable_marquee!' => 'yes',
+				),
 				'range'              => array(
 					'px' => array(
 						'max' => 50,
@@ -645,7 +648,7 @@ class Responsive_Addons_For_Elementor_Testimonial_Slider extends Widget_Base
 				'label'     => __('Border Size', 'responsive-addons-for-elementor'),
 				'type'      => Controls_Manager::DIMENSIONS,
 				'selectors' => array(
-					'{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide' => 'border-width: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}',
+					'{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide, {{WRAPPER}} .responsive-marquee-wrapper .marquee-item' => 'border-width: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}',
 				),
 			)
 		);
@@ -662,7 +665,7 @@ class Responsive_Addons_For_Elementor_Testimonial_Slider extends Widget_Base
 					),
 				),
 				'selectors'  => array(
-					'{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide' => 'border-radius: {{SIZE}}{{UNIT}}',
+					'{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide, {{WRAPPER}} .responsive-marquee-wrapper .marquee-item' => 'border-radius: {{SIZE}}{{UNIT}}',
 				),
 			)
 		);
@@ -673,7 +676,7 @@ class Responsive_Addons_For_Elementor_Testimonial_Slider extends Widget_Base
 				'label'     => __('Border Color', 'responsive-addons-for-elementor'),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => array(
-					'{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide' => 'border-color: {{VALUE}}',
+					'{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide, {{WRAPPER}} .responsive-marquee-wrapper .marquee-item' => 'border-color: {{VALUE}}',
 				),
 			)
 		);
@@ -684,7 +687,7 @@ class Responsive_Addons_For_Elementor_Testimonial_Slider extends Widget_Base
 				'label'     => __('Padding', 'responsive-addons-for-elementor'),
 				'type'      => Controls_Manager::DIMENSIONS,
 				'selectors' => array(
-					'{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}',
+					'{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide, {{WRAPPER}} .responsive-marquee-wrapper .marquee-item' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}',
 				),
 				'separator' => 'before',
 			)
@@ -706,7 +709,7 @@ class Responsive_Addons_For_Elementor_Testimonial_Slider extends Widget_Base
 			array(
 				'name'     => 'rael_tm_box_shadow',
 				'label'    => __('Box Shadow', 'responsive-addons-for-elementor'),
-				'selector' => '{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide',
+				'selector' => '{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide, {{WRAPPER}} .responsive-marquee-wrapper .marquee-item',
 			)
 		);
 
@@ -716,7 +719,7 @@ class Responsive_Addons_For_Elementor_Testimonial_Slider extends Widget_Base
 				'name'     => 'rael_team_background_content_normal',
 				'label'    => esc_html__('Background', 'responsive-addons-for-elementor'),
 				'types'    => array('classic', 'gradient', 'video'),
-				'selector' => '{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide',
+				'selector' => '{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide, {{WRAPPER}} .responsive-marquee-wrapper .marquee-item',
 			)
 		);
 
@@ -746,7 +749,7 @@ class Responsive_Addons_For_Elementor_Testimonial_Slider extends Widget_Base
 			Group_Control_Box_Shadow::get_type(),
 			array(
 				'name'     => 'rael_tm_hover_box_shadow',
-				'selector' => '{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide:hover',
+				'selector' => '{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide:hover, {{WRAPPER}} .responsive-marquee-wrapper .marquee-item:hover',
 			)
 		);
 
@@ -756,7 +759,7 @@ class Responsive_Addons_For_Elementor_Testimonial_Slider extends Widget_Base
 				'name'     => 'rael_team_background_content_hover',
 				'label'    => esc_html__('Background', 'responsive-addons-for-elementor'),
 				'types'    => array('classic', 'gradient', 'video'),
-				'selector' => '{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide:hover',
+				'selector' => '{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide:hover, {{WRAPPER}} .responsive-marquee-wrapper .marquee-item:hover',
 			)
 		);
 
@@ -767,8 +770,8 @@ class Responsive_Addons_For_Elementor_Testimonial_Slider extends Widget_Base
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => array(
-					'{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide:hover .responsive-testimonial__icon i, {{WRAPPER}} .responsive-testimonial-swiper .swiper-slide:hover .responsive-testimonial__icon svg' => 'color: {{VALUE}};',
-					'{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide:hover .responsive-testimonial__icon svg' => 'fill: {{VALUE}};',
+					'{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide:hover .responsive-testimonial__icon i, {{WRAPPER}} .responsive-testimonial-swiper .swiper-slide:hover .responsive-testimonial__icon svg, {{WRAPPER}} .responsive-marquee-wrapper .marquee-item .responsive-testimonial:hover .responsive-testimonial__icon i, {{WRAPPER}} .responsive-marquee-wrapper .marquee-item .responsive-testimonial:hover .responsive-testimonial__icon svg' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide:hover .responsive-testimonial__icon svg, {{WRAPPER}} .responsive-marquee-wrapper .marquee-item .responsive-testimonial:hover .responsive-testimonial__icon svg' => 'fill: {{VALUE}};',
 				),
 			)
 		);
@@ -780,7 +783,7 @@ class Responsive_Addons_For_Elementor_Testimonial_Slider extends Widget_Base
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => array(
-					'{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide:hover .responsive-testimonial__text' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide:hover .responsive-testimonial__text, {{WRAPPER}} .responsive-marquee-wrapper .marquee-item .responsive-testimonial:hover .responsive-testimonial__text' => 'color: {{VALUE}};',
 				),
 			)
 		);
@@ -792,7 +795,7 @@ class Responsive_Addons_For_Elementor_Testimonial_Slider extends Widget_Base
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => array(
-					'{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide:hover .responsive-testimonial__name' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide:hover .responsive-testimonial__name, {{WRAPPER}} .responsive-marquee-wrapper .marquee-item .responsive-testimonial:hover .responsive-testimonial__name' => 'color: {{VALUE}};',
 				),
 			)
 		);
@@ -804,7 +807,7 @@ class Responsive_Addons_For_Elementor_Testimonial_Slider extends Widget_Base
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => array(
-					'{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide:hover .responsive-testimonial__title' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide:hover .responsive-testimonial__title, {{WRAPPER}} .responsive-marquee-wrapper .marquee-item .responsive-testimonial:hover .responsive-testimonial__title' => 'color: {{VALUE}};',
 				),
 			)
 		);
@@ -1656,7 +1659,7 @@ class Responsive_Addons_For_Elementor_Testimonial_Slider extends Widget_Base
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => array(
-					'{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide:hover .responsive-testimonial__text' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide:hover .responsive-testimonial__text, {{WRAPPER}} .responsive-marquee-wrapper .marquee-item .responsive-testimonial:hover .responsive-testimonial__text' => 'color: {{VALUE}};',
 				),
 			)
 		);
@@ -1668,7 +1671,7 @@ class Responsive_Addons_For_Elementor_Testimonial_Slider extends Widget_Base
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => array(
-					'{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide:hover .responsive-testimonial__name' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide:hover .responsive-testimonial__name, {{WRAPPER}} .responsive-marquee-wrapper .marquee-item .responsive-testimonial:hover .responsive-testimonial__name' => 'color: {{VALUE}};',
 				),
 			)
 		);
@@ -1680,7 +1683,7 @@ class Responsive_Addons_For_Elementor_Testimonial_Slider extends Widget_Base
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => array(
-					'{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide:hover .responsive-testimonial__title' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .responsive-testimonial-swiper .swiper-slide:hover .responsive-testimonial__title, {{WRAPPER}} .responsive-marquee-wrapper .marquee-item .responsive-testimonial:hover .responsive-testimonial__title' => 'color: {{VALUE}};',
 				),
 			)
 		);

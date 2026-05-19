@@ -15,6 +15,7 @@ use Elementor\Core\Kits\Documents\Tabs\Global_Typography;
 use Elementor\Core\Kits\Documents\Tabs\Global_Colors;
 use Elementor\Group_Control_Box_Shadow;
 use Elementor\Icons_Manager;
+use Elementor\Group_Control_Border;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;   // Exit if accessed directly.
@@ -740,44 +741,26 @@ class Responsive_Addons_For_Elementor_Search_Form extends Widget_Base {
 		$this->end_controls_tab();
 
 		$this->end_controls_tabs();
-
-		$this->add_control(
-			'rael_toggle_icon_size',
+		
+		$this->add_group_control(
+			Group_Control_Border::get_type(),
 			array(
-				'label'     => __( 'Icon Size', 'responsive-addons-for-elementor' ),
-				'type'      => Controls_Manager::SLIDER,
-				'selectors' => array(
-					'{{WRAPPER}} .rael-elementor-search-form__toggle i:before' => 'font-size: calc({{SIZE}}em / 100)',
-				),
+				'name'     => 'rael-elementor-search-form-toggle',
+				'label'    => esc_html__( 'Border', 'responsive-addons-for-elementor' ),
+				'selector' => '{{WRAPPER}} .rael-elementor-search-form__toggle i, {{WRAPPER}} .rael-elementor-search-form__toggle svg',
 				'separator' => 'before',
 			)
 		);
 
-		$this->add_control(
-			'rael_toggle_border_width',
-			array(
-				'label'     => __( 'Border Width', 'responsive-addons-for-elementor' ),
-				'type'      => Controls_Manager::SLIDER,
-				'range'     => array(
-					'px' => array(
-						'max' => 10,
-					),
-				),
-				'selectors' => array(
-					'{{WRAPPER}} .rael-elementor-search-form__toggle i' => 'border-width: {{SIZE}}{{UNIT}}',
-				),
-				'separator' => 'before',
-			)
-		);
-
-		$this->add_control(
+		$this->add_responsive_control(
 			'rael_toggle_border_radius',
 			array(
-				'label'      => __( 'Border Radius', 'responsive-addons-for-elementor' ),
-				'type'       => Controls_Manager::SLIDER,
+				'label'     => __( 'Border Radius', 'responsive-addons-for-elementor' ),
+				'type'      => Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', '%' ),
-				'selectors'  => array(
-					'{{WRAPPER}} .rael-elementor-search-form__toggle i' => 'border-radius: {{SIZE}}{{UNIT}}',
+				'selectors' => array(
+					'{{WRAPPER}} .rael-elementor-search-form__toggle i' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} .rael-elementor-search-form__toggle svg' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
 			)
 		);
@@ -805,12 +788,6 @@ class Responsive_Addons_For_Elementor_Search_Form extends Widget_Base {
 			)
 		);
 
-
-		$migration_allowed = Icons_Manager::is_migration_allowed();
-		$icon              = array(
-			'value'   => 'fas fa-' . $icon_class,
-			'library' => 'fa-solid',
-		);
 		?>
 		<form class="rael-elementor-search-form" role="search" action="<?php echo esc_url( home_url() ); ?>" method="get">
 			<?php do_action( 'rael_search_form_before_input', $this ); ?>

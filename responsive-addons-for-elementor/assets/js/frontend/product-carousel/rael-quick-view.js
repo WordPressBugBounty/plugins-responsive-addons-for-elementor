@@ -113,7 +113,6 @@ export var QuickView = {
             data: {
               action: 'rael_product_add_to_cart',
               product_data: product_data,
-              nonce: localize.nonce,
               cart_item_data: form.serializeArray()
             },
             success: function success(response) {

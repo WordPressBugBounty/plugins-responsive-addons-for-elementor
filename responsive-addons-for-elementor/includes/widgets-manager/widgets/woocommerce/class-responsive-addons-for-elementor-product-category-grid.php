@@ -1018,7 +1018,7 @@ class Responsive_Addons_For_Elementor_Product_Category_Grid extends Widget_Base 
 
 		$product_categories = get_terms( $query_args );
 
-		if ( ! empty( $product_categories ) && count( $product_categories ) > $category_per_page ) {
+		if ( ! empty( $product_categories ) && is_int( $category_per_page ) && count( $product_categories ) > $category_per_page ) {
 			$product_categories = array_splice( $product_categories, 0, $category_per_page );
 		}
 
@@ -1076,21 +1076,22 @@ class Responsive_Addons_For_Elementor_Product_Category_Grid extends Widget_Base 
 
 		<div <?php $this->print_render_attribute_string( 'rael_pcg' ); ?>>
 			<?php
-			foreach ( $product_categories as $category ) :
-				$image_src    = Utils::get_placeholder_image_src();
-				$thumbnail_id = get_term_meta( $category->term_id, 'thumbnail_id', true );
-				$image        = wp_get_attachment_image_src( $thumbnail_id, $settings['rael_category_image_size'], false );
+			if ( is_array( $product_categories ) || is_object( $product_categories ) ) {
+				foreach ( $product_categories as $category ) :
+					$image_src    = Utils::get_placeholder_image_src();
+					$thumbnail_id = get_term_meta( $category->term_id, 'thumbnail_id', true );
+					$image        = wp_get_attachment_image_src( $thumbnail_id, $settings['rael_category_image_size'], false );
 
-				if ( $image ) {
-					$image_src = $image[0];
-				}
+					if ( $image ) {
+						$image_src = $image[0];
+					}
 
-				$this->add_render_attribute( 'rael_pcg_item_wrapper', 'class', 'rael-product-category-grid__item-wrapper' );
+					$this->add_render_attribute( 'rael_pcg_item_wrapper', 'class', 'rael-product-category-grid__item-wrapper' );
 
-				if ( 'yes' === $settings['rael_category_image'] ) {
-					$this->add_render_attribute( 'rael_pcg_item_wrapper', 'class', 'rael-product-category-grid--has-own-image' );
-				}
-				?>
+					if ( 'yes' === $settings['rael_category_image'] ) {
+						$this->add_render_attribute( 'rael_pcg_item_wrapper', 'class', 'rael-product-category-grid--has-own-image' );
+					}
+					?>
 
 					<article <?php $this->print_render_attribute_string( 'rael_pcg_item_wrapper' ); ?>>
 						<div class="rael-product-category-grid__item" onclick="window.location.href='<?php echo esc_url( get_term_link( $category->term_id, 'product_cat' ) ); ?>'" >
@@ -1130,6 +1131,7 @@ class Responsive_Addons_For_Elementor_Product_Category_Grid extends Widget_Base 
 					</article>
 					<?php
 				endforeach;
+			}
 			?>
 		</div>
 

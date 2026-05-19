@@ -7,7 +7,7 @@ Tested up to: 6.9
 Elementor tested up to: 4.0
 Elementor Pro tested up to: 4.0
 Requires PHP: 5.6
-Stable tag: 2.1.7
+Stable tag: 2.1.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -279,6 +279,46 @@ If you like Responsive Addons for Elementor, consider checking out our other Wor
 The Development Version of the Responsive Addons for Elementor plugin is located at [https://github.com/cyberchimps/responsive-addons-for-elementor](https://github.com/cyberchimps/responsive-addons-for-elementor)
 
 == Changelog ==
+
+= 2.1.8 – 19th May 2026 =
+
+- Fix: Advanced Tabs: Fixed issues with Alignment, Width, duplicate Background Color controls, and Active tab background styling when gradients were applied.
+- Fix: Back to Top: Fixed an issue where Icon Color settings were not reflected on the frontend.
+- Fix: Call to Action: Fixed issues where Background Color settings were not applied correctly and Sequenced Animation was triggered even when disabled.
+- Fix: Contact Form 7 Styler: Fixed missing icons in the Field Alignment setting.
+- Fix: Content Switcher: Fixed an issue preventing containers from saved sections from being used properly.
+- Fix: Datatable: Fixed missing image icons, raw code rendering instead of proper design output and resolved PHP warnings related to undefined array keys and null array offsets.
+- Fix: Facebook Feed: Updated incorrect Access Token documentation link with the correct “Need Help” link.
+- Fix: Accordion/FAQ: Fixed an issue where raw HTML/code was displayed instead of rendered content.
+- Fix: Icon Box: Fixed missing icons in the Image Type setting and resolved settings application issues.
+- Fix: Image Gallery: Fixed an issue where overlay icons were not visible.
+- Fix: Login/Registration: Fixed Forgot Password visibility issue, corrected incorrect settings link and resolved Checkbox Color styling issues.
+- Fix: Menu Cart: Fixed icon rendering and functionality issue.
+- Fix: Modal Popup: Fixed missing image icon in editor settings.
+- Fix: Multi Button: Added missing connector icon styling controls, including Icon Color, Icon Size, and Icon Spacing controls.
+- Fix: Post Carousel: Fixed issues with Title Length, Hover Color, Terms styling, and Excerpt Alignment affecting the Read More button.
+- Fix: Posts: Fixed Load More button visibility issue after all posts were loaded and optimized AJAX handling to prevent duplicate AJAX calls during tabs and pagination actions.
+- Fix: Product Carousel: Fixed Quick View popup not opening and infinite loading issue on Quick View action.
+- Fix: Progress Bar: Fixed deprecated PHP warnings, missing alignment icons, and issues with Background and Fill styling settings.
+- Fix: Search Bar: Resolved undefined variable warnings, removed duplicate Icon Size control and fixed Border styling settings including Width, Radius, Color, and Style.
+- Fix: Global Scripts: Resolved incorrect dependency warning for rael-animations-frontend script enqueue.
+- Fix: Stacking Cards: Resolved PHP warnings, fixed issues with Item Image Size, Background Color, Content Width, Button Text, Show Description and Show Button settings, added Background Image support and improved conditional visibility for settings controls.
+- Fix: Woo Checkout: Resolved frontend warnings, fixed coupon toggle functionality, corrected login form design/alignment issues and fixed styling issues related to Tabs, Notices, and dropdown field colors.
+- Fix: WPForms Styler: Fixed missing alignment icons and resolved button text alignment issues for Large and Extra Large button sizes.
+- Fix: Products: Fixed raw HTML rendering issue with Product Compare and Image Clickable settings enabled together and resolved Quick View infinite loading issue across Preset 5 to Preset 8 layouts.
+- Fix: Timeline: Resolved undefined array key value warning displayed on frontend.
+- Fix: Sticky Video: Resolved undefined array key warnings, fixed backend preview rendering, corrected Play Button visibility with image overlays and fixed Close Button visibility issues.
+- Fix: RAE Duplicator: Fixed duplicated templates incorrectly changing type from Container/Section/DivBlock/Flexbox to Page.
+- Fix: RAE Sticky Section: Fixed Sticky Section Style settings not applying correctly.
+- Fix: Post Title: Fixed editor visibility issue where Post Title appeared even when hidden via Elementor page settings.
+- Fix: Post Navigation: Fixed Overline Text Decoration styling issue and resolved taxonomy filtering issues for Standard post formats.
+- Fix: Post Info: Fixed Comments label visibility issue when Custom Format toggle was enabled.
+- Fix: Post Content: Fixed rendering issue for password-protected posts where escaped form HTML appeared instead of the interactive password form.
+- Fix: Author Box: Fixed Hover Animation setting not working for Button styles.
+- Fix: Archive Posts: Resolved frontend warning displayed on archive pages without posts.
+- Fix: Team Member: Fixed cropped popup icons, missing social profile preview and icon sizing inconsistencies caused by padding adjustments.
+- Fix: Table of Contents: Fixed editor preview refresh issues for newly added headings and resolved missing higher-level heading visibility in the TOC widget.
+- Fix: Minor bug fixes.
 
 = 2.1.7 – 16th April 2026 =
 - Improvement: Introducing revamped dashboard in the RAE plugin.

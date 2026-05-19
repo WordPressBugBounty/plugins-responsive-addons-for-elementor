@@ -315,9 +315,9 @@ class Responsive_Addons_For_Elementor_Theme_Post_Info extends Widget_Base {
 		);
 
 		$repeater->add_control(
-			'rael_meta_data_string_commens',
+			'rael_meta_data_string_comments',
 			array(
-				'label'       => __( 'Comments', 'responsive-addons-for-elementor' ),
+				'label'       => __( 'Multiple Comments', 'responsive-addons-for-elementor' ),
 				'type'        => Controls_Manager::TEXT,
 				// translators: Placeholder %s represents the number of comments.
 				'placeholder' => __( '%s Comments', 'responsive-addons-for-elementor' ),

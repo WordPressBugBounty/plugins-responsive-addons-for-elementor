@@ -308,6 +308,7 @@
 
 .marquee-item {
     flex-shrink: 0;
+    border-style: solid;
 }
 .rael-marquee-item{
     flex: 0 0 auto;      

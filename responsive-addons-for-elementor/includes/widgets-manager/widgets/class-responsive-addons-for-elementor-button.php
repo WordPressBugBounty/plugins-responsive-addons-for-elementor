@@ -565,7 +565,7 @@ class Responsive_Addons_For_Elementor_Button extends Widget_Base {
 				'global'   => array(
 					'default' => Global_Typography::TYPOGRAPHY_PRIMARY,
 				),
-				'selector' => '{{WRAPPER}} .rael-text',
+				'selector' => '{{WRAPPER}} .rael-button:hover .rael-text',
 			)
 		);
 

@@ -110,8 +110,8 @@
             effects.scale = {
                 direction: settings.rae_animations_scale_direction || 'scale_up',
                 speed: parseFloat(settings.rae_animations_scale_speed?.size) || 4,
-                origin_x: settings.motion_fx_transform_x_anchor_point || 'center',
-                origin_y: settings.motion_fx_transform_y_anchor_point || 'center',
+                origin_x: settings.rae_motion_fx_transform_x_anchor_point || 'center',
+                origin_y: settings.rae_motion_fx_transform_y_anchor_point || 'center',
                 start: parseInt(viewport.start) || 0,
                 end: parseInt(viewport.end) || 100
             };

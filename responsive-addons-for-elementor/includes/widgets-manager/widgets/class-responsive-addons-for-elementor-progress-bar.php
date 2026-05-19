@@ -296,7 +296,7 @@ class Responsive_Addons_For_Elementor_Progress_Bar extends Widget_Base {
 				'label'     => __( 'General', 'responsive-addons-for-elementor' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array(
-					'rael_progress_bar_layout' => array( 'line', 'circle_fill', 'half_circle_fill', 'box' ),
+					'rael_progress_bar_layout' => array( 'line' ),
 				),
 			)
 		);
@@ -309,15 +309,15 @@ class Responsive_Addons_For_Elementor_Progress_Bar extends Widget_Base {
 				'options' => array(
 					'left'   => array(
 						'title' => __( 'Left', 'responsive-addons-for-elementor' ),
-						'icon'  => 'fa fa-align-left',
+						'icon'  => 'eicon-text-align-left',
 					),
 					'center' => array(
 						'title' => __( 'Center', 'responsive-addons-for-elementor' ),
-						'icon'  => 'fa fa-align-center',
+						'icon'  => 'eicon-text-align-center',
 					),
 					'right'  => array(
 						'title' => __( 'Right', 'responsive-addons-for-elementor' ),
-						'icon'  => 'fa fa-align-right',
+						'icon'  => 'eicon-text-align-right',
 					),
 				),
 				'default' => 'center',
@@ -332,7 +332,7 @@ class Responsive_Addons_For_Elementor_Progress_Bar extends Widget_Base {
 				'label'     => __( 'Background', 'responsive-addons-for-elementor' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array(
-					'rael_progress_bar_layout' => array( 'line', 'circle_fill', 'half_circle_fill', 'box' ),
+					'rael_progress_bar_layout' => array( 'line' ),
 				),
 			)
 		);
@@ -409,7 +409,7 @@ class Responsive_Addons_For_Elementor_Progress_Bar extends Widget_Base {
 				'label'     => __( 'Fill', 'responsive-addons-for-elementor' ),
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array(
-					'rael_progress_bar_layout' => array( 'line', 'circle_fill', 'half_circle_fill', 'box' ),
+					'rael_progress_bar_layout' => array( 'line' ),
 				),
 			)
 		);
@@ -507,15 +507,15 @@ class Responsive_Addons_For_Elementor_Progress_Bar extends Widget_Base {
 				'options' => array(
 					'left'   => array(
 						'title' => __( 'Left', 'responsive-addons-for-elementor' ),
-						'icon'  => 'fa fa-align-left',
+						'icon'  => 'eicon-text-align-left',
 					),
 					'center' => array(
 						'title' => __( 'Center', 'responsive-addons-for-elementor' ),
-						'icon'  => 'fa fa-align-center',
+						'icon'  => 'eicon-text-align-center',
 					),
 					'right'  => array(
 						'title' => __( 'Right', 'responsive-addons-for-elementor' ),
-						'icon'  => 'fa fa-align-right',
+						'icon'  => 'eicon-text-align-right',
 					),
 				),
 				'default' => 'center',
@@ -648,15 +648,15 @@ class Responsive_Addons_For_Elementor_Progress_Bar extends Widget_Base {
 				'options' => array(
 					'left'   => array(
 						'title' => __( 'Left', 'responsive-addons-for-elementor' ),
-						'icon'  => 'fa fa-align-left',
+						'icon'  => 'eicon-text-align-left',
 					),
 					'center' => array(
 						'title' => __( 'Center', 'responsive-addons-for-elementor' ),
-						'icon'  => 'fa fa-align-center',
+						'icon'  => 'eicon-text-align-center',
 					),
 					'right'  => array(
 						'title' => __( 'Right', 'responsive-addons-for-elementor' ),
-						'icon'  => 'fa fa-align-right',
+						'icon'  => 'eicon-text-align-right',
 					),
 				),
 				'default' => 'center',
@@ -953,8 +953,8 @@ class Responsive_Addons_For_Elementor_Progress_Bar extends Widget_Base {
                     </div>
                 </div>
                 <div class="rael-progressbar-half-circle-after">
-                    ' . ( wp_kses_post( $settings['rael_progress_bar_prefix_label'] ) ? sprintf( '<span class="rael-progressbar-prefix-label">%1$s</span>', wp_kses_post( $settings['rael_progress_bar_prefix_label'] ) ) : '' ) . '
-                    ' . ( wp_kses_post( $settings['rael_progress_bar_postfix_label'] ) ? sprintf( '<span class="rael-progressbar-postfix-label">%1$s</span>', wp_kses_post( $settings['rael_progress_bar_postfix_label'] ) ) : '' ) . '
+                    ' . ( $settings['rael_progress_bar_prefix_label'] ? sprintf( '<span class="rael-progressbar-prefix-label">%1$s</span>', wp_kses_post( $settings['rael_progress_bar_prefix_label'] ) ) : '' ) . '
+                    ' . ( $settings['rael_progress_bar_postfix_label'] ? sprintf( '<span class="rael-progressbar-postfix-label">%1$s</span>', wp_kses_post( $settings['rael_progress_bar_postfix_label'] ) ) : '' ) . '
                 </div>
             </div>';
 		}
@@ -993,7 +993,7 @@ class Responsive_Addons_For_Elementor_Progress_Bar extends Widget_Base {
 				)
 			);
 
-			echo '<div class="rael-progressbar-line-container ' . wp_kses_post( $settings['rael_progress_bar_line_alignment'] ) . '">
+			echo '<div class="rael-progressbar-line-container ' . ( $settings['rael_progress_bar_line_alignment'] ? wp_kses_post( $settings['rael_progress_bar_line_alignment'] ) : '' ) . '">
                 ' . ( wp_kses_post( $settings['rael_progress_bar_title'] ) ? sprintf( '<%1$s class="%2$s">', wp_kses_post( Helper::validate_html_tags( $settings['rael_progress_bar_title_html_tag'] ) ), 'rael-progressbar-title' ) . wp_kses_post( $settings['rael_progress_bar_title'] ) . sprintf( '</%1$s>', wp_kses_post( Helper::validate_html_tags( $settings['rael_progress_bar_title_html_tag'] ) ) ) : '' ) . '
 
                 <div ' . wp_kses_post( $this->get_render_attribute_string( 'rael-progressbar-line' ) ) . '>

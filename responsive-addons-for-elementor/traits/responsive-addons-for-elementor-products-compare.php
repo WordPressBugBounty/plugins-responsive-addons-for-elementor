@@ -278,7 +278,7 @@ trait RAEL_Products_Comparable {
 												}
 											}
 
-											echo ! empty( $product->fields[ $field ] ) ? esc_attr( $product->fields[ $field ] ) : '&nbsp;';
+											echo ! empty( $product->fields[ $field ] ) ? wp_kses_post( $product->fields[ $field ] ) : '&nbsp;';
 
 											if ( 'image' === $field ) {
 												if ( 'yes' === $linkable_img ) {

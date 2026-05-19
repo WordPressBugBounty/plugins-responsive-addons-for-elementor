@@ -207,7 +207,7 @@ class Responsive_Addons_For_Elementor_FAQ extends Widget_Base
 				'label_on'     => __('Yes', 'responsive-addons-for-elementor'),
 				'label_off'    => __('No', 'responsive-addons-for-elementor'),
 				'return_value' => 'yes',
-				'default'      => 'yes',
+				'default'      => 'no',
 			]
 		);
 
@@ -1370,7 +1370,7 @@ class Responsive_Addons_For_Elementor_FAQ extends Widget_Base
 										default:
 											$output = '';
 									}
-									echo wp_kses_post($output);
+									echo $output;
 									?>
 								</span>
 							</div>

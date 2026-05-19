@@ -108,6 +108,9 @@ class Responsive_Addons_For_Elementor {
 		add_action( 'wp_ajax_nopriv_rael_product_quickview_popup', array( Helper::class, 'rael_product_quickview_popup' ) );
 		add_action( 'wp_ajax_rael_product_quickview_popup', array( Helper::class, 'rael_product_quickview_popup' ) );
 
+		add_action( 'wp_ajax_nopriv_rael_product_add_to_cart', array( Helper::class, 'rael_product_add_to_cart' ));
+		add_action( 'wp_ajax_rael_product_add_to_cart', array( Helper::class, 'rael_product_add_to_cart' ));
+
 		// RAEL Products.
 		add_action( 'wp_ajax_rael_load_more', array( Helper::class, 'ajax_load_more' ) );
 		add_action( 'wp_ajax_nopriv_rael_load_more', array( Helper::class, 'ajax_load_more' ) );
@@ -945,6 +948,7 @@ private function rael_find_element_recursive($elements, $widget_id) {
 		$words = array(
 			'loading' => esc_html__( 'Loading', 'responsive-addons-for-elementor' ),
 			'added'   => esc_html__( 'Added', 'responsive-addons-for-elementor' ),
+			'compare' => esc_html__( 'Compare', 'responsive-addons-for-elementor' ),
 		);
 
 		return $words;
@@ -1110,7 +1114,9 @@ private function rael_find_element_recursive($elements, $widget_id) {
 			'rael-frontend',
 			RAEL_URL . 'assets/js/frontend/rael-frontend.js',
 			array(
+				'jquery',
 				'elementor-frontend',
+				'isotope'
 			),
 			RAEL_VER,
 			true
@@ -1234,11 +1240,20 @@ private function rael_find_element_recursive($elements, $widget_id) {
 							wp_register_style( 'rael-photoswipe-default-skin', RAEL_ASSETS_URL . 'lib/photoswipe/default-skin.min.css', null, RAEL_VER );
 							wp_enqueue_style( 'rael-photoswipe-default-skin' );
 						}
+						wp_register_script(
+							'isotope',
+							RAEL_ASSETS_URL . 'lib/isotope/isotope.min.js',
+							[ 'jquery' ],
+							RAEL_VER,
+							true
+						);
+
 						if ( ! isset( $included_libs['rael-swiper'] ) ) {
 							$included_libs['rael-swiper'] = true;
 							wp_register_script( 'rael-swiper', RAEL_ASSETS_URL . 'lib/swiper/swiper.min.js', array(), RAEL_VER, true );
 							wp_localize_script( 'rael-swiper', 'rael_elementor_swiper', $swiper_class );
 						}
+						
 						break;
 					case 'image-gallery':
 						if ( ! isset( $included_libs['rael-fancybox'] ) ) {
@@ -1284,10 +1299,25 @@ private function rael_find_element_recursive($elements, $widget_id) {
 					case 'lottie':
 						wp_register_script( 'rael-lottie-lib', RAEL_ASSETS_URL . 'lib/lottie/lottie.min.js', array(), RAEL_VER, true );
 						break;
-					case 'sticky-video':
-						wp_register_script( 'rael-plyr', RAEL_ASSETS_URL . 'lib/plyr/plyr.min.js', array(), RAEL_VER, true );
+					case 'sticky-video':						
+						if ( ! isset( $included_libs['plyr'] ) ) {
+							$included_libs['plyr'] = true;
+							wp_register_script( 'plyr', RAEL_ASSETS_URL . 'lib/plyr/plyr.min.js', array(), RAEL_VER, true );
+
+						}
+						if ( ! isset( $included_libs['rael-sticky-video'] ) ) {
+							$included_libs['rael-sticky-video'] = true;
+							wp_register_script(
+								'rael-sticky-video',
+								RAEL_ASSETS_URL . 'js/frontend/sticky-video/rael-sticky-video.min.js',
+								array( 'elementor-frontend','jquery', 'plyr' ),
+								RAEL_VER,
+								true
+							);
+						}
 						wp_register_style( 'rael-plyr-style', RAEL_ASSETS_URL . 'lib/plyr/plyr.min.css', null, RAEL_VER );
 						wp_enqueue_style( 'rael-plyr-style' );
+
 						break;
 					case 'content-ticker':
 					case 'logo-carousel':
@@ -1431,6 +1461,7 @@ private function rael_find_element_recursive($elements, $widget_id) {
 			RAEL_VER,
 			true
 		);
+
 	}
 
 	/**
@@ -1537,7 +1568,7 @@ private function rael_find_element_recursive($elements, $widget_id) {
 			)
 		);
 
-		if ( 'toplevel_page_rael_getting_started' !== $hook && 'responsive_page_rael_getting_started' !== $hook ) {
+		if ( false === strpos( $hook, 'page_rael_getting_started' ) ) {
 			return;
 		}
 		// Registering Bootstrap scripts.
@@ -1949,7 +1980,6 @@ private function rael_find_element_recursive($elements, $widget_id) {
 						array_push( $css_files, $css_files_path . 'wpfstyler/rael-wpfstyler' . $css_min_ext );
 						break;
 					case 'sticky-video':
-						array_push( $js_files, $js_files_path . 'sticky-video/rael-sticky-video' . $ext );
 						array_push( $css_files, $css_files_path . 'sticky-video/rael-sticky-video' . $css_min_ext );
 						break;
 					case 'table-of-contents':

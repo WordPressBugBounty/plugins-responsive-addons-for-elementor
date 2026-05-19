@@ -301,7 +301,7 @@
   box-shadow: 0 28px 40px 0 rgba(0, 0, 0, 0.1); }
 
 .rael-team-member .profile-square-v.square-v4 .profile-card {
-  max-height: 380px;
+  max-height: 500px;
   overflow: hidden; }
 
 .rael-team-member .profile-square-v.square-v4 .profile-card::before {
@@ -357,8 +357,9 @@
   box-shadow: none; }
 
 .rael-team-member .profile-square-v.square-v4 .profile-card:hover .profile-body {
-  -webkit-transform: translateY(-50px);
-  transform: translateY(-50px); }
+  -webkit-transform: translateY(-70px);
+  transform: translateY(-70px);
+  z-index: 2; }
 
 .rael-team-member .profile-square-v.square-v4 .profile-card:hover .profile-body::before {
   opacity: 1; }
@@ -527,20 +528,29 @@
   overflow: auto; }
 
 .rael-team-member .rael-team-modal-close {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   position: absolute;
   top: 10px;
   right: 10px;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   padding: 0;
   color: #656565;
   background-color: transparent;
   border-width: 0;
   border-radius: 0;
   font-size: 18px;
-  line-height: 1;
   outline: 0;
-  z-index: 1; }
+  z-index: 1;
+  overflow: visible; }
 
 .rael-team-member .rael-team-modal-title {
   margin-top: 0;
@@ -575,7 +585,6 @@
   width: 100%; }
 
 .rael-team-member .rael-team-modal-info .rael-team-social-list > li > a {
-  line-height: 32px;
   -webkit-box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1); }
 
@@ -651,20 +660,29 @@
   overflow: auto; }
 
 .rael-team-member .rael-team-modal-close {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   position: absolute;
   top: 10px;
   right: 10px;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   padding: 0;
   color: #656565;
   background-color: transparent;
   border-width: 0;
   border-radius: 0;
   font-size: 18px;
-  line-height: 1;
   outline: 0;
-  z-index: 1; }
+  z-index: 1;
+  overflow: visible; }
 
 .rael-team-member .rael-team-modal-title {
   margin-top: 0;
@@ -699,11 +717,11 @@
   width: 100%; }
 
 .rael-team-member .rael-team-modal-info .rael-team-social-list > li > a {
-  line-height: 32px;
   -webkit-box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1); }
 
 .rael-team-member .rael-team-modal-info .rael-team-social-list > li > a svg {
+  width: 14px;
   height: auto;
   vertical-align: middle; }
 
@@ -829,9 +847,10 @@
   justify-content: center;
   align-items: center;
   color: #fff;
-  width: 30px;
-  height: 30px;
-  line-height: 32px;
+  min-width: 30px;
+  min-height: 30px;
+  width: auto;
+  height: auto;
   font-size: 12px;
   background-color: #000;
   text-align: center;
@@ -848,6 +867,7 @@
   animation: iconTranslateY .4s forwards; }
 
 .rael-team-member .rael-team-social-list > li > a svg {
+  width: 14px;
   height: auto;
   vertical-align: middle; }
 

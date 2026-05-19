@@ -114,7 +114,7 @@
     float: none;
     display: block; }
 
-.swiper-container.rael-post-carousel.rael-post-carousel--show-read-more-button .rael-post-carousel__readmore-btn {
+.rael-post-carousel--show-read-more-button .rael-post-carousel__readmore-btn {
   display: inline-block; }
 
 .rael-post-carousel__readmore-btn {
@@ -123,7 +123,7 @@
   -webkit-transition: all 300ms ease-in-out;
   -o-transition: all 300ms ease-in-out;
   transition: all 300ms ease-in-out;
-  display: inline-block; }
+  display: none; }
 
 .rael-post-carousel-wrap .swiper-button-prev i {
   -webkit-transform: rotate(0deg);
@@ -574,7 +574,6 @@
   -o-object-fit: cover;
   object-fit: cover; }
 
-.rael-post-carousel__readmore-btn,
 .rael-post-carousel__author-avatar > a {
   display: block; }
 

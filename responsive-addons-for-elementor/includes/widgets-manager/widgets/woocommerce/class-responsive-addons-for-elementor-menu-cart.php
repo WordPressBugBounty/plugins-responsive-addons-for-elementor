@@ -14,6 +14,8 @@ use Elementor\Group_Control_Typography;
 use Elementor\Widget_Base;
 use Responsive_Addons_For_Elementor\WidgetsManager\Responsive_Addons_For_Elementor_Widgets_Manager;
 use Responsive_Addons_For_Elementor\Traits\Missing_Dependency;
+use Elementor\Icons_Manager;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
@@ -64,6 +66,22 @@ class Responsive_Addons_For_Elementor_Menu_Cart extends Widget_Base {
 	 */
 	public function get_categories() {
 		return array( 'responsive-addons-for-elementor' );
+	}
+
+	public function __construct( $data = array(), $args = null ) {
+			parent::__construct( $data, $args ); // ✅ REQUIRED
+
+		add_action( 'wp_enqueue_scripts', function() {
+
+		wp_add_inline_style(
+			'elementor-frontend',
+			'#rael-menu-cart__toggle_button .rael-menu-cart-icon {
+				width: 20px;
+				height: 20px;
+			}'
+			);
+
+		});
 	}
 	/**
 	 * Register controls for the widget
@@ -771,7 +789,12 @@ class Responsive_Addons_For_Elementor_Menu_Cart extends Widget_Base {
 			return;
 		}
 		$this->maybe_use_mini_cart_template();
-		Responsive_Addons_For_Elementor_Widgets_Manager::render_menu_cart();
+
+		$settings = $this->get_settings_for_display();
+		// Persist so the fragment AJAX call can read it
+    	update_option( 'rael_menu_cart_icon', sanitize_text_field( $settings['icon'] ?? 'cart-medium' ) );
+
+		$this->rae_render_menu_cart( $settings );
 	}
 	/**
 	 * Renders plain content for the widget.
@@ -787,5 +810,135 @@ class Responsive_Addons_For_Elementor_Menu_Cart extends Widget_Base {
 	 */
 	public function get_custom_help_url() {
 		return 'https://cyberchimps.com/docs/responsive-addons-for-elementor/widgets/menu-cart/';
+	}
+
+	/* Menu cart button */
+	public static function rae_render_menu_cart( $settings ) {
+		if ( null === WC()->cart ) {
+			return;
+		}
+
+		$widget_cart_is_hidden = apply_filters( 'woocommerce_widget_cart_is_hidden', false );
+		?>
+		<div class="rael-menu-cart__wrapper">
+			<?php if ( ! $widget_cart_is_hidden ) : ?>
+				<div class="rael-menu-cart__container elementor-lightbox" aria-expanded="false">
+					<div class="rael-menu-cart__main" aria-expanded="false">
+						<div class="rael-menu-cart__close-button"></div>
+						<div class="widget_shopping_cart_content"><?php	wc_get_template( 'cart/mini-cart.php' ); ?></div>
+					</div>
+				</div>
+				<?php 
+					self::rae_render_menu_cart_toggle_button( $settings ); 
+				?>
+			<?php endif; ?>
+		</div> <!-- close rael-menu-cart__wrapper -->
+		<?php
+	}
+	/**
+	 * Render toggle button for menu cart widget.
+	 */
+	public static function rae_render_menu_cart_toggle_button( $settings ) {
+		if ( null === WC()->cart ) {
+			return;
+		}
+		$product_count = WC()->cart->get_cart_contents_count();
+		$sub_total     = WC()->cart->get_cart_subtotal();
+		$counter_attr  = 'data-counter="' . $product_count . '"';
+    	$icon = ! empty( $settings['icon'] ) ? $settings['icon'] : 'cart-medium';
+
+		?>
+		<div class="rael-menu-cart__toggle elementor-button-wrapper">
+			<a id="rael-menu-cart__toggle_button" href="#" class="elementor-button elementor-size-sm">
+				<span class="elementor-button-text"><?php echo wp_kses_post( $sub_total ); ?></span>
+				<span class="elementor-button-icon" <?php echo wp_kses_post( $counter_attr ); ?>>
+
+				
+					<?php echo self::get_cart_icon_svg( $icon ); ?>
+					<span class="elementor-screen-only"><?php esc_html_e( 'Cart', 'responsive-addons-for-elementor' ); ?></span>
+				</span>
+			</a>
+		</div>
+
+		<?php
+	}
+	public static function get_cart_icon_svg( $icon ) {
+		switch ( $icon ) {
+
+			/* ================= CART ================= */
+
+			case 'cart-light':
+				return '<svg class="e-eicon-cart-light rael-menu-cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M2 3h2.5l3 10.5h9.5l2.5-7.5H7"/>
+					<circle cx="9.5" cy="19.5" r="1.5"/>
+					<circle cx="17.5" cy="19.5" r="1.5"/>
+				</svg>';
+
+			case 'cart-medium':
+				return '<svg class="e-eicon-cart-medium rael-menu-cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M2 3h2.5l3 10.5h9.5l2.5-7.5H7"/>
+					<circle cx="9.5" cy="19.5" r="1.5"/>
+					<circle cx="17.5" cy="19.5" r="1.5"/>
+				</svg>';
+
+			case 'cart-solid':
+				return '<svg class="e-eicon-cart-solid rael-menu-cart-icon" viewBox="0 0 24 24" fill="currentColor">
+					<path d="M2 3h2.5l3 10.5h9.5l2.5-7.5H7L5.5 3H2z"/>
+					<circle cx="9.5" cy="19.5" r="2"/>
+					<circle cx="17.5" cy="19.5" r="2"/>
+				</svg>';
+
+
+			/* ================= BASKET ================= */
+
+			case 'basket-light':
+				return '<svg class="e-eicon-basket-light rael-menu-cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M6 9l3-5M18 9l-3-5"/>
+					<rect x="2" y="9" width="20" height="3" rx="1.5"/>
+					<path d="M4 12l1.5 9h13L20 12"/>
+					<line x1="9" y1="15" x2="9" y2="18"/>
+					<line x1="15" y1="15" x2="15" y2="18"/>
+				</svg>';
+
+			case 'basket-medium':
+				return '<svg class="e-eicon-basket-medium rael-menu-cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M6 9l3-5M18 9l-3-5"/>
+					<rect x="2" y="9" width="20" height="3" rx="1.5"/>
+					<path d="M4 12l1.5 9h13L20 12"/>
+					<line x1="9" y1="15" x2="9" y2="18"/>
+					<line x1="15" y1="15" x2="15" y2="18"/>
+				</svg>';
+
+			case 'basket-solid':
+				return '<svg class="e-eicon-basket-solid rael-menu-cart-icon" viewBox="0 0 24 24" fill="currentColor">
+					<path d="M6 9l3-5M18 9l-3-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+					<rect x="2" y="9" width="20" height="3.5" rx="1.75"/>
+					<path d="M4 12.5l1.5 8.5h13l1.5-8.5z"/>
+				</svg>';
+
+
+			/* ================= BAG ================= */
+
+			case 'bag-light':
+				return '<svg class="e-eicon-bag-light rael-menu-cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+					<rect x="4" y="7" width="16" height="14" rx="2"/>
+					<path d="M9 7V5.5a3 3 0 016 0V7"/>
+				</svg>';
+
+			case 'bag-medium':
+				return '<svg class="e-eicon-bag-medium rael-menu-cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<rect x="4" y="7" width="16" height="14" rx="2"/>
+					<path d="M9 7V5.5a3 3 0 016 0V7"/>
+				</svg>';
+
+			case 'bag-solid':
+				return '<svg class="e-eicon-bag-solid rael-menu-cart-icon" viewBox="0 0 24 24" fill="currentColor">
+					<rect x="4" y="7" width="16" height="14" rx="2"/>
+					<path d="M9 7V5.5a3 3 0 016 0V7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+				</svg>';
+
+			default:
+				return '';
+		}
 	}
 }

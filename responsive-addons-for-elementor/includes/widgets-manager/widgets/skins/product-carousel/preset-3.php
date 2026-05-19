@@ -73,7 +73,7 @@ if ( true === wc_get_loop_product_visibility( $product->get_id() ) || $product->
 					if ( empty( $settings['rael_pc_title_length'] ) ) {
 						echo esc_html( $product->get_title() );
 					} else {
-						echo wp_kses_post( implode( ' ', array_slice( explode( ' ', $product->get_title() ), 0, $settings['rael_pc_title_length'] ) ) );
+						echo wp_kses_post( substr( $product->get_title() , 0, $settings['rael_pc_title_length'] ) );
 					}
 					echo '</' . esc_attr( $settings['rael_pc_title_tag'] ) . '>';
 					echo '</div>';

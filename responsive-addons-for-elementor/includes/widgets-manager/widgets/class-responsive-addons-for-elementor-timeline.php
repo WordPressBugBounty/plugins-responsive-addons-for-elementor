@@ -817,6 +817,10 @@ class Responsive_Addons_For_Elementor_Timeline extends Widget_Base {
 			array(
 				'label'      => __( 'Width', 'responsive-addons-for-elementor' ),
 				'type'       => Controls_Manager::SLIDER,
+				'default'    => array(
+					'size' => 48,
+					'unit' => 'px',
+				),
 				'size_units' => array( 'px' ),
 				'range'      => array(
 					'px' => array(
@@ -824,19 +828,18 @@ class Responsive_Addons_For_Elementor_Timeline extends Widget_Base {
 						'max' => 500,
 					),
 				),
-				'selectors'  => array(
-					'{{WRAPPER}} .rael-timeline__icon' => 'width: {{SIZE}}{{UNIT}};',
-					'{{WRAPPER}} .rael-timeline__item:nth-child(even) .rael-timeline__icon' => 'width: {{SIZE}}{{UNIT}};',
-					'(desktop){{WRAPPER}}.rael-timeline__tree--align-center .rael-timeline__content' => 'width: calc(50% - (({{rael_timeline_icon_box_width.SIZE || 48}}{{UNIT}}/2) + {{rael_icon_box_spacing.SIZE || 30}}{{UNIT}}));',
-					'(tablet){{WRAPPER}}.rael-timeline__tree--align-center .rael-timeline__content' => 'width: calc(100% - (({{rael_timeline_icon_box_width_tablet.SIZE || 40}}{{UNIT}}/2) + {{rael_icon_box_spacing.SIZE || 35}}{{UNIT}}));',
-					'(mobile){{WRAPPER}}.rael-timeline__tree--align-center .rael-timeline__content' => 'width: calc(100% - (({{rael_timeline_icon_box_width_mobile.SIZE || 40}}{{UNIT}}/2) + {{rael_icon_box_spacing.SIZE || 35}}{{UNIT}}));',
-					'(desktop){{WRAPPER}}.rael-timeline__tree--align-left .rael-timeline__content' => 'width: calc(100% - ({{rael_timeline_icon_box_width.SIZE || 48}}{{UNIT}} + {{rael_icon_box_spacing.SIZE || 30}}{{UNIT}} + {{rael_icon_box_tree_spacing.SIZE || 110}}{{UNIT}}));',
-					'(tablet){{WRAPPER}}.rael-timeline__tree--align-left .rael-timeline__content' => 'width: calc(100% - ({{rael_timeline_icon_box_width_tablet.SIZE || 40}}{{UNIT}} + {{rael_icon_box_spacing_tablet.SIZE || 30}}{{UNIT}} + {{rael_icon_box_tree_spacing_tablet.SIZE || 0}}{{UNIT}}));',
-					'(mobile){{WRAPPER}}.rael-timeline__tree--align-left .rael-timeline__content' => 'width: calc(100% - ({{rael_timeline_icon_box_width_mobile.SIZE || 40}}{{UNIT}} + {{rael_icon_box_spacing_mobile.SIZE || 30}}{{UNIT}} + {{rael_icon_box_tree_spacing_mobile.SIZE || 0}}{{UNIT}}));',
-					'(desktop){{WRAPPER}}.rael-timeline__tree--align-right .rael-timeline__content' => 'width: calc(100% - ({{rael_timeline_icon_box_width.SIZE || 48}}{{UNIT}} + {{rael_icon_box_spacing.SIZE || 30}}{{UNIT}} + {{rael_icon_box_tree_spacing.SIZE || 110}}{{UNIT}}));',
-					'(tablet){{WRAPPER}}.rael-timeline__tree--align-right .rael-timeline__content' => 'width: calc(100% - ({{rael_timeline_icon_box_width_tablet.SIZE || 40}}{{UNIT}} + {{rael_icon_box_spacing_tablet.SIZE || 30}}{{UNIT}} + {{rael_icon_box_tree_spacing_tablet.SIZE || 0}}{{UNIT}}));',
-					'(mobile){{WRAPPER}}.rael-timeline__tree--align-right .rael-timeline__content' => 'width: calc(100% - ({{rael_timeline_icon_box_width_mobile.SIZE || 40}}{{UNIT}} + {{rael_icon_box_spacing_mobile.SIZE || 30}}{{UNIT}} + {{rael_icon_box_tree_spacing_mobile.SIZE || 0}}{{UNIT}}));',
-				),
+			'selectors'  => array(
+				'{{WRAPPER}} .rael-timeline__icon' => 'width: {{SIZE}}{{UNIT}};',
+				'{{WRAPPER}} .rael-timeline__item:nth-child(even) .rael-timeline__icon' => 'width: {{SIZE}}{{UNIT}};',
+				'(desktop){{WRAPPER}}.rael-timeline__tree--align-center .rael-timeline__content' =>
+					'width: calc(50% - (({{rael_timeline_icon_box_width.SIZE || 48}}{{UNIT}}/2) + {{rael_icon_box_spacing.SIZE || 30}}{{UNIT}}));',
+
+				'(tablet){{WRAPPER}}.rael-timeline__tree--align-center .rael-timeline__content' =>
+					'width: calc(100% - (({{rael_timeline_icon_box_width_tablet.SIZE || 40}}{{UNIT}}/2) + {{rael_icon_box_spacing.SIZE || 35}}{{UNIT}}));',
+
+				'(mobile){{WRAPPER}}.rael-timeline__tree--align-center .rael-timeline__content' =>
+					'width: calc(100% - (({{rael_timeline_icon_box_width_mobile.SIZE || 40}}{{UNIT}}/2) + {{rael_icon_box_spacing.SIZE || 35}}{{UNIT}}));',
+			),
 			)
 		);
 
@@ -845,6 +848,10 @@ class Responsive_Addons_For_Elementor_Timeline extends Widget_Base {
 			array(
 				'label'      => __( 'Height', 'responsive-addons-for-elementor' ),
 				'type'       => Controls_Manager::SLIDER,
+				'default'    => array(
+					'size' => 48,
+					'unit' => 'px',
+				),
 				'size_units' => array( 'px' ),
 				'range'      => array(
 					'px' => array(
@@ -855,8 +862,11 @@ class Responsive_Addons_For_Elementor_Timeline extends Widget_Base {
 				'selectors'  => array(
 					'{{WRAPPER}} .rael-timeline__icon' => 'height: {{SIZE}}{{UNIT}};',
 					'{{WRAPPER}} .rael-timeline__item:nth-child(even) .rael-timeline__icon' => 'height: {{SIZE}}{{UNIT}};',
-					'(desktop){{WRAPPER}} .rael-timeline__icon-box--vertical-align-top .rael-timeline__content.arrow::before' => 'top: calc(({{rael_timeline_icon_box_height.SIZE}}{{UNIT}}/2) - 8px);',
-					'(desktop){{WRAPPER}} .rael-timeline__icon-box--vertical-align-bottom .rael-timeline__content.arrow::before' => 'bottom: calc(({{rael_timeline_icon_box_height.SIZE}}{{UNIT}}/2) - 8px);',
+					'(desktop){{WRAPPER}} .rael-timeline__icon-box--vertical-align-top .rael-timeline__content.arrow::before' =>
+						'top: calc(({{SIZE}}{{UNIT}}/2) - 8px);',
+
+					'(desktop){{WRAPPER}} .rael-timeline__icon-box--vertical-align-bottom .rael-timeline__content.arrow::before' =>
+						'bottom: calc(({{SIZE}}{{UNIT}}/2) - 8px);',
 				),
 			)
 		);
@@ -866,6 +876,10 @@ class Responsive_Addons_For_Elementor_Timeline extends Widget_Base {
 			array(
 				'label'      => __( 'Box Space', 'responsive-addons-for-elementor' ),
 				'type'       => Controls_Manager::SLIDER,
+				'default'    => array(
+					'size' => 30,
+					'unit' => 'px',
+				),
 				'size_units' => array( 'px' ),
 				'range'      => array(
 					'px' => array(
@@ -874,13 +888,17 @@ class Responsive_Addons_For_Elementor_Timeline extends Widget_Base {
 					),
 				),
 				'selectors'  => array(
-					'(desktop){{WRAPPER}}.rael-timeline__tree--align-center .rael-timeline__icon-box' => 'margin-left: {{rael_icon_box_spacing.SIZE || 30}}{{UNIT}};margin-right: 0;',
-					'(desktop){{WRAPPER}}.rael-timeline__tree--align-center .rael-timeline__item:nth-child(even) .rael-timeline__icon-box' => 'margin-left: 0;margin-right: {{rael_icon_box_spacing.SIZE || 30}}{{UNIT}};',
-					'(tablet){{WRAPPER}}.rael-timeline__tree--align-center .rael-timeline__icon-box' => 'margin-right: {{rael_icon_box_spacing.SIZE || 35}}{{UNIT}};margin-left: 0;',
-					'(tablet){{WRAPPER}}.rael-timeline__tree--align-center .rael-timeline__item:nth-child(even) .rael-timeline__icon-box' => 'margin-left: 0;margin-right: {{rael_icon_box_spacing.SIZE || 35}}{{UNIT}};',
-					'(mobile){{WRAPPER}}.rael-timeline__tree--align-center .rael-timeline__icon-box' => 'margin-right: {{rael_icon_box_spacing.SIZE || 35}}{{UNIT}};margin-left: 0;',
-					'(mobile){{WRAPPER}}.rael-timeline__tree--align-center .rael-timeline__item:nth-child(even) .rael-timeline__icon-box' => 'margin-left: 0;margin-right: {{rael_icon_box_spacing.SIZE || 35}}{{UNIT}};',
+					'(desktop){{WRAPPER}}.rael-timeline__tree--align-center .rael-timeline__icon-box' =>
+						'margin-left: {{SIZE}}{{UNIT}};margin-right: 0;',
 
+					'(desktop){{WRAPPER}}.rael-timeline__tree--align-center .rael-timeline__item:nth-child(even) .rael-timeline__icon-box' =>
+						'margin-left: 0;margin-right: {{SIZE}}{{UNIT}};',
+
+					'(tablet){{WRAPPER}}.rael-timeline__tree--align-center .rael-timeline__icon-box' =>
+						'margin-right: {{SIZE}}{{UNIT}};margin-left: 0;',
+
+					'(mobile){{WRAPPER}}.rael-timeline__tree--align-center .rael-timeline__icon-box' =>
+						'margin-right: {{SIZE}}{{UNIT}};margin-left: 0;',
 				),
 			)
 		);
@@ -890,6 +908,10 @@ class Responsive_Addons_For_Elementor_Timeline extends Widget_Base {
 			array(
 				'label'      => __( 'Tree Space', 'responsive-addons-for-elementor' ),
 				'type'       => Controls_Manager::SLIDER,
+				'default'    => array(
+					'size' => 110,
+					'unit' => 'px',
+				),
 				'size_units' => array( 'px' ),
 				'range'      => array(
 					'px' => array(
@@ -914,8 +936,9 @@ class Responsive_Addons_For_Elementor_Timeline extends Widget_Base {
 		$this->add_control(
 			'rael_icon_box_background',
 			array(
-				'label'     => __( 'Background', 'responsive-addons-for-elementor' ),
-				'type'      => Controls_Manager::COLOR,
+				'label'   => __( 'Background', 'responsive-addons-for-elementor' ),
+				'type'    => Controls_Manager::COLOR,
+				'default' => '#34485d',
 				'selectors' => array(
 					'{{WRAPPER}} .rael-timeline__icon' => 'background: {{VALUE}};',
 				),
@@ -927,6 +950,13 @@ class Responsive_Addons_For_Elementor_Timeline extends Widget_Base {
 			array(
 				'label'      => __( 'Border Radius', 'responsive-addons-for-elementor' ),
 				'type'       => Controls_Manager::DIMENSIONS,
+				'default'    => array(
+					'top'    => 50,
+					'right'  => 50,
+					'bottom' => 50,
+					'left'   => 50,
+					'unit'   => '%',
+				),
 				'size_units' => array( 'px', '%' ),
 				'selectors'  => array(
 					'{{WRAPPER}} .rael-timeline__icon' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
@@ -949,6 +979,7 @@ class Responsive_Addons_For_Elementor_Timeline extends Widget_Base {
 				'label'     => __( 'Icon Color', 'responsive-addons-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
 				'separator' => 'before',
+				'default'   => '#ffffff',
 				'selectors' => array(
 					'{{WRAPPER}} .rael-timeline__icon i'   => 'color: {{VALUE}};',
 					'{{WRAPPER}} .rael-timeline__icon svg' => 'fill: {{VALUE}};',
@@ -1123,7 +1154,8 @@ class Responsive_Addons_For_Elementor_Timeline extends Widget_Base {
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', '%' ),
 				'selectors'  => array(
-					'{{WRAPPER}} .rael-timeline__date .time' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .rael-timeline__date .time' =>
+						'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
 				'condition'  => array(
 					'rael_show_time' => 'yes',

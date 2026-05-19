@@ -423,12 +423,6 @@
   width: 8px;
   height: 3px; }
 
-.rael-product-carousel-container.swiper-container-dots-outside .swiper-pagination.dots-preset-1 .swiper-pagination-bullet.swiper-pagination-bullet-active,
-.rael-product-carousel-container.swiper-container-wrap-dots-outside .swiper-pagination.dots-preset-1 .swiper-pagination-bullet.swiper-pagination-bullet-active,
-.rael-product-carousel-container.swiper-container-dots-inside .swiper-pagination.dots-preset-1 .swiper-pagination-bullet.swiper-pagination-bullet-active,
-.rael-product-carousel-container.swiper-container-wrap-dots-inside .swiper-pagination.dots-preset-1 .swiper-pagination-bullet.swiper-pagination-bullet-active {
-  width: 20px; }
-
 .rael-product-carousel-container.swiper-container-dots-outside .swiper-pagination.dots-preset-2 .swiper-pagination-bullet,
 .rael-product-carousel-container.swiper-container-wrap-dots-outside .swiper-pagination.dots-preset-2 .swiper-pagination-bullet,
 .rael-product-carousel-container.swiper-container-dots-inside .swiper-pagination.dots-preset-2 .swiper-pagination-bullet,

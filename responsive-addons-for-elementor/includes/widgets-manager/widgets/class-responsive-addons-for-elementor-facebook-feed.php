@@ -137,7 +137,7 @@ class Responsive_Addons_For_Elementor_Facebook_Feed extends Widget_Base {
 				'type'        => Controls_Manager::TEXT,
 				'label_block' => true,
 				'default'     => '',
-				'description' => __( '<a href="https://cyberchimps.com/elementor-widgets/docs/facebook-feed/" target="_blank">Get Access Token</a>', 'responsive-addons-for-elementor' ),
+				'description' => __( '<a href="https://cyberchimps.com/docs/responsive-addons-for-elementor/widgets/facebook-feed/" target="_blank">Get Access Token</a>', 'responsive-addons-for-elementor' ),
 			)
 		);
 

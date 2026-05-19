@@ -151,6 +151,9 @@
         display: block; }
       .rael-pc__product-popup.woocommerce div.product .product_title::before {
         content: none; }
+      .rael-pc__product-popup.woocommerce div.product h1.product_title {
+        display: block;
+      }
     .rael-pc__product-popup.woocommerce div.product .price {
       font-size: 25px;
       line-height: 1.2em;

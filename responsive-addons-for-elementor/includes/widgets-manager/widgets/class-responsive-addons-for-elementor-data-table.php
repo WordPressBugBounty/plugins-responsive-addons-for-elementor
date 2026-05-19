@@ -203,15 +203,15 @@ class Responsive_Addons_For_Elementor_Data_Table extends Widget_Base {
 				'options'   => array(
 					'none'  => array(
 						'title' => esc_html__( 'None', 'responsive-addons-for-elementor' ),
-						'icon'  => 'fa fa-ban',
+						'icon'  => 'eicon-ban',
 					),
 					'icon'  => array(
 						'title' => esc_html__( 'Icon', 'responsive-addons-for-elementor' ),
-						'icon'  => 'fa fa-star',
+						'icon'  => 'eicon-star',
 					),
 					'image' => array(
 						'title' => esc_html__( 'Image', 'responsive-addons-for-elementor' ),
-						'icon'  => 'fa fa-picture-o',
+						'icon'  => 'eicon-image',
 					),
 				),
 				'default'   => 'icon',
@@ -351,19 +351,19 @@ class Responsive_Addons_For_Elementor_Data_Table extends Widget_Base {
 				'options'   => array(
 					'icon'     => array(
 						'title' => esc_html__( 'Icon', 'responsive-addons-for-elementor' ),
-						'icon'  => 'fa fa-info',
+						'icon'  => 'eicon-info-circle',
 					),
 					'textarea' => array(
 						'title' => esc_html__( 'Textarea', 'responsive-addons-for-elementor' ),
-						'icon'  => 'fa fa-text-width',
+						'icon'  => 'eicon-text',
 					),
 					'editor'   => array(
 						'title' => esc_html__( 'Editor', 'responsive-addons-for-elementor' ),
-						'icon'  => 'fa fa-pencil',
+						'icon'  => 'eicon-edit',
 					),
 					'template' => array(
 						'title' => esc_html__( 'Templates', 'responsive-addons-for-elementor' ),
-						'icon'  => 'fa fa-file',
+						'icon'  => 'eicon-library-save',
 					),
 				),
 				'default'   => 'textarea',
@@ -1261,6 +1261,9 @@ class Responsive_Addons_For_Elementor_Data_Table extends Widget_Base {
 
 				$table_tr_keys = array_keys( $table_tr );
 				$last_key      = end( $table_tr_keys );
+				if ( $last_key === false || ! isset( $table_tr[ $last_key ] ) ) {
+					continue; 
+				}
 
 				$tbody_content = ( 'editor' === $content_row['rael_data_table_content_type'] ) ? $content_row['rael_data_table_content_row_content'] : wp_kses_post( $content_row['rael_data_table_content_row_title'] );
 
@@ -1403,7 +1406,35 @@ endforeach;
 									<td <?php echo wp_kses_post( $this->get_render_attribute_string( 'table_inside_td' . $i . $j ) ); ?>>
 										<div class="td-content-wrapper">
 											<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'td_content' ) ); ?>>
-												<?php echo esc_html( Plugin::$instance->frontend->get_builder_content( intval( $table_td[ $j ]['template'] ), true ) ); ?>
+												<?php 
+												$template_id = intval( $table_td[ $j ]['template'] );
+
+												$template_content = Plugin::$instance->frontend->get_builder_content( $template_id, true );
+
+												$allowed_tags = wp_kses_allowed_html( 'post' );
+
+												// Allow <style> and <script> tags
+												$allowed_tags['style'] = [
+													'type' => true,
+												];
+
+												$allowed_tags['script'] = [
+													'type' => true,
+													'src'  => true,
+												];
+
+												// Allow global attributes
+												foreach ( $allowed_tags as $tag => $attrs ) {
+													$allowed_tags[ $tag ]['class']    = true;
+													$allowed_tags[ $tag ]['style']    = true;
+													$allowed_tags[ $tag ]['id']       = true;
+													$allowed_tags[ $tag ]['data-*']   = true;
+													$allowed_tags[ $tag ]['aria-*']   = true;
+													$allowed_tags[ $tag ]['role']     = true;
+												}
+
+												echo wp_kses( $template_content, $allowed_tags );
+												?>
 											</div>
 										</div>
 									</td>

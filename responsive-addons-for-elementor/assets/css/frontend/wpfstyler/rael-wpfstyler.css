@@ -209,12 +209,14 @@
   height: 15px;
   width: 15px; }
 
-.rael-wpf-btn-size-lg .rael-wpf-style .wpforms-form .wpforms-page-button,
-.rael-wpf-btn-size-lg .rael-wpf-style .wpforms-form button[type=submit] {
+.rael-wpf-btn-size-lg .rael-wpf-style .wpforms-form .wpforms-submit-container .wpforms-page-button,
+.rael-wpf-btn-size-lg .rael-wpf-style .wpforms-form .wpforms-submit-container button[type=submit] {
   font-size: 18px;
   padding: 20px 40px;
   -webkit-border-radius: 5px;
-  border-radius: 5px; }
+  border-radius: 5px;
+  line-height: 0.2;
+}
 
 .rael-wpf-input-size-lg .wpforms-form .wpforms-field input[type=checkbox] + label:before,
 .rael-wpf-input-size-lg .wpforms-form .wpforms-field input[type=radio] + label:before {
@@ -237,12 +239,14 @@
 .rael-wpf-input-size-xl .wpforms-container-full .wpforms-form .wpforms-field-description.wpforms-disclaimer-description {
   padding: 25px 10px; }
 
-.rael-wpf-btn-size-xl .rael-wpf-style .wpforms-form .wpforms-page-button,
-.rael-wpf-btn-size-xl .rael-wpf-style .wpforms-form button[type=submit] {
+.rael-wpf-btn-size-xl .rael-wpf-style .wpforms-form .wpforms-submit-container .wpforms-page-button,
+.rael-wpf-btn-size-xl .rael-wpf-style .wpforms-form .wpforms-submit-container button[type=submit] {
   font-size: 20px;
   padding: 25px 50px;
   -webkit-border-radius: 6px;
-  border-radius: 6px; }
+  border-radius: 6px; 
+  line-height: 0.2;
+}
 
 .rael-wpf-input-size-xl .wpforms-form .wpforms-field input[type=checkbox] + label:before,
 .rael-wpf-input-size-xl .wpforms-form .wpforms-field input[type=radio] + label:before {

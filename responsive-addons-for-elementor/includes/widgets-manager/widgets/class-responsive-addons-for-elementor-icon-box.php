@@ -181,11 +181,11 @@ class Responsive_Addons_For_Elementor_Icon_Box extends Widget_Base {
 				'options' => array(
 					'photo' => array(
 						'title' => __( 'Image', 'responsive-addons-for-elementor' ),
-						'icon'  => 'fa fa-picture-o',
+						'icon'  => 'eicon-image',
 					),
 					'icon'  => array(
 						'title' => __( 'Font Icon', 'responsive-addons-for-elementor' ),
-						'icon'  => 'fa fa-info-circle',
+						'icon'  => 'eicon-info-circle',
 					),
 				),
 				'default' => 'icon',
@@ -1164,7 +1164,7 @@ class Responsive_Addons_For_Elementor_Icon_Box extends Widget_Base {
 					'rael_image_type' => array( 'icon', 'photo' ),
 				),
 				'selectors'   => array(
-					'{{WRAPPER}} .rael-infobox__icon-wrapper .rael-infobox__icon, {{WRAPPER}} .rael-infobox__icon-wrapper .rael-infobox__image-content img' => 'border-style: {{VALUE}};',
+					'{{WRAPPER}} .rael-infobox__icon-wrapper .rael-infobox__icon, {{WRAPPER}} .rael-infobox__image-content img' => 'border-style: {{VALUE}};',
 				),
 			)
 		);
@@ -1182,7 +1182,7 @@ class Responsive_Addons_For_Elementor_Icon_Box extends Widget_Base {
 				),
 				'default'   => '',
 				'selectors' => array(
-					'{{WRAPPER}} .rael-infobox__icon-wrapper .rael-infobox__icon, {{WRAPPER}} .rael-infobox__icon-wrapper .rael-infobox__image-content img' => 'border-color: {{VALUE}};',
+					'{{WRAPPER}} .rael-infobox__icon-wrapper .rael-infobox__icon, {{WRAPPER}} .rael-infobox__image-content img' => 'border-color: {{VALUE}};',
 				),
 			)
 		);
@@ -1204,7 +1204,7 @@ class Responsive_Addons_For_Elementor_Icon_Box extends Widget_Base {
 					'rael_icon_border!' => 'none',
 				),
 				'selectors'  => array(
-					'{{WRAPPER}} .rael-infobox__icon-wrapper .rael-infobox__icon, {{WRAPPER}} .rael-infobox__icon-wrapper .rael-infobox__image-content img' => 'border-width: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}; box-sizing:content-box;',
+					'{{WRAPPER}} .rael-infobox__icon-wrapper .rael-infobox__icon, {{WRAPPER}} .rael-infobox__image-content img' => 'border-width: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}; box-sizing:content-box;',
 				),
 			)
 		);
@@ -1227,7 +1227,7 @@ class Responsive_Addons_For_Elementor_Icon_Box extends Widget_Base {
 					'rael_icon_border!' => 'none',
 				),
 				'selectors'  => array(
-					'{{WRAPPER}} .rael-infobox__icon-wrapper .rael-infobox__icon, {{WRAPPER}} .rael-infobox__icon-wrapper .rael-infobox__image-content img' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}; box-sizing:content-box;',
+					'{{WRAPPER}} .rael-infobox__icon-wrapper .rael-infobox__icon, {{WRAPPER}} .rael-infobox__image-content img' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}; box-sizing:content-box;',
 				),
 			)
 		);
@@ -1626,15 +1626,15 @@ class Responsive_Addons_For_Elementor_Icon_Box extends Widget_Base {
 				'options'   => array(
 					'left'   => array(
 						'title' => __( 'Left', 'responsive-addons-for-elementor' ),
-						'icon'  => 'fa fa-align-left',
+						'icon'  => 'eicon-text-align-left',
 					),
 					'center' => array(
 						'title' => __( 'Center', 'responsive-addons-for-elementor' ),
-						'icon'  => 'fa fa-align-center',
+						'icon'  => 'eicon-text-align-center',
 					),
 					'right'  => array(
 						'title' => __( 'Right', 'responsive-addons-for-elementor' ),
-						'icon'  => 'fa fa-align-right',
+						'icon'  => 'eicon-text-align-right',
 					),
 				),
 				'condition' => array(

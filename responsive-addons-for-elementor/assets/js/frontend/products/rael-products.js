@@ -14,6 +14,7 @@ var RAELProductsHandler = function($scope, $) {
         overlay = document.createElement('div'),
         body = document.getElementsByTagName('body')[0],
         $doc = $(document);
+
     
     overlay.classList.add('rael-products-compare__overlay');
     overlay.setAttribute('id', 'rael-products-overlay');
@@ -30,6 +31,8 @@ var RAELProductsHandler = function($scope, $) {
     var iconBeforeCompare = '<i class="fas fa-exchange-alt"></i>';
     var iconAfterCompare = '<i class="fas fa-check-circle"></i>';
 
+      
+
     var modalTemplate = `
         <div class="rael-products-compare-modal">
             <i title="Close" class="rael-products-compare-modal-close far fa-times-circle"></i>
@@ -42,24 +45,26 @@ var RAELProductsHandler = function($scope, $) {
     var $modalContentWrapper = $('#rael-products-compare-modal-content');
     var modal = document.getElementsByClassName("rael-products-compare-modal")[0];
 
-    var ajaxData = [
-        {
-            name: "action",
-            value: "rael_products_compare"
-        }, 
-        {
-            name: "widget_id",
-            value: widgetId
-        }, 
-        {
-            name: "page_id",
-            value: pageId
-        }, 
-        {
-            name: "nonce",
-            value: nonce
-        }
-    ];
+    var getAjaxData = function() {
+        return [
+            {
+                name: "action",
+                value: "rael_products_compare"
+            },
+            {
+                name: "widget_id",
+                value: widgetId
+            },
+            {
+                name: "page_id",
+                value: pageId
+            },
+            {
+                name: "nonce",
+                value: nonce
+            }
+        ];
+    };
 
     var sendData = function(ajaxData, successCb, errorCb, beforeCb, completeCb) {
         $.ajax({
@@ -81,6 +86,13 @@ var RAELProductsHandler = function($scope, $) {
         compareBtn = $(this);
 
         var compareBtnText = compareBtn.find('.rael-wc-compare-text');
+        
+     
+  
+        if (!compareBtnSpan.length) {
+            hasCompareIcon = compareBtn.hasClass('rael-wc-compare-icon');
+        }
+  
 
         if (!compareBtnText.length) {
             hasCompareIcon = compareBtn.hasClass('rael-wc-compare-icon');
@@ -92,6 +104,11 @@ var RAELProductsHandler = function($scope, $) {
         }
 
         var productId = compareBtn.data('product-id');
+
+         var compareBtn = $('button[data-product-id="' + productId + '"]');
+        compareBtnSpan = compareBtn.find('.rael-wc-compare-text');
+
+
         var oldProductIds = localStorage.getItem('productIds');
   
         if (oldProductIds) {
@@ -101,14 +118,16 @@ var RAELProductsHandler = function($scope, $) {
           oldProductIds = [productId];
         }
   
+        var ajaxData = getAjaxData();
+
         ajaxData.push({
-          name: "product_id",
-          value: compareBtn.data('product-id')
+            name: "product_id",
+            value: productId
         });
 
         ajaxData.push({
-          name: "product_ids",
-          value: JSON.stringify(oldProductIds)
+            name: "product_ids",
+            value: JSON.stringify(oldProductIds)
         });
 
         sendData(ajaxData, handleSuccess, handleError);
@@ -126,6 +145,8 @@ var RAELProductsHandler = function($scope, $) {
         e.stopImmediatePropagation();
         var $rBtn = $(this);
         var productId = $rBtn.data('product-id');
+         var compareBtn = $('button[data-product-id="' + productId + '"]');
+        compareBtnSpan = compareBtn.find('.rael-wc-compare-text');
         $rBtn.addClass('disable');
         $rBtn.prop('disabled', true); // prevent additional ajax request
   
@@ -138,7 +159,7 @@ var RAELProductsHandler = function($scope, $) {
           oldProductIds = [productId];
         }
   
-        var rmData = Array.from(ajaxData);
+        var rmData = getAjaxData();
         
         rmData.push({
             name: "product_id",
@@ -156,13 +177,10 @@ var RAELProductsHandler = function($scope, $) {
         });
 
         requestType = 'remove';
-        var compareBtn = $('button[data-product-id="' + productId + '"]');
-        compareBtnSpan = compareBtn.find('.rael-wc-compare-text');
-  
+      
         if (!compareBtnSpan.length) {
             hasCompareIcon = compareBtn.hasClass('rael-wc-compare-icon');
-        }
-  
+        }  
         sendData(rmData, handleSuccess, handleError);
     });
 
@@ -181,7 +199,6 @@ var RAELProductsHandler = function($scope, $) {
         if (loader) {
           loader.hide();
         }
-  
         if ('compare' === requestType) {
           if (compareBtnSpan && compareBtnSpan.length) {
             compareBtnSpan.text(localize.i18n.added);

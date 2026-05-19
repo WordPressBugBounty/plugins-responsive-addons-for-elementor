@@ -312,10 +312,10 @@ class Responsive_Addons_For_Elementor_Back_To_Top extends Widget_Base {
 				),
 				'default'    => array(
 					'unit' => 'px',
-					'size' => 50,
+					'size' => 60,
 				),
 				'selectors'  => array(
-					'{{WRAPPER}} .rael-btt__button' => 'width: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .rael-btt__button' => 'width: {{SIZE}}{{UNIT}}; padding: 10px;',
 				),
 				'condition'  => array(
 					'rael_button_appearance!' => 'progress_indicator',
@@ -338,7 +338,7 @@ class Responsive_Addons_For_Elementor_Back_To_Top extends Widget_Base {
 				),
 				'default'    => array(
 					'unit' => 'px',
-					'size' => 50,
+					'size' => 60,
 				),
 				'selectors'  => array(
 					'{{WRAPPER}} .rael-btt__button' => 'height: {{SIZE}}{{UNIT}}; line-height: {{SIZE}}{{UNIT}};',
@@ -428,6 +428,7 @@ class Responsive_Addons_For_Elementor_Back_To_Top extends Widget_Base {
 				'alpha'     => false,
 				'selectors' => array(
 					'{{WRAPPER}} .rael-btt__button' => 'color: {{VALUE}}; border-color: {{VALUE}}',
+					'{{WRAPPER}} .rael-btt__button svg path' => 'fill: {{VALUE}}; border-color: {{VALUE}}',
 				),
 			)
 		);

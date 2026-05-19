@@ -258,8 +258,8 @@ class Responsive_Addons_For_Elementor_Team_Member extends Widget_Base {
 				'type'             => Controls_Manager::ICONS,
 				'fa4compatibility' => 'rael_team_icon',
 				'default'          => array(
-					'value'   => 'fa fa-facebook',
-					'library' => 'fa-solid',
+					'value'   => 'fab fa-facebook-f',
+					'library' => 'fa-brands',
 				),
 			)
 		);
@@ -420,24 +420,24 @@ class Responsive_Addons_For_Elementor_Team_Member extends Widget_Base {
 					array(
 						'rael_team_label' => esc_html__( 'Facebook', 'responsive-addons-for-elementor' ),
 						'rael_team_icons' => array(
-							'value'   => 'fa fa-facebook',
-							'library' => 'fa-solid',
+							'value'   => 'fab fa-facebook-f',
+							'library' => 'fa-brands',
 						),
 						'rael_team_socialmedia_icon_hover_bg_color' => '#3b5998',
 					),
 					array(
 						'rael_team_label' => esc_html__( 'Twitter', 'responsive-addons-for-elementor' ),
 						'rael_team_icons' => array(
-							'value'   => 'fa fa-twitter',
-							'library' => 'fa-solid',
+							'value'   => 'fab fa-twitter',
+							'library' => 'fa-brands',
 						),
 						'rael_team_socialmedia_icon_hover_bg_color' => '#1da1f2',
 					),
 					array(
 						'rael_team_label' => esc_html__( 'Pinterest', 'responsive-addons-for-elementor' ),
 						'rael_team_icons' => array(
-							'value'   => 'fa fa-pinterest',
-							'library' => 'fa-solid',
+							'value'   => 'fab fa-pinterest',
+							'library' => 'fa-brands',
 						),
 						'rael_team_socialmedia_icon_hover_bg_color' => '#e60023',
 					),
@@ -2142,7 +2142,7 @@ class Responsive_Addons_For_Elementor_Team_Member extends Widget_Base {
 					),
 				),
 				'selectors' => array(
-					'{{WRAPPER}} .rael-team-modal-close' => 'font-size: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}}; width: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .rael-team-modal-close' => 'font-size: {{SIZE}}{{UNIT}};',
 					'{{WRAPPER}} .rael-team-modal-close svg' => 'height: {{SIZE}}{{UNIT}}; width: {{SIZE}}{{UNIT}};',
 				),
 				'separator' => 'before',
@@ -2246,10 +2246,7 @@ class Responsive_Addons_For_Elementor_Team_Member extends Widget_Base {
 					),
 				),
 				'selectors' => array(
-					'{{WRAPPER}} .elementskit-infobox .elementskit-box-header .elementskit-info-box-icon' => ' -webkit-transform: translateY({{SIZE}}{{UNIT}}); -ms-transform: translateY({{SIZE}}{{UNIT}}); transform: translateY({{SIZE}}{{UNIT}});',
-				),
-				'condition' => array(
-					'rael_icon_box_icon_position!' => 'top',
+					'{{WRAPPER}} .rael-team-modal-close' => ' -webkit-transform: translateY({{SIZE}}{{UNIT}}); -ms-transform: translateY({{SIZE}}{{UNIT}}); transform: translateY({{SIZE}}{{UNIT}});',
 				),
 
 			)

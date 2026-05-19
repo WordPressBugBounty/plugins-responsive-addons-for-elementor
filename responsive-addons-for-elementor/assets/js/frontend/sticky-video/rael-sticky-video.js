@@ -40,11 +40,9 @@ jQuery(window).scroll(function() {
     if ('yes' === isSticky) {
         if (scrollBottom > jQuery(window).height() + 400) {
             if (scrollTop > domHeight) {
-                if ('on' === isVideoActive) {
                     jQuery('#videobox').find('.rael-sticky-video__player-close').css('display', 'block');
                     jQuery('#videobox').removeClass('in').addClass('out');
                     positionStickyPlayer(stickyVideoPosition, stickyVideoWidth, stickyVideoHeight);
-                }
             } else {
                 jQuery('.rael-sticky-video__player-close').hide();
                 jQuery('#videobox').removeClass('out').addClass('in');
@@ -53,7 +51,28 @@ jQuery(window).scroll(function() {
         }
     } 
 });
+jQuery(document).on('click', '.rael-sticky-video__overlay', function () {
+    var $overlay = jQuery(this);
+    var $player = $overlay.closest('.rael-sticky-video__player');
 
+    $overlay.addClass('hide');
+
+    var iframe = $player.find('iframe');
+
+    if (iframe.length) {
+        var src = iframe.attr('src');
+
+        if (src.indexOf('autoplay=1') === -1) {
+            src += (src.indexOf('?') > -1 ? '&' : '?') + 'autoplay=1';
+            iframe.attr('src', src);
+        }
+    }
+
+    var video = $player.find('video').get(0);
+    if (video) {
+        video.play();
+    }
+});
 function getDomElementHeight(el) {
     let contentHeight = jQuery(el).parent().height(),
         requiredScrollHeight = contentHeight * (scrollHeight / 100), // Scroll Height is given in percentage w.r.t. the container.

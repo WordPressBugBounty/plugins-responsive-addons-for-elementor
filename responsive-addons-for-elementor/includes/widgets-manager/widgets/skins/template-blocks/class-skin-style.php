@@ -503,10 +503,20 @@ abstract class Skin_Style {
 			return;
 		}
 
+		if ( ! ( self::$query instanceof \WP_Query ) ) {
+			return;
+		}
+
 		$page_limit = self::$query->max_num_pages;
 
-		if ( '' !== $settings['pagination_page_limit'] ) {
-			$page_limit = min( $settings['pagination_page_limit'], $page_limit );
+		if ( ! empty( $settings['pagination_page_limit'] ) && is_numeric( $settings['pagination_page_limit'] ) && $settings['pagination_page_limit'] > 0 ) {
+			$page_limit = min( (int) $settings['pagination_page_limit'], (int) $page_limit );
+		}
+
+		// Ensure page_limit is an integer and at least 1 if query exists
+		$page_limit = (int) $page_limit;
+		if ( $page_limit < 1 ) {
+			$page_limit = 1;
 		}
 
 		if ( 2 > $page_limit && 'infinite' !== $settings['pagination_type'] ) {
@@ -548,13 +558,13 @@ abstract class Skin_Style {
 			$links[] = $prev_next['next'];
 		}
 
-		$class = 'infinite' === $settings['pagination_type'] && $paged == self::$query->max_num_pages ? 'style="display:none;"' : '';
-
+		$class = 'infinite' === $settings['pagination_type'] && $paged >= $page_limit ? ' style="display:none;"' : '';
 		?>
-		<nav class="elementor-pagination rael-post-pagination" <?php echo wp_kses_post( $class ); ?> role="navigation" aria-label="<?php esc_attr_e( 'Pagination', 'responsive-addons-for-elementor' ); ?>">
+		<nav class="elementor-pagination rael-post-pagination" <?php echo $class; ?> role="navigation" aria-label="<?php esc_attr_e( 'Pagination', 'responsive-addons-for-elementor' ); ?>">
 		<?php
 		if ( 'infinite' === $settings['pagination_type'] ) {
 			?>
+			
 				<button class="rael_pagination_load_more">
 					<?php echo '' === $settings['pagination_infinite_button_label'] ? esc_html__( 'Load More', 'responsive-addons-for-elementor' ) : esc_html( $settings['pagination_infinite_button_label'] ); ?>
 				</button>

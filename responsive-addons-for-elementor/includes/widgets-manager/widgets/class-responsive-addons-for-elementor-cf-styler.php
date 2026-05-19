@@ -410,15 +410,15 @@ class Responsive_Addons_For_Elementor_Cf_Styler extends Widget_Base {
 				'options'   => array(
 					'left'   => array(
 						'title' => __( 'Left', 'responsive-addons-for-elementor' ),
-						'icon'  => 'fa fa-align-left',
+						'icon'  => 'eicon-text-align-left',
 					),
 					'center' => array(
 						'title' => __( 'Center', 'responsive-addons-for-elementor' ),
-						'icon'  => 'fa fa-align-center',
+						'icon'  => 'eicon-text-align-center',
 					),
 					'right'  => array(
 						'title' => __( 'Right', 'responsive-addons-for-elementor' ),
-						'icon'  => 'fa fa-align-right',
+						'icon'  => 'eicon-text-align-right',
 					),
 				),
 				'selectors' => array(
@@ -622,19 +622,19 @@ class Responsive_Addons_For_Elementor_Cf_Styler extends Widget_Base {
 				'options'      => array(
 					'left'    => array(
 						'title' => __( 'Left', 'responsive-addons-for-elementor' ),
-						'icon'  => 'fa fa-align-left',
+						'icon'  => 'eicon-text-align-left',
 					),
 					'center'  => array(
 						'title' => __( 'Center', 'responsive-addons-for-elementor' ),
-						'icon'  => 'fa fa-align-center',
+						'icon'  => 'eicon-text-align-center',
 					),
 					'right'   => array(
 						'title' => __( 'Right', 'responsive-addons-for-elementor' ),
-						'icon'  => 'fa fa-align-right',
+						'icon'  => 'eicon-text-align-right',
 					),
 					'justify' => array(
 						'title' => __( 'Justified', 'responsive-addons-for-elementor' ),
-						'icon'  => 'fa fa-align-justify',
+						'icon'  => 'eicon-text-align-justify',
 					),
 				),
 				'default'      => 'left',

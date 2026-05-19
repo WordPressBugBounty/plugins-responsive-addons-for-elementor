@@ -411,9 +411,42 @@ class RaelTocHandler extends elementorModules.frontend.handlers.Base {
         super.onInit(args);
 
         this.viewportItems = [];
+
+        if (elementorFrontend.isEditMode()) {
+            this.run = _.debounce(this.run.bind(this), 500);
+
+            this.onElementReadyGlobal = function () {
+                self.run();
+            };
+
+            this.onEditorChange = function () {
+                self.run();
+            };
+
+            elementorFrontend.hooks.addAction('frontend/element_ready/global', this.onElementReadyGlobal);
+
+            if (typeof elementor !== 'undefined' && elementor.channels) {
+                elementor.channels.editor.on('change', this.onEditorChange);
+            }
+        }
+
         jQuery(function () {
             return self.run();
         });
+    }
+
+    onDestroy() {
+        if (elementorFrontend.isEditMode()) {
+            if (this.onElementReadyGlobal) {
+                elementorFrontend.hooks.removeAction('frontend/element_ready/global', this.onElementReadyGlobal);
+            }
+
+            if (this.onEditorChange && typeof elementor !== 'undefined' && elementor.channels) {
+                elementor.channels.editor.off('change', this.onEditorChange);
+            }
+        }
+
+        super.onDestroy();
     }
 
     getContainer() {

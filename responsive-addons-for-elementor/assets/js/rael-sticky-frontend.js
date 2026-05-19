@@ -274,6 +274,7 @@
 
   if (scrollTop >= self.originalOffsetTop && !self.isSticky) {
     $el.after(self.placeholder.show());
+    $el.addClass('rael-sticky-section-sticky--stuck');
     // base props (always applied)
     // Fetch values from Elementor settings
     const stickyZIndex =
@@ -305,6 +306,7 @@
     $el.css(cssProps);
     self.isSticky = true;
   } else if (scrollTop < self.originalOffsetTop && self.isSticky) {
+              $el.removeClass('rael-sticky-section-sticky--stuck');
               self.removeStickyStyles();
             }
           };

@@ -685,12 +685,61 @@ class Responsive_Addons_For_Elementor_Multi_Button extends Widget_Base {
 		);
 
 		$this->add_control(
+			'rael_connector_icon_size',
+			array(
+				'label'     => __( 'Icon Size', 'responsive-addons-for-elementor' ),
+				'type'      => Controls_Manager::SLIDER,
+				'condition' => array(
+					'rael_connector_type' => 'icon',
+				),
+				'selectors' => array(
+					'{{WRAPPER}} .rael-multi-button__connector i' => 'font-size: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .rael-multi-button__connector svg' => 'width: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'rael_connector_icon_margin',
+			array(
+				'label'      => __( 'Icon Margin', 'responsive-addons-for-elementor' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', 'em', '%' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .rael-multi-button__connector svg' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} .rael-multi-button__connector i' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+				'condition' => array(
+					'rael_connector_type' => 'icon',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'rael_connector_icon_padding',
+			array(
+				'label'      => __( 'Icon Padding', 'responsive-addons-for-elementor' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', 'em', '%' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .rael-multi-button__connector svg' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} .rael-multi-button__connector i' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+				'condition' => array(
+					'rael_connector_type' => 'icon',
+				),
+				'separator' => 'after',
+			)
+		);
+
+		$this->add_control(
 			'rael_connector_text_color',
 			array(
 				'label'     => __( 'Text Color', 'responsive-addons-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}} .rael-multi-button__connector' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .rael-multi-button__connector svg' => 'fill: {{VALUE}};',
 				),
 			)
 		);

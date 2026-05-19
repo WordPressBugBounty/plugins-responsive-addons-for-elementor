@@ -2717,7 +2717,7 @@ class Responsive_Addons_For_Elementor_Image_Gallery extends Widget_Base
 		if ('carousel' !== $settings['rael_gallery_style']) {
 			echo '<div ' . wp_kses_post($this->get_render_attribute_string('grid-wrap')) . '>';
 		}
-		echo wp_kses_post($output);
+		echo \Elementor\Utils::print_unescaped_internal_string( $output );
 		if ('carousel' !== $settings['rael_gallery_style']) {
 			echo '</div>';
 		}

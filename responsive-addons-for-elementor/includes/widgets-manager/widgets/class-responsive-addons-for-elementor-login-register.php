@@ -468,7 +468,7 @@ class Responsive_Addons_For_Elementor_Login_Register extends Widget_Base {
 				array(
 					'type'            => Controls_Manager::RAW_HTML,
 					// translators: %1$s represents the opening <strong> tag, %2$s represents the opening <a> tag for the settings link, %3$s represents the closing <a> and </strong> tags.
-					'raw'             => sprintf( __( '<div style="padding: 1em; color: black; background-color: #ffc107; border-radius: 0px 10px 10px 0px; border-left: 0.4em #2b270a solid; line-height: 1.4;"> reCAPTCHA API keys are missing. Please add them from %1$sRAEL Dashboard » %2$sRAEL Login / Register Form settings.%3$s </div>', 'responsive-addons-for-elementor' ), '<strong>', '<a href="' . esc_attr( esc_url( admin_url( 'admin.php?page=rael-settings' ) ) ) . '" target="_blank" style="color: #468295">', '</a></strong>' ),
+					'raw'             => sprintf( __( '<div style="padding: 1em; color: black; background-color: #ffc107; border-radius: 0px 10px 10px 0px; border-left: 0.4em #2b270a solid; line-height: 1.4;"> reCAPTCHA API keys are missing. Please add them from %1$sRAEL Dashboard » %2$sRAEL Login / Register Form settings.%3$s </div>', 'responsive-addons-for-elementor' ), '<strong>', '<a href="' . esc_attr( esc_url( admin_url( 'admin.php?page=rael_getting_started#settings' ) ) ) . '" target="_blank" style="color: #468295">', '</a></strong>' ),
 					'content_classes' => 'rael-warning',
 					'condition'       => array(
 						'rael_enable_login_recaptcha' => 'yes',
@@ -568,7 +568,7 @@ class Responsive_Addons_For_Elementor_Login_Register extends Widget_Base {
 					array(
 						'type'            => Controls_Manager::RAW_HTML,
 						// translators: %1$s represents the opening <strong> tag, %2$s represents the opening <a> tag for the settings link, %3$s represents the closing <a> tag, %4$s represents the closing </strong> tag.
-						'raw'             => sprintf( __( '<div style="padding: 1em; color: black; background-color: #ffc107; border-radius: 0px 10px 10px 0px; border-left: 0.4em #2b270a solid; line-height: 1.4;"> reCAPTCHA API keys are missing. Please add them from %1$sRAEL Dashboard » %2$sRAEL Login / Register Form settings.%3$s </div>', 'responsive-addons-for-elementor' ), '<strong>', '<a href="' . esc_attr( esc_url( admin_url( 'admin.php?page=rael-settings' ) ) ) . '" target="_blank" style="color: #468295">', '</a></strong>' ),
+						'raw'             => sprintf( __( '<div style="padding: 1em; color: black; background-color: #ffc107; border-radius: 0px 10px 10px 0px; border-left: 0.4em #2b270a solid; line-height: 1.4;"> reCAPTCHA API keys are missing. Please add them from %1$sRAEL Dashboard » %2$sRAEL Login / Register Form settings.%3$s </div>', 'responsive-addons-for-elementor' ), '<strong>', '<a href="' . esc_attr( esc_url( admin_url( 'admin.php?page=rael_getting_started#settings' ) ) ) . '" target="_blank" style="color: #468295">', '</a></strong>' ),
 						'content_classes' => 'rael-warning',
 						'condition'       => array(
 							'rael_enable_register_recaptcha' => 'yes',
@@ -3077,6 +3077,9 @@ class Responsive_Addons_For_Elementor_Login_Register extends Widget_Base {
 				'type'      => Controls_Manager::HEADING,
 				'label'     => __( 'Terms & Conditions', 'responsive-addons-for-elementor' ),
 				'separator' => 'before',
+				'condition' => array(
+					'rael_form_type' => 'register',
+				),
 			)
 		);
 
@@ -3087,6 +3090,9 @@ class Responsive_Addons_For_Elementor_Login_Register extends Widget_Base {
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}} .rael-register-form-container input:checked+.rael-tc-slider' => 'background-color: {{VALUE}};',
+				),
+				'condition' => array(
+					'rael_form_type' => 'register',
 				),
 			)
 		);
@@ -3909,7 +3915,7 @@ class Responsive_Addons_For_Elementor_Login_Register extends Widget_Base {
 								<?php
 							}
 							if ( $show_fp ) {
-								echo '<div class="rael-forgot-password">' . esc_url( $fp_link ) . '</div>';
+								echo '<div class="rael-forgot-password">' . wp_kses_post( $fp_link ) . '</div>';
 							}
 							?>
 						</div>

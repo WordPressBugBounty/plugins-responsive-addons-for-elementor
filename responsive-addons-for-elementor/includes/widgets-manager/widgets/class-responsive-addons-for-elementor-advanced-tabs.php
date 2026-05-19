@@ -291,15 +291,15 @@ class Responsive_Addons_For_Elementor_Advanced_Tabs extends Widget_Base
 				'options'     => array(
 					'none'  => array(
 						'title' => esc_html__('None', 'responsive-addons-for-elementor'),
-						'icon'  => 'fa fa-ban',
+						'icon'  => 'eicon-ban',
 					),
 					'icon'  => array(
 						'title' => esc_html__('Icon', 'responsive-addons-for-elementor'),
-						'icon'  => 'fa fa-gear',
+						'icon'  => 'eicon-star',
 					),
 					'image' => array(
 						'title' => esc_html__('Image', 'responsive-addons-for-elementor'),
-						'icon'  => 'fa fa-picture-o',
+						'icon'  => 'eicon-image',
 					),
 				),
 				'default'     => 'icon',
@@ -535,68 +535,6 @@ class Responsive_Addons_For_Elementor_Advanced_Tabs extends Widget_Base
 			)
 		);
 
-		$this->add_responsive_control(
-			'rael_advanced_tabs_tab_image_align',
-			array(
-				'label'     => esc_html__('Alignment', 'responsive-addons-for-elementor'),
-				'type'      => Controls_Manager::CHOOSE,
-				'options'   => array(
-					'flex-start' => array(
-						'title' => esc_html__('Left', 'responsive-addons-for-elementor'),
-						'icon'  => 'eicon-text-align-left',
-					),
-					'center'     => array(
-						'title' => esc_html__('Center', 'responsive-addons-for-elementor'),
-						'icon'  => 'eicon-text-align-center',
-					),
-					'flex-end'   => array(
-						'title' => esc_html__('Right', 'responsive-addons-for-elementor'),
-						'icon'  => 'eicon-text-align-right',
-					),
-				),
-				'default'   => 'center',
-				'selectors' => array(
-					'{{WRAPPER}} .rael-tabs-content .active, {{WRAPPER}} .rael-tabs-content .active a' => 'display: flex; flex-direction: column;',
-					'{{WRAPPER}} img , {{WRAPPER}} figure' => 'align-self: {{VALUE}}; margin: 0px 0px;',
-				),
-			)
-		);
-
-		$this->add_responsive_control(
-			'rael_advanced_tabs_tab_image_width',
-			array(
-				'label'          => esc_html__('Width', 'responsive-addons-for-elementor'),
-				'type'           => Controls_Manager::SLIDER,
-				'default'        => array(
-					'unit' => '%',
-				),
-				'tablet_default' => array(
-					'unit' => '%',
-				),
-				'mobile_default' => array(
-					'unit' => '%',
-				),
-				'size_units'     => array('px', '%', 'em', 'rem', 'vw', 'custom'),
-				'range'          => array(
-					'%'  => array(
-						'min' => 1,
-						'max' => 100,
-					),
-					'px' => array(
-						'min' => 1,
-						'max' => 1000,
-					),
-					'vw' => array(
-						'min' => 1,
-						'max' => 100,
-					),
-				),
-				'selectors'      => array(
-					'{{WRAPPER}} figure, .rael-tabs-content>.clearfix>a>img , .rael-tabs-content>.clearfix>img' => 'width: {{SIZE}}{{UNIT}};',
-				),
-			)
-		);
-
 		$this->add_group_control(
 			Group_Control_Border::get_type(),
 			array(
@@ -829,17 +767,6 @@ class Responsive_Addons_For_Elementor_Advanced_Tabs extends Widget_Base
 
 		$this->start_controls_tab('rael_advanced_tabs_header_normal', array('label' => esc_html__('Normal', 'responsive-addons-for-elementor')));
 
-		$this->add_control(
-			'rael_advanced_tabs_tab_color',
-			array(
-				'label'     => esc_html__('Background Color', 'responsive-addons-for-elementor'),
-				'type'      => Controls_Manager::COLOR,
-				'default'   => '#f1f1f1',
-				'selectors' => array(
-					'{{WRAPPER}} .rael-advanced-tabs .rael-tabs-nav > ul li' => 'background-color: {{VALUE}};',
-				),
-			)
-		);
 		$this->add_group_control(
 			Group_Control_Background::get_type(),
 			array(
@@ -896,25 +823,16 @@ class Responsive_Addons_For_Elementor_Advanced_Tabs extends Widget_Base
 		$this->end_controls_tab();
 
 		$this->start_controls_tab('rael_advanced_tabs_header_hover', array('label' => esc_html__('Hover', 'responsive-addons-for-elementor')));
-		$this->add_control(
-			'rael_advanced_tabs_tab_color_hover',
-			array(
-				'label'     => esc_html__('Tab Background Color', 'responsive-addons-for-elementor'),
-				'type'      => Controls_Manager::COLOR,
-				'default'   => '#333',
-				'selectors' => array(
-					'{{WRAPPER}} .rael-advanced-tabs .rael-tabs-nav > ul li:hover' => 'background-color: {{VALUE}};',
-				),
-			)
-		);
+	
 		$this->add_group_control(
 			Group_Control_Background::get_type(),
-			array(
+			[
 				'name'     => 'rael_advanced_tabs_tab_bgtype_hover',
-				'types'    => array('classic', 'gradient'),
+				'types'    => ['classic', 'gradient'],
 				'selector' => '{{WRAPPER}} .rael-advanced-tabs .rael-tabs-nav > ul li:hover',
-			)
+			]
 		);
+
 		$this->add_control(
 			'rael_advanced_tabs_tab_text_color_hover',
 			array(
@@ -963,24 +881,13 @@ class Responsive_Addons_For_Elementor_Advanced_Tabs extends Widget_Base
 		$this->end_controls_tab();
 
 		$this->start_controls_tab('rael_advanced_tabs_header_active', array('label' => esc_html__('Active', 'responsive-addons-for-elementor')));
-		$this->add_control(
-			'rael_advanced_tabs_tab_color_active',
-			array(
-				'label'     => esc_html__('Tab Background Color', 'responsive-addons-for-elementor'),
-				'type'      => Controls_Manager::COLOR,
-				'default'   => '#444',
-				'selectors' => array(
-					'{{WRAPPER}} .rael-advanced-tabs .rael-tabs-nav > ul li.active' => 'background-color: {{VALUE}};',
-					'{{WRAPPER}} .rael-advanced-tabs .rael-tabs-nav > ul li.active-default' => 'background-color: {{VALUE}};',
-				),
-			)
-		);
+		
 		$this->add_group_control(
 			Group_Control_Background::get_type(),
 			array(
 				'name'     => 'rael_advanced_tabs_tab_bgtype_active',
 				'types'    => array('classic', 'gradient'),
-				'selector' => '{{WRAPPER}} .rael-advanced-tabs .rael-tabs-nav > ul li.active,{{WRAPPER}} .rael-advanced-tabs .rael-tabs-nav > ul li.active-default',
+				'selector' => '{{WRAPPER}} .rael-advanced-tabs .rael-tabs-nav > ul li.active'
 			)
 		);
 		$this->add_control(
@@ -1295,11 +1202,39 @@ class Responsive_Addons_For_Elementor_Advanced_Tabs extends Widget_Base
 		$tab_icon_migrated            = isset($settings['__fa4_migrated']['rael_advanced_tabs_tab_title_icon_new']);
 		$tab_icon_is_new              = empty($settings['rael_advanced_tabs_tab_title_icon']);
 
+		// Check hover background type
+		$normal_bg_type = $settings['rael_advanced_tabs_tab_bgtype_background'] ?? '';
+		$hover_bg_type  = $settings['rael_advanced_tabs_tab_bgtype_hover_background'] ?? '';
+		$active_bg_type = $settings['rael_advanced_tabs_tab_bgtype_active_background'] ?? '';
+
+		$classes = ['rael-advanced-tabs', $settings['rael_advanced_tab_layout']];
+
+		// Normal
+		if ( 'classic' === $normal_bg_type ) {
+			$classes[] = 'rael-normal-bg-reset';
+		} elseif ( 'gradient' === $normal_bg_type ) {
+			$classes[] = 'rael-normal-bg-gradient';
+		}
+
+		// Hover
+		if ( 'classic' === $hover_bg_type ) {
+			$classes[] = 'rael-hover-bg-reset';
+		} elseif ( 'gradient' === $hover_bg_type ) {
+			$classes[] = 'rael-hover-bg-gradient';
+		}
+
+		// Active
+		if ( 'classic' === $active_bg_type ) {
+			$classes[] = 'rael-active-bg-reset';
+		} elseif ( 'gradient' === $active_bg_type ) {
+			$classes[] = 'rael-active-bg-gradient';
+		}
+
 		$this->add_render_attribute(
 			'rael_tab_wrapper',
 			array(
 				'id'         => "rael-advanced-tabs-{$this->get_id()}",
-				'class'      => array('rael-advanced-tabs', $settings['rael_advanced_tab_layout']),
+				'class'      => $classes,
 				'data-tabid' => $this->get_id(),
 			)
 		);

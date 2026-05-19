@@ -253,7 +253,7 @@ class Build_Post_Query {
 			return $paged;
 		}
 
-		return 0;
+		return 1;
 	}
 
 	/**

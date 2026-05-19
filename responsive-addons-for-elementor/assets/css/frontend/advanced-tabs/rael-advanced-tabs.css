@@ -214,4 +214,19 @@
   border-right: 10px solid #444;
   border-left: 0; }
 
+/* NORMAL */
+.rael-normal-bg-reset .rael-tabs-nav > ul li {
+    background-image: none !important;
+}
+
+/* HOVER */
+.rael-hover-bg-reset .rael-tabs-nav > ul li:hover {
+    background-image: none !important;
+}
+
+/* ACTIVE */
+.rael-active-bg-reset .rael-tabs-nav > ul li.active,
+.rael-active-bg-reset .rael-tabs-nav > ul li.active-default {
+    background-image: none !important;
+}
 /*# sourceMappingURL=advanced-tabs.css.map */

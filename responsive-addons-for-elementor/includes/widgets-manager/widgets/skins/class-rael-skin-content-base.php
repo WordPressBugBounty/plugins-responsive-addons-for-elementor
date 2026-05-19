@@ -278,9 +278,8 @@ trait RAEL_Skin_Content_Base {
 	public function render_post_content( $with_wrapper = false ) {
 		static $did_posts = array();
 		$post             = get_post();
-
 		if ( post_password_required( $post->ID ) ) {
-			echo esc_html( get_the_password_form( $post->ID ) );
+			echo get_the_password_form( $post->ID );
 			return;
 		}
 

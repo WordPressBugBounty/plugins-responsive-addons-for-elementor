@@ -430,7 +430,7 @@ class Responsive_Addons_For_Elementor_Theme_Post_Navigation extends Widget_Base 
 					'default' => Global_Typography::TYPOGRAPHY_SECONDARY,
 				),
 				'selector' => '{{WRAPPER}} .rael-post-navigation__prev--label, {{WRAPPER}} .rael-post-navigation__next--label',
-				'exclude'  => array( 'line_height' ),
+				'exclude'  => array(),
 			)
 		);
 
@@ -510,7 +510,7 @@ class Responsive_Addons_For_Elementor_Theme_Post_Navigation extends Widget_Base 
 					'default' => Global_Typography::TYPOGRAPHY_SECONDARY,
 				),
 				'selector' => '{{WRAPPER}} .rael-post-navigation__prev--title, {{WRAPPER}} .rael-post-navigation__next--title',
-				'exclude'  => array( 'line_height' ),
+				'exclude'  => array(),
 			)
 		);
 
@@ -727,6 +727,14 @@ class Responsive_Addons_For_Elementor_Theme_Post_Navigation extends Widget_Base 
 				$taxonomy     = $settings[ 'rael_pn_' . $post_type . '_taxonomy' ];
 			}
 		}
+
+		$is_standard_post_format = false;
+		if ( $in_same_term && 'post_format' === $taxonomy && ! get_post_format( get_queried_object_id() ) ) {
+			$is_standard_post_format = true;
+			$in_same_term            = false;
+			add_filter( 'get_previous_post_where', array( $this, 'filter_standard_format_post_navigation' ) );
+			add_filter( 'get_next_post_where', array( $this, 'filter_standard_format_post_navigation' ) );
+		}
 		?>
 		<div class="rael-post-navigation">
 			<div class="rael-post-navigation__prev rael-post-navigation__link">
@@ -742,6 +750,10 @@ class Responsive_Addons_For_Elementor_Theme_Post_Navigation extends Widget_Base 
 			</div>
 		</div>
 		<?php
+		if ( $is_standard_post_format ) {
+			remove_filter( 'get_previous_post_where', array( $this, 'filter_standard_format_post_navigation' ) );
+			remove_filter( 'get_next_post_where', array( $this, 'filter_standard_format_post_navigation' ) );
+		}
 	}
 
 	/**
@@ -751,4 +763,16 @@ class Responsive_Addons_For_Elementor_Theme_Post_Navigation extends Widget_Base 
 	 * Implement this method to handle the actual rendering of plain content if needed.
 	 */
 	public function render_plain_content() {}
+
+	/**
+	 * Filter the adjacent post where clause to handle Standard post format.
+	 *
+	 * @param string $where The WHERE clause.
+	 * @return string The modified WHERE clause.
+	 */
+	public function filter_standard_format_post_navigation( $where ) {
+		global $wpdb;
+		$where .= " AND p.ID NOT IN ( SELECT tr.object_id FROM {$wpdb->term_relationships} AS tr INNER JOIN {$wpdb->term_taxonomy} AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy = 'post_format' )";
+		return $where;
+	}
 }

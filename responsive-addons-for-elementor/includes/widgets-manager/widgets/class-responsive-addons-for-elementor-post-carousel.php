@@ -1637,6 +1637,31 @@ class Responsive_Addons_For_Elementor_Post_Carousel extends Widget_Base {
 			)
 		);
 
+		$this->add_responsive_control(
+			'rael_post_read_more_btn_alignment',
+			array(
+				'label'     => __( 'Alignment', 'responsive-addons-for-elementor' ),
+				'type'      => Controls_Manager::CHOOSE,
+				'options'   => array(
+					'left'   => array(
+						'title' => __( 'Left', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-left',
+					),
+					'center' => array(
+						'title' => __( 'Center', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-center',
+					),
+					'right'  => array(
+						'title' => __( 'Right', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-right',
+					),
+				),
+				'selectors' => array(
+					'{{WRAPPER}} .rael-post-carousel__readmore-wrap' => 'text-align: {{VALUE}};',
+				),
+			)
+		);
+
 		$this->end_controls_section();
 	}
 	/**
@@ -1783,8 +1808,7 @@ class Responsive_Addons_For_Elementor_Post_Carousel extends Widget_Base {
 					),
 				),
 				'selectors' => array(
-					'{{WRAPPER}} .rael-post-carousel__excerpt p'                                => 'text-align: {{VALUE}};',
-					'{{WRAPPER}} .rael-post-carousel__excerpt .rael-post-carousel__readmore-btn' => 'text-align: {{VALUE}};',
+					'{{WRAPPER}} .rael-post-carousel__excerpt p' => 'text-align: {{VALUE}};',
 				),
 			)
 		);
@@ -1839,7 +1863,7 @@ class Responsive_Addons_For_Elementor_Post_Carousel extends Widget_Base {
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => array(
-					'{{WRAPPER}} .rael-post-carousel__meta-categories li a, {{WRAPPER}} .rael-post-carousel__meta-categories li, {{WRAPPER}} .rael-post-carousel__meta-categories li a' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .rael-post-carousel__meta-categories li a, {{WRAPPER}} .rael-post-carousel__meta-categories li, {{WRAPPER}} .rael-post-carousel-categories li a, {{WRAPPER}} .rael-post-carousel-categories li' => 'color: {{VALUE}};',
 				),
 			)
 		);
@@ -1852,7 +1876,7 @@ class Responsive_Addons_For_Elementor_Post_Carousel extends Widget_Base {
 				'global'   => array(
 					'default' => Global_Typography::TYPOGRAPHY_TEXT,
 				),
-				'selector' => '{{WRAPPER}} .rael-post-carousel__meta-categories li a, {{WRAPPER}} .rael-post-carousel__meta-categories li, {{WRAPPER}} .rael-post-carousel__meta-categories li a',
+				'selector' => '{{WRAPPER}} .rael-post-carousel__meta-categories li a, {{WRAPPER}} .rael-post-carousel__meta-categories li, {{WRAPPER}} .rael-post-carousel-categories li a, {{WRAPPER}} .rael-post-carousel-categories li',
 			)
 		);
 
@@ -1863,7 +1887,7 @@ class Responsive_Addons_For_Elementor_Post_Carousel extends Widget_Base {
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', '%', 'em' ),
 				'selectors'  => array(
-					'{{WRAPPER}} .rael-post-carousel__meta-categories, {{WRAPPER}} .rael-post-carousel__meta-categories' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} .rael-post-carousel__meta-categories, {{WRAPPER}} .rael-post-carousel-categories' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
 			)
 		);

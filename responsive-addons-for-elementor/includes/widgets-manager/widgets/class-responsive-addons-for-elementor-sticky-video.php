@@ -109,7 +109,7 @@ class Responsive_Addons_For_Elementor_Sticky_Video extends Widget_Base {
 	 * This function helps in getting the scripts.
 	 */
 	public function get_script_depends() {
-		return array( 'rael-plyr' );
+		return array('rael-sticky-video');
 	}
 	/**
 	 * Register controls for the Table of Contents widget.
@@ -327,9 +327,6 @@ class Responsive_Addons_For_Elementor_Sticky_Video extends Widget_Base {
 				'type'        => Controls_Manager::SWITCHER,
 				'label_block' => false,
 				'default'     => 'yes',
-				'selectors'   => array(
-					'{{WRAPPER}} .plyr__controls' => 'display: flex !important;',
-				),
 			)
 		);
 
@@ -408,6 +405,10 @@ class Responsive_Addons_For_Elementor_Sticky_Video extends Widget_Base {
 				'label'            => __( 'Choose Icon', 'responsive-addons-for-elementor' ),
 				'type'             => Controls_Manager::ICONS,
 				'fa4compatibility' => 'rael_sv_play_icon',
+				'default'          => array(
+					'value'   => 'far fa-play-circle',
+					'library' => 'fa-regular',
+				),
 				'condition'        => array(
 					'rael_sv_show_image_overlay_options' => 'yes',
 					'rael_sv_show_play_icon'             => 'yes',
@@ -576,18 +577,18 @@ class Responsive_Addons_For_Elementor_Sticky_Video extends Widget_Base {
 				'tab'   => Controls_Manager::TAB_STYLE,
 			)
 		);
-
 		$this->add_control(
 			'rael_sv_interface_color',
 			array(
 				'label'     => __( 'Interface Color', 'responsive-addons-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
-				'default'   => '#ADD8E6',
+				'default'   => '#ffffff',
 				'selectors' => array(
-					'{{WRAPPER}} .plyr__control.plyr__tab-focus' => 'box-shadow: 0 0 0 5px {{VALUE}};',
-					'{{WRAPPER}} .plyr__control--overlaid' => 'background: {{VALUE}};',
-					'{{WRAPPER}} .plyr--video .plyr__control.plyr__tab-focus' => 'background: {{VALUE}};',
-					'{{WRAPPER}} .plyr--video .plyr__control:hover' => 'background: {{VALUE}};',
+					'{{WRAPPER}} .rael-sticky-video__overlay-icon' => 'fill: {{VALUE}};',
+				),
+				'condition' => array(
+					'rael_sv_show_image_overlay_options' => 'yes',
+					'rael_sv_show_play_icon'             => 'yes',
 				),
 			)
 		);
@@ -599,7 +600,7 @@ class Responsive_Addons_For_Elementor_Sticky_Video extends Widget_Base {
 				'type'       => Controls_Manager::SLIDER,
 				'size_units' => array( 'px' ),
 				'default'    => array(
-					'size' => 15,
+					'size' => 55,
 					'unit' => 'px',
 				),
 				'range'      => array(
@@ -610,7 +611,7 @@ class Responsive_Addons_For_Elementor_Sticky_Video extends Widget_Base {
 					),
 				),
 				'selectors'  => array(
-					'{{WRAPPER}} .plyr__control--overlaid' => 'padding: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .rael-sticky-video__overlay-icon' => 'font-size: {{SIZE}}{{UNIT}};width: {{SIZE}}{{UNIT}}; height:{{SIZE}}{{UNIT}}',
 				),
 			)
 		);
@@ -675,72 +676,93 @@ class Responsive_Addons_For_Elementor_Sticky_Video extends Widget_Base {
 	 * @access protected
 	 */
 	protected function render() {
-		$settings        = $this->get_settings_for_display();
-		$icon            = $settings['rael_sv_play_icon_new'];
-		$is_sticky       = ( 'yes' === $settings['rael_sv_is_sticky'] ) ? 'yes' : 'no';
-		$autoplay        = ( 'yes' === $settings['rael_sv_autoplay'] ) ? 'yes' : 'no';
-		$overlay_options = ( 'yes' === $settings['rael_sv_show_image_overlay_options'] ) ? 'yes' : 'no';
-		$video_player    = '';
 
-		if ( 'youtube' === $settings['rael_sv_video_source'] ) {
-			$video_player = $this->rael_sv_load_other_provider_player( $settings, 'youtube' );
-		} elseif ( 'vimeo' === $settings['rael_sv_video_source'] ) {
-			$video_player = $this->rael_sv_load_other_provider_player( $settings, 'vimeo' );
-		} else {
-			$video_player = $this->rael_sv_load_self_hosted_player( $settings );
-		}
+    $settings = $this->get_settings_for_display();
 
-		echo '<div class="rael-sticky-video-wrapper">';
-		if ( 'yes' === $settings['rael_sv_show_image_overlay_options'] ) {
-			$icon_val = '';
-			if ( 'yes' === $settings['rael_sv_show_play_icon'] ) {
-				if ( '' !== $icon['value'] ) {
-					if ( is_array( $icon['value'] ) ) {
-						$icon_val = '<img src="' . $icon['value']['url'] . '" width="100">';
-					} else {
-						$icon_val = '<i class="' . $icon['value'] . '"></i>';
-					}
-				} else {
-					$icon_val = '<i class="eicon-play"></i>';
-				}
-			}
+    $is_sticky = ( 'yes' === $settings['rael_sv_is_sticky'] ) ? 'yes' : 'no';
 
-			$this->add_render_attribute(
-				'rael_sv_overlay_wrapper',
-				array(
-					'class' => 'rael-sticky-video__overlay',
-					'style' => 'background-image: url("' . $settings['rael_sv_overlay_image']['url'] . '");',
-				)
-			);
-			?>
-			<div <?php $this->print_render_attribute_string( 'rael_sv_overlay_wrapper' ); ?>>
-				<div class="rael-sticky-video__overlay-icon"> <?php echo wp_kses_post( $icon_val ); ?> </div>
-			</div>
-			<?php
-		}
+    $autoplay = ( 'yes' === $settings['rael_sv_autoplay'] ) ? '1' : '0';
+    $mute     = ( '1' === $autoplay ) ? '1' : ( ( 'yes' === $settings['rael_sv_mute'] ) ? '1' : '0' );
+    $loop     = ( 'yes' === $settings['rael_sv_loop'] ) ? '1' : '0';
 
-		$this->add_render_attribute(
-			'rael_sv_player_wrapper',
-			array(
-				'class'              => 'rael-sticky-video__player',
-				'data-sticky'        => $is_sticky,
-				'data-position'      => $settings['rael_sv_position'],
-				'data-width'         => $settings['rael_sv_width'],
-				'data-height'        => $settings['rael_sv_height'],
-				'data-scroll-height' => ! empty( $settings['rael_sv_scroll_height_display_sticky'] ) ? $settings['rael_sv_scroll_height_display_sticky']['size'] : '',
-				'data-autoplay'      => $autoplay,
-				'data-overlay'       => $overlay_options,
-				'data-provider'      => $settings['rael_sv_video_source'],
-			)
-		);
-		?>
-			<div <?php $this->print_render_attribute_string( 'rael_sv_player_wrapper' ); ?> >
-				<?php echo wp_kses_post( $video_player ); ?>
-				<span class="rael-sticky-video__player-close"><i class="eicon-close-circle"></i></span>
-			</div>
-		</div>
-		<?php
-	}
+    $video_html = '';
+
+    if ( 'youtube' === $settings['rael_sv_video_source'] ) {
+
+        $video_id = $this->get_youtube_id( $settings['rael_sv_youtube_link'] );
+
+        $loop_param = $loop ? "&loop=1&playlist={$video_id}" : '';
+
+        $src = "https://www.youtube.com/embed/{$video_id}?autoplay={$autoplay}&mute={$mute}&controls=1&playsinline=1{$loop_param}";
+
+        $video_html = '<iframe 
+            class="rael-sticky-video__iframe"
+            src="' . esc_url( $src ) . '" 
+            allow="autoplay; encrypted-media"
+            allowfullscreen>
+        </iframe>';
+    }
+
+    elseif ( 'vimeo' === $settings['rael_sv_video_source'] ) {
+
+        $video_id = $this->get_vimeo_id( $settings['rael_sv_vimeo_link'] );
+
+        $src = "https://player.vimeo.com/video/{$video_id}?autoplay={$autoplay}&muted={$mute}&loop={$loop}";
+
+        $video_html = '<iframe 
+            class="rael-sticky-video__iframe"
+            src="' . esc_url( $src ) . '" 
+            allow="autoplay; fullscreen" 
+            allowfullscreen>
+        </iframe>';
+    }
+
+    else {
+        $video_html = $this->rael_sv_load_self_hosted_player( $settings );
+    }
+
+    ?>
+		<div class="rael-sticky-video-wrapper">
+			<div class="rael-sticky-video__player"
+    data-sticky="<?php echo esc_attr( $is_sticky ); ?>"
+    data-position="<?php echo esc_attr( $settings['rael_sv_position'] ); ?>"
+    data-width="<?php echo esc_attr( $settings['rael_sv_width'] ); ?>"
+    data-height="<?php echo esc_attr( $settings['rael_sv_height'] ); ?>"
+    data-scroll-height="<?php echo esc_attr( $settings['rael_sv_scroll_height_display_sticky']['size'] ?? 70 ); ?>"
+>
+
+    <?php if ( 'yes' === $settings['rael_sv_show_image_overlay_options'] ) : ?>
+        
+        <div class="rael-sticky-video__overlay">
+            
+            <?php
+            echo Group_Control_Image_Size::get_attachment_image_html(
+                $settings,
+                'rael_sv_overlay_image_size',
+                'rael_sv_overlay_image'
+            );
+            ?>
+
+            <?php if ( 'yes' === $settings['rael_sv_show_play_icon'] ) : ?>
+                <span class="rael-sticky-video__overlay-icon">
+                    <?php \Elementor\Icons_Manager::render_icon( $settings['rael_sv_play_icon_new'], [ 'aria-hidden' => 'true' ] ); ?>
+                </span>
+            <?php endif; ?>
+
+        </div>
+
+    <?php endif; ?>
+
+    <?php echo $video_html; ?>
+
+    <span class="rael-sticky-video__player-close">
+        <i class="eicon-close-circle"></i>
+    </span>
+
+</div>
+    </div>
+    <?php
+}
 	/**
 	 * Load player for providers other than self-hosted.
 	 *
@@ -750,24 +772,52 @@ class Responsive_Addons_For_Elementor_Sticky_Video extends Widget_Base {
 	 * @return string The HTML markup for the player.
 	 */
 	public function rael_sv_load_other_provider_player( $settings, $provider ) {
-		$url_id   = $this->get_url_id( $settings );
-		$autoplay = $settings['rael_sv_autoplay'];
-		$mute     = $settings['rael_sv_mute'];
-		$loop     = $settings['rael_sv_loop'];
 
-		$config  = ( 'yes' === $autoplay ? '"autoplay":1' : '"autoplay":0' );
-		$config .= ( 'yes' === $mute ? ', "muted":1' : ', "muted":0' );
-		$config .= ( 'yes' === $loop ? ', "loop": {"active": true}' : ', "loop": {"active": false}' );
+		$autoplay = ( 'yes' === $settings['rael_sv_autoplay'] ) ? '1' : '0';
 
-		$html = '<div
-			id="rael-sticky-video-player-' . $this->get_id() . '"
-			data-plyr-provider="' . $provider . '"
-			data-plyr-embed-id="' . esc_attr( $url_id ) . '"
-			data-plyr-config="{' . esc_attr( $config ) . '}"></div>';
+		$mute = ( '1' === $autoplay ) ? '1' : ( ( 'yes' === $settings['rael_sv_mute'] ) ? '1' : '0' );
 
-		return $html;
+		$loop = ( 'yes' === $settings['rael_sv_loop'] ) ? '1' : '0';
+		if ( 'youtube' === $provider ) {
+			$video_id = $this->get_youtube_id( $settings['rael_sv_youtube_link'] );
+
+			$loop_param = $loop ? "&loop=1&playlist={$video_id}" : '';
+
+			$src = "https://www.youtube.com/embed/{$video_id}?autoplay={$autoplay}&mute={$mute}&controls=1&playsinline=1&enablejsapi=1{$loop_param}";
+
+			return '<iframe 
+				class="rael-sticky-video__iframe"
+				src="' . esc_url( $src ) . '" 
+				allow="autoplay; encrypted-media" 
+				allowfullscreen>
+			</iframe>';
+		}
+
+		if ( 'vimeo' === $provider ) {
+
+			$video_id = $this->get_vimeo_id( $settings['rael_sv_vimeo_link'] );
+
+			$src = "https://player.vimeo.com/video/{$video_id}?autoplay={$autoplay}&muted={$mute}&loop={$loop}";
+
+			return '<iframe 
+				class="rael-sticky-video__iframe"
+				src="' . esc_url( $src ) . '" 
+				allow="autoplay; fullscreen" 
+				allowfullscreen>
+			</iframe>';
+		}
+
+		return '';
+	}
+	private function get_youtube_id( $url ) {
+		preg_match('/(youtu\.be\/|youtube\.com\/(watch\?v=|embed\/))([^&]+)/', $url, $matches);
+		return $matches[3] ?? '';
 	}
 
+	private function get_vimeo_id( $url ) {
+		preg_match('/vimeo\.com\/(\d+)/', $url, $matches);
+		return $matches[1] ?? '';
+	}
 	/**
 	 * Load self-hosted player.
 	 *
@@ -776,13 +826,17 @@ class Responsive_Addons_For_Elementor_Sticky_Video extends Widget_Base {
 	 * @return string The HTML markup for the self-hosted player.
 	 */
 	public function rael_sv_load_self_hosted_player( $settings ) {
+
 		$video_url = '';
-		$autoplay  = $settings['rael_sv_autoplay'];
-		$mute      = $settings['rael_sv_mute'];
-		$loop      = $settings['rael_sv_loop'];
+		$autoplay  = ( 'yes' === $settings['rael_sv_autoplay'] ) ? 'autoplay' : '';
+		$muted     = ( 'yes' === $settings['rael_sv_mute'] ) ? 'muted' : '';
+		$loop      = ( 'yes' === $settings['rael_sv_loop'] ) ? 'loop' : '';
+		$controls = ( 'yes' === $settings['rael_sv_show_bar'] ) ? 'controls' : '';
+
 
 		if ( ! empty( $settings['rael_sv_self_hosted'] ) ) {
 			$video_url = $settings['rael_sv_self_hosted']['url'];
+
 			if ( '' !== $settings['rael_sv_video_start_time'] ) {
 				$video_url .= '#t=' . esc_attr( $settings['rael_sv_video_start_time'] );
 
@@ -790,20 +844,21 @@ class Responsive_Addons_For_Elementor_Sticky_Video extends Widget_Base {
 					$video_url .= ',' . esc_attr( $settings['rael_sv_video_end_time'] );
 				}
 			} elseif ( '' !== $settings['rael_sv_video_end_time'] ) {
-					$video_url .= '#t=0,' . esc_attr( $settings['rael_sv_video_end_time'] );
+				$video_url .= '#t=0,' . esc_attr( $settings['rael_sv_video_end_time'] );
 			}
 		}
-
-		$config  = ( 'yes' === $autoplay ? '"autoplay:1"' : '"autoplay:0"' );
-		$config .= ( 'yes' === $mute ? ', "muted:1"' : ', "muted:0"' );
-		$config .= ( 'yes' === $loop ? ', "loop": {"active": true}' : ', "loop": {"active": false}' );
-
-		$html = '<video class="rael-sticky-video__player--self-hosted" id="rael-sticky-video-player-' . $this->get_id() . '" playsinline controls
-			data-plyr-config="{' . esc_attr( $config ) . '}">
-				<source src="' . esc_attr( $video_url ) . '" type="video/mp4" />
-			</video>';
-
-		return $html;
+		return '<video 
+			class="rael-sticky-video__player--self-hosted"
+			id="rael-sticky-video-player-' . esc_attr( $this->get_id() ) . '"
+			playsinline
+			controls
+			' . $autoplay . '
+			' . $muted . '
+			' . $loop . '
+			' . $controls . '
+		>
+			<source src="' . esc_url( $video_url ) . '" type="video/mp4" />
+		</video>';
 	}
 	/**
 	 * Get the video ID based on the selected video source.
