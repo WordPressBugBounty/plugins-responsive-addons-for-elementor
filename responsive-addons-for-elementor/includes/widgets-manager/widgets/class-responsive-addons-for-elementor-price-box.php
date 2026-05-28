@@ -17,6 +17,8 @@ use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Box_Shadow;
 use Elementor\Repeater;
+use Elementor\Utils;
+use Elementor\Group_Control_Image_Size;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -49,7 +51,7 @@ class Responsive_Addons_For_Elementor_Price_Box extends Widget_Base {
 	 * @return string Widget title.
 	 */
 	public function get_title() {
-		return __( 'Price Box', 'responsive-addons-for-elementor' );
+		return __( 'Pricing Box/Table', 'responsive-addons-for-elementor' );
 	}
 
 	/**
@@ -171,11 +173,56 @@ class Responsive_Addons_For_Elementor_Price_Box extends Widget_Base {
 		);
 
 		$this->add_control(
+			'rael_heading_choose_icon_image',
+			array(
+				'label'   => __( 'Choose Icon/Image', 'responsive-addons-for-elementor' ),
+				'type'    => Controls_Manager::CHOOSE,
+				'options' => array(
+					'none'  => array(
+						'title' => __( 'None', 'responsive-addons-for-elementor' ),
+						'icon'  => 'fas fa-ban',
+					),
+					'image' => array(
+						'title' => __( 'Image', 'responsive-addons-for-elementor' ),
+						'icon'  => 'far fa-image',
+					),
+					'icon'  => array(
+						'title' => __( 'Icon', 'responsive-addons-for-elementor' ),
+						'icon'  => 'fas fa-star',
+					),
+				),
+				'default' => 'none',
+			)
+		);
+
+		$this->add_control(
+			'rael_heading_image',
+			array(
+				'label'     => __( 'Choose Image', 'responsive-addons-for-elementor' ),
+				'type'      => Controls_Manager::MEDIA,
+				'default'   => array( 'url' => Utils::get_placeholder_image_src() ),
+				'condition' => array( 'rael_heading_choose_icon_image' => 'image' ),
+				'dynamic'   => array( 'active' => true ),
+			)
+		);
+
+		$this->add_group_control(
+			Group_Control_Image_Size::get_type(),
+			array(
+				'name'      => 'rael_heading_image_size',
+				'label'     => __( 'Image Size', 'responsive-addons-for-elementor' ),
+				'default'   => 'thumbnail',
+				'condition' => array( 'rael_heading_choose_icon_image' => 'image' ),
+			)
+		);
+
+		$this->add_control(
 			'rael_heading_icon',
 			array(
 				'label'       => __( 'Icon', 'responsive-addons-for-elementor' ),
 				'type'        => Controls_Manager::ICONS,
 				'render_type' => 'template',
+				'condition'   => array( 'rael_heading_choose_icon_image' => 'icon' ),
 			)
 		);
 		$this->add_control(
@@ -187,6 +234,7 @@ class Responsive_Addons_For_Elementor_Price_Box extends Widget_Base {
 					'active' => true,
 				),
 				'default' => __( 'Unlimited', 'responsive-addons-for-elementor' ),
+				'separator' => 'before',
 			)
 		);
 
@@ -1088,6 +1136,36 @@ class Responsive_Addons_For_Elementor_Price_Box extends Widget_Base {
 			)
 		);
 
+		$this->add_control(
+			'rael_ribbon_icon',
+			array(
+				'label' => __( 'Select Icon', 'responsive-addons-for-elementor' ),
+				'type'  => Controls_Manager::ICONS,
+				'separator' => 'before',
+				'condition' => array(
+					'rael_show_ribbon!' => 'none',
+				),
+			),
+		);
+
+		$this->add_control(
+			'rael_ribbon_icon_position',
+			array(
+				'label'       => __( 'Icon Position', 'responsive-addons-for-elementor' ),
+				'type'        => Controls_Manager::SELECT,
+				'label_block' => false,
+				'options'     => array(
+					'before'  => __( 'Before Title', 'responsive-addons-for-elementor' ),
+					'after' => __( 'After Title', 'responsive-addons-for-elementor' ),
+				),
+				'default'     => 'before',
+				'condition'   => array(
+					'rael_ribbon_icon[value]!' => '',
+					'rael_show_ribbon!'        => 'none',
+				),
+			)
+		);
+
 		$this->end_controls_section();
 	}
 	/**
@@ -1167,7 +1245,8 @@ class Responsive_Addons_For_Elementor_Price_Box extends Widget_Base {
 				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 				'condition' => array(
-					'rael_heading_icon[value]!' => '',
+					'rael_heading_icon[value]!'      => '',
+					'rael_heading_choose_icon_image' => 'icon',
 				),
 			)
 		);
@@ -1189,7 +1268,8 @@ class Responsive_Addons_For_Elementor_Price_Box extends Widget_Base {
 					{{WRAPPER}} .rael-price-box-header__icon svg' => 'font-size: {{SIZE}}px; width: {{SIZE}}px; height: {{SIZE}}px; line-height: {{SIZE}}px;',
 				),
 				'condition' => array(
-					'rael_heading_icon[value]!' => '',
+					'rael_heading_icon[value]!'      => '',
+					'rael_heading_choose_icon_image' => 'icon',
 				),
 			)
 		);
@@ -1204,7 +1284,8 @@ class Responsive_Addons_For_Elementor_Price_Box extends Widget_Base {
 					'{{WRAPPER}} .rael-price-box-header__icon' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
 				'condition'  => array(
-					'rael_heading_icon[value]!' => '',
+					'rael_heading_icon[value]!'      => '',
+					'rael_heading_choose_icon_image' => 'icon',
 				),
 			)
 		);
@@ -1215,7 +1296,8 @@ class Responsive_Addons_For_Elementor_Price_Box extends Widget_Base {
 				array(
 					'label'     => __( 'Normal', 'responsive-addons-for-elementor' ),
 					'condition' => array(
-						'rael_heading_icon[value]!' => '',
+						'rael_heading_icon[value]!'      => '',
+						'rael_heading_choose_icon_image' => 'icon',
 					),
 				)
 			);
@@ -1233,7 +1315,8 @@ class Responsive_Addons_For_Elementor_Price_Box extends Widget_Base {
 							'{{WRAPPER}} .rael-price-box-header__icon svg' => 'fill: {{VALUE}};',
 						),
 						'condition' => array(
-							'rael_heading_icon[value]!' => '',
+							'rael_heading_icon[value]!'      => '',
+							'rael_heading_choose_icon_image' => 'icon',
 						),
 					)
 				);
@@ -1248,7 +1331,8 @@ class Responsive_Addons_For_Elementor_Price_Box extends Widget_Base {
 							'{{WRAPPER}} .rael-price-box-header__icon' => 'background: {{VALUE}};',
 						),
 						'condition' => array(
-							'rael_heading_icon[value]!' => '',
+							'rael_heading_icon[value]!'      => '',
+							'rael_heading_choose_icon_image' => 'icon',
 						),
 					)
 				);
@@ -1260,7 +1344,8 @@ class Responsive_Addons_For_Elementor_Price_Box extends Widget_Base {
 				array(
 					'label'     => __( 'Hover', 'responsive-addons-for-elementor' ),
 					'condition' => array(
-						'rael_heading_icon[value]!' => '',
+						'rael_heading_icon[value]!'      => '',
+						'rael_heading_choose_icon_image' => 'icon',
 					),
 				)
 			);
@@ -1279,7 +1364,8 @@ class Responsive_Addons_For_Elementor_Price_Box extends Widget_Base {
 							'{{WRAPPER}} .rael-price-box-header__icon svg:hover' => 'fill: {{VALUE}};',
 						),
 						'condition' => array(
-							'rael_heading_icon[value]!' => '',
+							'rael_heading_icon[value]!'      => '',
+							'rael_heading_choose_icon_image' => 'icon',
 						),
 					)
 				);
@@ -1294,7 +1380,8 @@ class Responsive_Addons_For_Elementor_Price_Box extends Widget_Base {
 							'{{WRAPPER}} .rael-price-box-header__icon:hover' => 'background: {{VALUE}};',
 						),
 						'condition' => array(
-							'rael_heading_icon[value]!' => '',
+							'rael_heading_icon[value]!'      => '',
+							'rael_heading_choose_icon_image' => 'icon',
 						),
 					)
 				);
@@ -3248,6 +3335,91 @@ class Responsive_Addons_For_Elementor_Price_Box extends Widget_Base {
 				'selector' => '{{WRAPPER}} .rael-price-box-ribbon-content',
 			)
 		);
+
+		$this->add_control(
+			'rael_ribbon_icon_color',
+			array(
+				'label'     => __( 'Icon Color', 'responsive-addons-for-elementor' ),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => '#fff',
+				'selectors' => array(
+					'{{WRAPPER}} .rael-price-box-ribbon-content svg' => 'fill: {{VALUE}}',
+				),
+				'separator' => 'before',
+				'condition' => array(
+					'rael_ribbon_icon[value]!' => '',
+				),
+			)
+		);
+
+		$this->add_control(
+			'rael_ribbon_icon_bg_color',
+			array(
+				'label'     => __( 'Icon Background Color', 'responsive-addons-for-elementor' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => array(
+					'{{WRAPPER}} .rael-price-box-ribbon-content svg' => 'background-color: {{VALUE}}',
+				),
+				'condition' => array(
+					'rael_ribbon_icon[value]!' => '',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'rael_ribbon_icon_size',
+			array(
+				'label'     => __( 'Icon Size', 'responsive-addons-for-elementor' ),
+				'type'      => Controls_Manager::SLIDER,
+				'default'   => array(
+					'size' => 10,
+					'unit' => 'px',
+				),
+				'range'     => array(
+					'px' => array(
+						'min' => 0,
+						'max' => 100,
+					),
+				),
+				'selectors' => array(
+					'{{WRAPPER}} .rael-price-box-ribbon-content svg' => 'width: {{SIZE}}{{UNIT}}',
+				),
+				'condition' => array(
+					'rael_ribbon_icon[value]!' => '',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'rael_ribbon_icon_margin',
+			array(
+				'label'      => __( 'Icon Margin', 'responsive-addons-for-elementor' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', '%', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .rael-price-box-ribbon-content svg' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+				'condition' => array(
+					'rael_ribbon_icon[value]!' => '',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'rael_ribbon_icon_padding',
+			array(
+				'label'      => __( 'Icon Padding', 'responsive-addons-for-elementor' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', '%', 'em' ),
+				'selectors'  => array(
+					'{{WRAPPER}} .rael-price-box-ribbon-content svg' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				),
+				'condition' => array(
+					'rael_ribbon_icon[value]!' => '',
+				),
+			)
+		);
+
 		$this->end_controls_section();
 	}
 
@@ -3362,15 +3534,26 @@ class Responsive_Addons_For_Elementor_Price_Box extends Widget_Base {
 	 * @param array $settings The settings for the price box.
 	 */
 	public function render_heading_icon( $settings ) {
-		if ( ! empty( $settings['rael_heading_icon']['value'] ) ) :
-			?>
-			<div class="rael-price-box-header__icon">
-				<?php
-				Icons_Manager::render_icon( $settings['rael_heading_icon'], array( 'aria-hidden' => 'true' ) );
+		if ( $settings['rael_heading_choose_icon_image'] !== 'none' ) {
+
+			if ( 'icon' === $settings['rael_heading_choose_icon_image'] && ! empty( $settings['rael_heading_icon']['value'] ) ) {
 				?>
-			</div>
-			<?php
-		endif;
+				<div class="rael-price-box-header__icon">
+					<?php
+					Icons_Manager::render_icon( $settings['rael_heading_icon'], array( 'aria-hidden' => 'true' ) );
+					?>
+				</div>
+				<?php
+			}
+			if ( 'image' === $settings['rael_heading_choose_icon_image'] && ! empty( $settings['rael_heading_image']['url'] ) ) {
+				?>
+				<div class="rael-price-box-header__icon">
+					<?php echo wp_kses_post( Group_Control_Image_Size::get_attachment_image_html( $settings, 'rael_heading_image_size', 'rael_heading_image' ) ); ?>
+				</div>
+				<?php
+			}
+		}
+
 	}
 	/**
 	 * Render the text within the price box header based on the provided settings.
@@ -3771,7 +3954,17 @@ class Responsive_Addons_For_Elementor_Price_Box extends Widget_Base {
 				?>
 				<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'rael_ribbon_container' ) ); ?>>
 					<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'rael_ribbon_title' ) ); ?>>
+						<?php
+						if ( ! empty( $settings['rael_ribbon_icon']['value'] ) && ! empty( $settings['rael_ribbon_icon_position'] ) && $settings['rael_ribbon_icon_position'] === 'before' ) {
+							Icons_Manager::render_icon( $settings['rael_ribbon_icon'], array( 'aria-hidden' => 'true' ) );
+						}
+						?>
 						<?php echo wp_kses_post( $settings['rael_ribbon_title'] ); ?>
+						<?php
+						if ( ! empty( $settings['rael_ribbon_icon']['value'] ) && ! empty( $settings['rael_ribbon_icon_position'] ) && $settings['rael_ribbon_icon_position'] === 'after' ) {
+							Icons_Manager::render_icon( $settings['rael_ribbon_icon'], array( 'aria-hidden' => 'true' ) );
+						}
+						?>
 					</div>
 				</div>
 				<?php
@@ -3928,14 +4121,36 @@ class Responsive_Addons_For_Elementor_Price_Box extends Widget_Base {
 		}
 
 		function render_heading_icon() {
-			if ( '' != settings.rael_heading_icon.value && settings.rael_heading_icon.value ) {
-				var headingIconsHTML = elementor.helpers.renderIcon( view, settings.rael_heading_icon, { 'aria-hidden': true }, 'i' , 'object' );
+			if ( 'none' !== settings.rael_heading_choose_icon_image ) {
+				if ( 'icon' === settings.rael_heading_choose_icon_image && '' != settings.rael_heading_icon.value ) {
+					var headingIconsHTML = elementor.helpers.renderIcon( view, settings.rael_heading_icon, { 'aria-hidden': true }, 'i' , 'object' );
 
-				#>
-					<div class="rael-price-box-header__icon">
-						{{{ headingIconsHTML.value }}}
-					</div>
-				<#
+					#>
+						<div class="rael-price-box-header__icon">
+							{{{ headingIconsHTML.value }}}
+						</div>
+					<#
+				}
+
+				if ( 'image' === settings.rael_heading_choose_icon_image && '' != settings.rael_heading_image.url ) {
+					var image = {
+						id: settings.rael_heading_image.id,
+						url: settings.rael_heading_image.url,
+						size: settings.rael_heading_image_size_size,
+						dimension: settings.rael_heading_image_custom_dimension,
+						model: view.getEditModel()
+					};
+
+					var image_url = elementor.imagesManager.getImageUrl( image );
+
+					if ( image_url ) {
+						#>
+							<div class="rael-price-box-header__icon">
+								<img src="{{ image_url }}" alt="">
+							</div>
+						<#
+					}
+				}
 			}
 		}
 
@@ -4294,7 +4509,24 @@ class Responsive_Addons_For_Elementor_Price_Box extends Widget_Base {
 					#>
 					<div class="rael-price-box-ribbon-{{{ ribbon_style }}} {{{ ribbonClass }}}">
 						<div {{{ view.getRenderAttributeString('rael_ribbon_title') }}}>
+							<# 
+							if ( settings.rael_ribbon_icon 
+								&& settings.rael_ribbon_icon.value 
+								&& settings.rael_ribbon_icon_position === 'before' ) { 
+							#>
+								
+								{{{ elementor.helpers.renderIcon( view, settings.rael_ribbon_icon, { 'aria-hidden': true }, 'i' , 'object' ).value }}}
+							<# } #>
+
 							{{ settings.rael_ribbon_title }}
+
+							<# 
+							if ( settings.rael_ribbon_icon 
+								&& settings.rael_ribbon_icon.value 
+								&& settings.rael_ribbon_icon_position === 'after' ) { 
+							#>
+								{{{ elementor.helpers.renderIcon( view, settings.rael_ribbon_icon, { 'aria-hidden': true }, 'i' , 'object' ).value }}}
+							<# } #>
 						</div>
 					</div>
 				<#

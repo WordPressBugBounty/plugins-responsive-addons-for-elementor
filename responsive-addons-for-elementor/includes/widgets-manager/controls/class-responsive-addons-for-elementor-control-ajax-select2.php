@@ -26,7 +26,7 @@ class Responsive_Addons_For_Elementor_Control_Ajax_Select2 extends Base_Data_Con
 
 		wp_register_script(
 			'rael-ajax-select2',
-			RAEL_ASSETS_URL . 'js/rael-ajax-select2.min.js',
+			RAEL_ASSETS_URL . 'dist/js/controls/rael-ajax-select2.min.js',
 			array( 'jquery-elementor-select2' ),
 			RAEL_VER,
 			false

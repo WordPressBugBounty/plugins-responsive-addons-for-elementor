@@ -1,4 +1,4 @@
-/*! tailwindcss v4.2.2 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v4.2.1 | MIT License | https://tailwindcss.com */
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @layer properties;
 :root, :host {
@@ -84,23 +84,11 @@
 .sticky {
   position: sticky;
 }
-.-start {
-  inset-inline-start: calc(var(--spacing) * -1);
-}
 .start {
   inset-inline-start: var(--spacing);
 }
-.start\! {
-  inset-inline-start: var(--spacing) !important;
-}
-.-end {
-  inset-inline-end: calc(var(--spacing) * -1);
-}
 .end {
   inset-inline-end: var(--spacing);
-}
-.end\! {
-  inset-inline-end: var(--spacing) !important;
 }
 .top-0 {
   top: calc(var(--spacing) * 0);

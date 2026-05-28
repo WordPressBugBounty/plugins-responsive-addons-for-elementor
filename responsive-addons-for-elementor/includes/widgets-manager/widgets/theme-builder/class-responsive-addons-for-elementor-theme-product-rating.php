@@ -206,7 +206,7 @@ class Responsive_Addons_For_Elementor_Theme_Product_Rating extends Woo_Widget_Ba
 				'label'        => esc_html__( 'Alignment', 'responsive-addons-for-elementor' ),
 				'type'         => Controls_Manager::CHOOSE,
 				'options'      => array(
-					'left'    => array(
+					'flex-start'    => array(
 						'title' => esc_html__( 'Left', 'responsive-addons-for-elementor' ),
 						'icon'  => 'eicon-text-align-left',
 					),
@@ -214,7 +214,7 @@ class Responsive_Addons_For_Elementor_Theme_Product_Rating extends Woo_Widget_Ba
 						'title' => esc_html__( 'Center', 'responsive-addons-for-elementor' ),
 						'icon'  => 'eicon-text-align-center',
 					),
-					'right'   => array(
+					'flex-end'   => array(
 						'title' => esc_html__( 'Right', 'responsive-addons-for-elementor' ),
 						'icon'  => 'eicon-text-align-right',
 					),
@@ -224,6 +224,9 @@ class Responsive_Addons_For_Elementor_Theme_Product_Rating extends Woo_Widget_Ba
 					),
 				),
 				'prefix_class' => 'elementor-product-rating--align-',
+				'selectors' => array(
+					'{{WRAPPER}} .woocommerce-product-rating' => 'display:flex; align-items: {{VALUE}}; justify-content: {{VALUE}};',
+				),
 			)
 		);
 

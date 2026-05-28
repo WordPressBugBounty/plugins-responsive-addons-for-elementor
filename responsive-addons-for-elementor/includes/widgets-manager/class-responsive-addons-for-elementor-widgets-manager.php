@@ -72,6 +72,7 @@ class Responsive_Addons_For_Elementor_Widgets_Manager {
 				add_filter( 'woocommerce_locate_template', array( $this, 'woocommerce_locate_template' ), 10, 3 );
 			}
 		}
+		add_filter( 'woocommerce_get_script_data', array( $this, 'refresh_cart_fragments' ), 10, 2 );
 
 		// Register category for responsive addons for elementor.
 		add_action( 'elementor/elements/categories_registered', array( $this, 'register_responsive_widget_category' ) );
@@ -99,7 +100,7 @@ class Responsive_Addons_For_Elementor_Widgets_Manager {
 		// Elementor Custom Scripts.
 		wp_register_script(
 			'rael-elementor-editor',
-			RAEL_URL . 'assets/js/editor/rael-editor.js',
+			RAEL_URL . 'assets/dist/js/editor/rael-editor.min.js',
 			array( 'jquery-elementor-select2' ),
 			RAEL_VER,
 			false
@@ -784,7 +785,7 @@ class Responsive_Addons_For_Elementor_Widgets_Manager {
 		$menu_cart_toggle_button_html = ob_get_clean();
 
 		if ( ! empty( $menu_cart_toggle_button_html ) ) {
-			$fragments['body:not(.elementor-editor-active) div.elementor-element.elementor-widget.elementor-widget-rael-wc-menu-cart div.rael-menu-cart__toggle'] = $menu_cart_toggle_button_html;
+			$fragments['div.rael-menu-cart__toggle'] = $menu_cart_toggle_button_html;
 		}
 
 		return $fragments;
@@ -830,7 +831,11 @@ class Responsive_Addons_For_Elementor_Widgets_Manager {
 		$sub_total     = WC()->cart->get_cart_subtotal();
 		$counter_attr  = 'data-counter="' . $product_count . '"';
 		 // Read the icon persisted by the widget on last render
-    	$icon = get_option( 'rael_menu_cart_icon', 'cart-medium' );
+    	$icon = wp_cache_get( 'rael_menu_cart_icon' );
+		if ( false === $icon ) {
+			$icon = get_option( 'rael_menu_cart_icon', 'cart-medium' );
+			wp_cache_set( 'rael_menu_cart_icon', $icon );
+		}
 		if ( ! class_exists( '\Responsive_Addons_For_Elementor\WidgetsManager\Widgets\Woocommerce\Responsive_Addons_For_Elementor_Menu_Cart' ) ) {
 			include_once RAEL_DIR . '/includes/widgets-manager/widgets/woocommerce/class-responsive-addons-for-elementor-menu-cart.php';
 		}
@@ -1034,6 +1039,17 @@ class Responsive_Addons_For_Elementor_Widgets_Manager {
 		}
 
 		return false;
+	}
+	public function refresh_cart_fragments( $params, $handle ) {
+
+		if ( 'wc-cart-fragments' === $handle ) {
+
+			$params['fragment_name'] = 'wc_fragments_' . md5(
+				get_current_blog_id() . '_' . get_option( 'rael_menu_cart_icon', 'cart-medium' )
+			);
+		}
+
+		return $params;
 	}
 }
 

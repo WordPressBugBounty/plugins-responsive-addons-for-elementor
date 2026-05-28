@@ -365,6 +365,7 @@ class Responsive_Addons_For_Elementor_Theme_Post_Info extends Widget_Base {
 				),
 				'condition' => array(
 					'rael_meta_data_type' => 'custom',
+					'rael_meta_data_link' => 'yes',
 				),
 			)
 		);

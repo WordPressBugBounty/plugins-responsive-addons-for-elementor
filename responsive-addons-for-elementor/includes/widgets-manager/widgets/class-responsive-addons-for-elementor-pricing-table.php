@@ -99,6 +99,16 @@ class Responsive_Addons_For_Elementor_Pricing_Table extends Widget_Base {
 		);
 
 		$this->add_control(
+			'section_header_alert',
+			[
+				'type' => Controls_Manager::ALERT,
+				'alert_type' => 'warning',
+				'heading' => esc_html__( 'Heads Up!', 'responsive-addons-for-elementor' ),
+				'content' => esc_html__( 'The Pricing Table widget will be deprecated in upcoming versions. Instead, we recommend using the Pricing Box/Table widget.', 'responsive-addons-for-elementor' ),
+			]
+		);
+
+		$this->add_control(
 			'heading',
 			array(
 				'label'   => __( 'Title', 'responsive-addons-for-elementor' ),

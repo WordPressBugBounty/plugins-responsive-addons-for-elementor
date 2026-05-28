@@ -691,7 +691,7 @@ class Responsive_Addons_For_Elementor_Search_Form extends Widget_Base {
 				'label'     => __( 'Color', 'responsive-addons-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => array(
-					'{{WRAPPER}} .rael-elementor-search-form__toggle svg path' => 'fill: {{VALUE}}; border-color: {{VALUE}}',
+					'{{WRAPPER}} .rael-elementor-search-form__toggle svg' => 'fill: {{VALUE}}; border-color: {{VALUE}};',
 				),
 			)
 		);
@@ -722,7 +722,7 @@ class Responsive_Addons_For_Elementor_Search_Form extends Widget_Base {
 				'label'     => __( 'Color', 'responsive-addons-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => array(
-					'{{WRAPPER}} .rael-elementor-search-form__toggle:hover' => 'color: {{VALUE}}; border-color: {{VALUE}}',
+					'{{WRAPPER}} .rael-elementor-search-form__toggle svg:hover' => 'fill: {{VALUE}}; border-color: {{VALUE}};',
 				),
 			)
 		);
@@ -733,7 +733,7 @@ class Responsive_Addons_For_Elementor_Search_Form extends Widget_Base {
 				'label'     => __( 'Background Color', 'responsive-addons-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => array(
-					'{{WRAPPER}} .rael-elementor-search-form__toggle i:hover' => 'background-color: {{VALUE}}',
+					'{{WRAPPER}} .rael-elementor-search-form__toggle i:hover, {{WRAPPER}} .rael-elementor-search-form__toggle svg:hover' => 'background-color: {{VALUE}};',
 				),
 			)
 		);

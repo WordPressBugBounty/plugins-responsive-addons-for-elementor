@@ -7,7 +7,7 @@ Tested up to: 6.9
 Elementor tested up to: 4.0
 Elementor Pro tested up to: 4.0
 Requires PHP: 5.6
-Stable tag: 2.1.8
+Stable tag: 2.1.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -280,8 +280,23 @@ The Development Version of the Responsive Addons for Elementor plugin is located
 
 == Changelog ==
 
-= 2.1.8 – 19th May 2026 =
+= 2.1.9 – 28th May 2026 =
+- Improvement: Moved all Pricing Table widget settings to the Price Box widget for a more streamlined editing experience.
+- Improvement: Deprecated the Pricing Table widget. Existing Pricing Table widgets will continue to work, but future enhancements will be focused on the Price Box widget.
+- Improvement: Stacking Cards: Improved control rendering behavior to ensure settings controls work consistently across different render types.
+- Fix: Menu Cart: Fixed issues where the cart icon was not rendering correctly and the Icon Size control did not apply configured size values properly.
+- Fix: Search Bar: Fixed an issue where the Toggle Hover Color setting was not reflected on hover state interactions.
+- Fix: Data Table: Fixed an issue where SVG icons from the Feature List widget and other widget icon boxes were not displayed correctly.
+- Fix: Post Title: Fixed an issue where Elementor’s “Hide Title” page setting required an editor reload before reflecting in the live preview.
+- Fix: Post Info: Fixed an issue with the Custom URL field visibility control.
+- Fix: Post Comments: Fixed an issue where the Comments Count source fetched the total site-wide comments instead of comments from the current post.
+- Fix: Products Rating: Fixed an issue where the Alignment control did not apply alignment styles correctly.
+- Fix: Products Images: Fixed an issue where the Thumbnail Spacing control was overridden by theme styles and did not apply properly.
+- Fix: Product Data Tabs: Fixed issues with Background Color and Label Border Width controls not applying correctly across the complete tab area.
+- Fix: Gravity Forms Styler: Fixed missing alignment setting icons in multiple alignment controls and resolved issues with Button Typography styles not applying correctly.
+- Fix: Products: Fixed an issue where the Load More functionality did not work correctly in the editor.
 
+= 2.1.8 – 19th May 2026 =
 - Fix: Advanced Tabs: Fixed issues with Alignment, Width, duplicate Background Color controls, and Active tab background styling when gradients were applied.
 - Fix: Back to Top: Fixed an issue where Icon Color settings were not reflected on the frontend.
 - Fix: Call to Action: Fixed issues where Background Color settings were not applied correctly and Sequenced Animation was triggered even when disabled.

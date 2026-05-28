@@ -48,6 +48,10 @@ class Responsive_Addons_For_Elementor_One_Page_Navigation extends Widget_Base {
 		return array( 'responsive-addons-for-elementor' );
 	}
 
+	public function get_custom_help_url() {
+		return 'https://cyberchimps.com/docs/responsive-addons-for-elementor/widgets/one-page-navigation/';
+	}
+
 	/**
 	 * Retrieve the list of keywords for the one page navigation widget.
 	 */

@@ -170,7 +170,7 @@ class Responsive_Addons_For_Elementor {
 		add_action( 'elementor/editor/after_enqueue_scripts', function () use ( $is_rst_active ) {
 			wp_enqueue_script(
 				'rael-editor-add-rst-promo-block',
-				RAEL_URL . 'assets/js/editor/rael-editor-add-rst-promo-block.js',
+				RAEL_URL . 'assets/dist/js/editor/rael-editor-add-rst-promo-block.min.js',
 				array( 'jquery', 'elementor-editor' ),
 				RAEL_VER,
 				true
@@ -989,7 +989,7 @@ private function rael_find_element_recursive($elements, $widget_id) {
 	 * Enqueues Widgets scripts
 	 */
 	public function widget_scripts() {
-		wp_enqueue_script( 'rael-elementor-widgets', RAEL_ASSETS_URL . 'js/widgets/rael-widgets.js', 'jquery', RAEL_VER, true );
+		wp_enqueue_script( 'rael-elementor-widgets', RAEL_ASSETS_URL . 'dist/js/widgets/rael-widgets.min.js', 'jquery', RAEL_VER, true );
 		wp_enqueue_script( 'wp-mediaelement' );
 	}
 
@@ -1112,7 +1112,7 @@ private function rael_find_element_recursive($elements, $widget_id) {
 	public function enqueue_frontend_scripts() {
 		wp_enqueue_script(
 			'rael-frontend',
-			RAEL_URL . 'assets/js/frontend/rael-frontend.js',
+			RAEL_URL . 'assets/dist/js/frontend/rael-frontend.min.js',
 			array(
 				'jquery',
 				'elementor-frontend',
@@ -1181,7 +1181,7 @@ private function rael_find_element_recursive($elements, $widget_id) {
 	 */
 	public function enqueue_styles() {
 
-		$frontend_file_url = RAEL_ASSETS_URL . 'css/rael-frontend.css';
+		$frontend_file_url = RAEL_ASSETS_URL . 'dist/css/frontend/rael-frontend.min.css';
 
 		if ( ! Icons_Manager::is_migration_allowed() ) {
 			wp_enqueue_style( 'font-awesome' );
@@ -1234,7 +1234,7 @@ private function rael_find_element_recursive($elements, $widget_id) {
 							$included_libs['rael-photoswipe'] = true;
 							wp_register_script( 'rael-photoswipe', RAEL_ASSETS_URL . 'lib/photoswipe/photoswipe.min.js', array( 'jquery', 'masonry', 'imagesloaded' ), RAEL_VER, true );
 							wp_register_script( 'rael-photoswipe-ui', RAEL_ASSETS_URL . 'lib/photoswipe/photoswipe-ui-default.min.js', array(), RAEL_VER, true );
-							wp_register_script( 'rael-scripts', RAEL_ASSETS_URL . 'js/rael-photoswipe.min.js', array( 'rael-photoswipe', 'rael-photoswipe-ui' ), RAEL_VER, true );
+							wp_register_script( 'rael-scripts', RAEL_ASSETS_URL . 'dist/js/photoswipe/rael-photoswipe.min.js', array( 'rael-photoswipe', 'rael-photoswipe-ui' ), RAEL_VER, true );
 							wp_register_style( 'rael-photoswipe-style', RAEL_ASSETS_URL . 'lib/photoswipe/photoswipe.min.css', null, RAEL_VER );
 							wp_enqueue_style( 'rael-photoswipe-style' );
 							wp_register_style( 'rael-photoswipe-default-skin', RAEL_ASSETS_URL . 'lib/photoswipe/default-skin.min.css', null, RAEL_VER );
@@ -1282,7 +1282,7 @@ private function rael_find_element_recursive($elements, $widget_id) {
 						
 						wp_register_script(
 							'rael-twitter-feed', 
-							RAEL_ASSETS_URL . 'js/frontend/twitter-feed/rael-twitter-feed.js', 
+							RAEL_ASSETS_URL . 'dist/js/frontend/twitter-feed/rael-twitter-feed.min.js', 
 							array('jquery', 'rael-isotope', 'imagesloaded'), 
 							RAEL_VER, 
 							true
@@ -1309,7 +1309,7 @@ private function rael_find_element_recursive($elements, $widget_id) {
 							$included_libs['rael-sticky-video'] = true;
 							wp_register_script(
 								'rael-sticky-video',
-								RAEL_ASSETS_URL . 'js/frontend/sticky-video/rael-sticky-video.min.js',
+								RAEL_ASSETS_URL . 'dist/js/frontend/sticky-video/rael-sticky-video.min.js',
 								array( 'elementor-frontend','jquery', 'plyr' ),
 								RAEL_VER,
 								true
@@ -1330,7 +1330,19 @@ private function rael_find_element_recursive($elements, $widget_id) {
 							wp_localize_script( 'rael-swiper', 'rael_elementor_swiper', $swiper_class );
 							
 						}
-						wp_register_script( 'rael-media-carousel', RAEL_ASSETS_URL . 'js/frontend/media-carousel/media-carousel.js', array('jquery', 'elementor-frontend'), RAEL_VER, true);// . $ext );
+						wp_register_script( 'rael-media-carousel', RAEL_ASSETS_URL . 'dist/js/frontend/media-carousel/media-carousel.min.js', array('jquery', 'elementor-frontend'), RAEL_VER, true);// . $ext );
+
+
+
+						// wp_enqueue_script(
+						// 	'rael-frontend',
+						// 	RAEL_URL . 'assets/dist/js/frontend/rael-frontend.min.js',
+						// 	array(
+						// 		'elementor-frontend',
+						// 	),
+						// 	RAEL_VER,
+						// 	true
+						// );
 
 						break;
 					case 'slider':
@@ -1340,7 +1352,7 @@ private function rael_find_element_recursive($elements, $widget_id) {
 							wp_register_script( 'rael-swiper', RAEL_ASSETS_URL . 'lib/swiper/swiper.js', array(), RAEL_VER, true );
 							wp_localize_script( 'rael-swiper', 'rael_elementor_swiper', $swiper_class );
 						}
-						wp_register_script( 'rael-testimonial-marquee', RAEL_ASSETS_URL . 'js/frontend/testimonial/rael-testimonial-marquee.min.js', array(), RAEL_VER,true );
+						wp_register_script( 'rael-testimonial-marquee', RAEL_ASSETS_URL . 'dist/js/frontend/testimonial/rael-testimonial-marquee.min.js', array(), RAEL_VER,true );
 
 						break;
 					case 'banner':
@@ -1403,7 +1415,7 @@ private function rael_find_element_recursive($elements, $widget_id) {
 							$included_libs['rael-stacking-cards'] = true;
 							wp_register_script(
 								'rael-stacking-cards',
-								RAEL_ASSETS_URL . 'js/frontend/stacking-cards/rael-stacking-cards.min.js',
+								RAEL_ASSETS_URL . 'dist/js/frontend/stacking-cards/rael-stacking-cards.min.js',
 								array( 'elementor-frontend', 'jquery', 'gsap', 'gsap-scrolltrigger' ),
 								RAEL_VER,
 								true
@@ -1411,15 +1423,15 @@ private function rael_find_element_recursive($elements, $widget_id) {
 						}
 						break;
 					case 'facebook-feed':
-						wp_register_script( 'rael-facebook-feed', RAEL_ASSETS_URL . 'js/frontend/facebook-feed/rael-facebook-feed.min.js', array( 'jquery' ), RAEL_VER, true );
+						wp_register_script( 'rael-facebook-feed', RAEL_ASSETS_URL . 'dist/js/frontend/facebook-feed/rael-facebook-feed.min.js', array( 'jquery' ), RAEL_VER, true );
 						wp_localize_script('rael-facebook-feed', 'rael_facebook_feed_vars', array(
 							'ajaxurl' => admin_url('admin-ajax.php'),
 							'nonce' => wp_create_nonce('rael_facebook_feed_nonce')
 						));
 						break;
 					case 'posts':
-						wp_enqueue_script( 'rael-posts', RAEL_ASSETS_URL . 'js/frontend/posts/rael-posts.min.js', array( 'jquery','elementor-frontend' ), RAEL_VER, true );
-						wp_enqueue_script( 'rael-posts-cards', RAEL_ASSETS_URL . 'js/frontend/posts/rael-posts-cards.min.js', array( 'jquery','elementor-frontend' ), RAEL_VER, true );
+						wp_enqueue_script( 'rael-posts', RAEL_ASSETS_URL . 'dist/js/frontend/posts/rael-posts.min.js', array( 'jquery','elementor-frontend' ), RAEL_VER, true );
+						wp_enqueue_script( 'rael-posts-cards', RAEL_ASSETS_URL . 'dist/js/frontend/posts/rael-posts-cards.min.js', array( 'jquery','elementor-frontend' ), RAEL_VER, true );
 
 						wp_localize_script('rael-posts', 'raelpostsvar', array(
 							'ajaxurl' => admin_url('admin-ajax.php'),
@@ -1461,6 +1473,16 @@ private function rael_find_element_recursive($elements, $widget_id) {
 			RAEL_VER,
 			true
 		);
+		// For hiding title in Post Title widget if Hide title option of Post settings is enabled
+		if ( \Elementor\Plugin::$instance->editor->is_edit_mode() ) {
+			wp_enqueue_script(
+				'rael-title-preview',
+				RAEL_ASSETS_URL . 'js/widgets/rael-post-title-preview.js',
+				[ 'jquery' ],
+				RAEL_VER,
+				true
+			);
+		}
 
 	}
 
@@ -1470,7 +1492,7 @@ private function rael_find_element_recursive($elements, $widget_id) {
 	public function enqueue_admin_styles() {
 		wp_register_style(
 			'rael-style',
-			RAEL_ASSETS_URL . 'css/rael-admin.css',
+			RAEL_ASSETS_URL . 'dist/css/admin/rael-admin.min.css',
 			array(),
 			RAEL_VER
 		);
@@ -1506,7 +1528,7 @@ private function rael_find_element_recursive($elements, $widget_id) {
 
 		wp_register_script(
 			'rael-elementor-control-js',
-			RAEL_ASSETS_URL . 'js/controls/rael-control.js',
+			RAEL_ASSETS_URL . 'dist/js/controls/rael-control.min.js',
 			array( 'jquery-elementor-select2' ),
 			RAEL_VER,
 			false
@@ -1514,11 +1536,28 @@ private function rael_find_element_recursive($elements, $widget_id) {
 
 		wp_register_script(
 			'rael-elementor-visualselect',
-			RAEL_ASSETS_URL . 'js/controls/rael-visual-select.js',
+			RAEL_ASSETS_URL . 'dist/js/controls/rael-visual-select.min.js',
 			array( 'jquery' ),
 			RAEL_VER,
 			false
 		);
+
+		wp_register_script( 
+			'rael-elementor-upsell-icon',
+			RAEL_ASSETS_URL . 'dist/js/controls/rael-elementor-upsell-icon.min.js',
+			array( 'jquery', 'wp-data', 'wp-i18n' ),
+			RAEL_VER,
+			false
+		);
+
+		wp_localize_script( 'rael-elementor-upsell-icon', 'raelElementorUpsellIcon', array(
+			'iconUrl' => RAEL_URL . 'admin/images/rael-logo.svg',
+			'strings' => array(
+				'rael' => __( 'Responsive Addons for Elementor', 'responsive-addons-for-elementor' )
+			)
+		));
+
+		wp_enqueue_script( 'rael-elementor-upsell-icon' );
 	}
 	  /**
      * Editor scripts (Elementor backend editor)
@@ -1527,7 +1566,7 @@ private function rael_find_element_recursive($elements, $widget_id) {
     public function rael_enqueue_editor_scripts() {
         wp_enqueue_script(
             'rael-import-notice',
-            RAEL_URL . 'assets/js/editor/rael-import-template-notice.js',
+            RAEL_URL . 'assets/dist/js/editor/rael-import-template-notice.min.js',
             array('jquery', 'elementor-editor'),
             RAEL_VER,
             true
@@ -1876,11 +1915,11 @@ private function rael_find_element_recursive($elements, $widget_id) {
 		$css_files   = array();
 		$included_js = array();
 
-		$js_files_path  = RAEL_DIR . 'assets/js/frontend/';
-		$css_files_path = RAEL_DIR . 'assets/css/frontend/';
+		$js_files_path  = RAEL_DIR . 'assets/dist/js/frontend/';
+		$css_files_path = RAEL_DIR . 'assets/dist/css/frontend/';
 
-		$target_js_file_path  = RAEL_DIR . 'assets/js/frontend/rael-frontend.js';
-		$target_css_file_path = RAEL_DIR . 'assets/css/rael-frontend.css';
+		$target_js_file_path  = RAEL_DIR . 'assets/dist/js/frontend/rael-frontend.min.js';
+		$target_css_file_path = RAEL_DIR . 'assets/dist/css/frontend/rael-frontend.min.css';
 
 		$ext         = '.min.js';
 		$css_min_ext = '.min.css';
@@ -1970,7 +2009,7 @@ private function rael_find_element_recursive($elements, $widget_id) {
 						break;
 					case 'slider':
 						array_push( $js_files, $js_files_path . 'rael-slider/rael-slider' . $ext );
-						array_push( $css_files, $css_files_path . 'slider/rael-frontend' . $css_min_ext );
+						array_push( $css_files, $css_files_path . 'slider/rael-slider' . $css_min_ext );
 						break;
 					case 'timeline':
 						array_push( $js_files, $js_files_path . 'timeline/rael-timeline' . $ext );

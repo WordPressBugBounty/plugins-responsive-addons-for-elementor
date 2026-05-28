@@ -148,30 +148,71 @@ class Responsive_Addons_For_Elementor_Theme_Post_Comments extends Widget_Base {
 	 * Render's Widget content on frontend
 	 */
 	protected function render() {
+
 		$settings = $this->get_settings();
 
+		global $post;
+
+		$original_post = $post;
+
+		$post_id = get_the_ID();
+
 		if ( self::SOURCE_TYPE_CUSTOM === $settings['rael_pc_source_type'] ) {
+
 			$post_id = (int) $settings['rael_pc_source_custom'];
-			Plugin::instance()->db->switch_to_post( $post_id );
+
+		} elseif ( Plugin::instance()->preview->is_preview_mode() ) {
+
+			$preview_id = Plugin::instance()->preview->get_post_id();
+
+			if ( $preview_id ) {
+				$post_id = $preview_id;
+			}
 		}
 
-		if ( ! comments_open() && ( Plugin::instance()->preview->is_preview_mode() || Plugin::instance()->editor->is_edit_mode() ) ) :
+		if ( $post_id ) {
+
+			$post = get_post( $post_id );
+
+			if ( $post ) {
+				setup_postdata( $post );
+			}
+		}
+
+		if (
+			! comments_open( $post_id ) &&
+			(
+				Plugin::instance()->preview->is_preview_mode() ||
+				Plugin::instance()->editor->is_edit_mode()
+			)
+		) :
 			?>
+
 			<div class="elementor-alert elementor-alert-danger">
 				<span class="elementor-alert-title">
 					<?php esc_html_e( 'Comments are closed.', 'responsive-addons-for-elementor' ); ?>
 				</span>
+
 				<span class="elementor-alert-description">
-					<?php esc_html_e( 'Switch on comments from either the discussion box on the WordPress post edit screen or from the WordPress discussion settings.', 'responsive-addons-for-elementor' ); ?>
+					<?php
+					esc_html_e(
+						'Switch on comments from either the discussion box on the WordPress post edit screen or from the WordPress discussion settings.',
+						'responsive-addons-for-elementor'
+					);
+					?>
 				</span>
 			</div>
+
 			<?php
+
 		else :
+
 			comments_template();
+
 		endif;
 
-		if ( self::SOURCE_TYPE_CUSTOM === $settings['rael_pc_source_type'] ) {
-			Plugin::instance()->db->restore_current_post();
-		}
+		wp_reset_postdata();
+
+		$post = $original_post;
 	}
 }

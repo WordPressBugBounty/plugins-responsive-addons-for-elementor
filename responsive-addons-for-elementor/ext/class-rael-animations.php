@@ -85,7 +85,7 @@ if ( ! class_exists( 'Rael_Animations' ) ) {
 
 			wp_enqueue_script(
 				'rael-animations-frontend',
-				RAEL_ASSETS_URL . 'js/rael-animations.min.js',
+				RAEL_ASSETS_URL . 'dist/js/animations/rael-animations.min.js',
 				array( 'jquery', 'elementor-frontend' ),
 				RAEL_VER,
 				true

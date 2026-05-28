@@ -400,7 +400,7 @@ if ( ! class_exists( 'Rael_Sticky_Elementor' ) ) {
 
 			wp_enqueue_script(
 				'rael-sticky-frontend',
-				RAEL_ASSETS_URL . 'js/rael-sticky-frontend.min.js',
+				RAEL_ASSETS_URL . 'dist/js/rael-sticky-frontend.min.js',
 				array( 'jquery', 'elementor-frontend' ),
 				RAEL_VER,
 				true
