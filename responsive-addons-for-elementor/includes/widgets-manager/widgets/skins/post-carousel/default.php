@@ -23,7 +23,11 @@ if ( isset( $settings['rael_title_tag'] ) ) {
 	$settings['rael_title_tag'] = Helper::validate_html_tags( $settings['rael_title_tag'] );
 }
 
-echo '<div class="swiper-slide">';
+if ( isset( $settings['is_marquee'] ) && $settings['is_marquee'] ) {
+	echo '<div class="marquee-item rael-marquee-item">';
+} else {
+	echo '<div class="swiper-slide">';
+}
 if ( 'two' === $settings['rael_post_preset_style'] ) :
 	?>
 	<article class="rael-grid-post rael-post-carousel-grid-column">

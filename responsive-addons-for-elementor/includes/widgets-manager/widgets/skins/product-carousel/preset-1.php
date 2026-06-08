@@ -34,7 +34,16 @@ $quick_view_setting   = array(
 
 if ( true === wc_get_loop_product_visibility( $product->get_id() ) || $product->is_visible() ) {
 	?>
-	<li <?php post_class( array( 'product', 'swiper-slide' ) ); ?>>
+	<?php
+	$li_classes = array( 'product' );
+	if ( isset( $settings['is_marquee'] ) && $settings['is_marquee'] ) {
+		$li_classes[] = 'marquee-item';
+		$li_classes[] = 'rael-marquee-item';
+	} else {
+		$li_classes[] = 'swiper-slide';
+	}
+	?>
+	<li <?php post_class( $li_classes ); ?>>
 		<div class="rael-product-carousel">
 			<div class="rael-pc__product-image-wrapper">
 				<div class="rael-pc__product-image">

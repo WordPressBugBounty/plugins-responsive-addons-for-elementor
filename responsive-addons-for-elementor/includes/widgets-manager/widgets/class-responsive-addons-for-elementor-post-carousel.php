@@ -88,6 +88,20 @@ class Responsive_Addons_For_Elementor_Post_Carousel extends Widget_Base {
 		);
 	}
 	/**
+	 * Get the scripts required for the widget.
+	 *
+	 * @return array
+	 */
+	public function get_script_depends() {
+		return array(
+			'elementor-frontend',
+			'swiper',
+			'e-swiper',
+			'rael-swiper',
+			'rael-testimonial-marquee',
+		);
+	}
+	/**
 	 * Get Custom help URL
 	 *
 	 * @since 1.7.0
@@ -123,6 +137,7 @@ class Responsive_Addons_For_Elementor_Post_Carousel extends Widget_Base {
 		$this->register_content_tab_query_section();
 		$this->register_content_tab_layout_section();
 		$this->register_content_tab_carousel_section();
+		$this->register_content_tab_marquee_section();
 		$this->register_content_tab_links_section();
 
 		$this->register_style_tab_post_section();
@@ -137,6 +152,7 @@ class Responsive_Addons_For_Elementor_Post_Carousel extends Widget_Base {
 		$this->register_style_tab_meta_footer_section();
 		$this->register_style_tab_arrows_section();
 		$this->register_style_tab_dots_section();
+		$this->register_style_tab_edge_shadow_section();
 	}
 	/**
 	 * Register general controls for styling elements based on provided parameters.
@@ -895,6 +911,9 @@ class Responsive_Addons_For_Elementor_Post_Carousel extends Widget_Base {
 					'coverflow' => __( 'Coverflow', 'responsive-addons-for-elementor' ),
 					'flip'      => __( 'Flip', 'responsive-addons-for-elementor' ),
 				),
+				'condition'   => array(
+					'enable_marquee!' => 'yes',
+				),
 			)
 		);
 
@@ -916,6 +935,7 @@ class Responsive_Addons_For_Elementor_Post_Carousel extends Widget_Base {
 				'size_units'     => '',
 				'condition'      => array(
 					'rael_carousel_effect' => array( 'slide', 'coverflow' ),
+					'enable_marquee!' => 'yes',
 				),
 			)
 		);
@@ -936,6 +956,7 @@ class Responsive_Addons_For_Elementor_Post_Carousel extends Widget_Base {
 				'size_units' => '',
 				'condition'  => array(
 					'rael_carousel_effect' => array( 'slide', 'coverflow' ),
+					'enable_marquee!' => 'yes',
 				),
 			)
 		);
@@ -975,6 +996,9 @@ class Responsive_Addons_For_Elementor_Post_Carousel extends Widget_Base {
 					),
 				),
 				'size_units'  => '',
+				'condition'   => array(
+					'enable_marquee!' => 'yes',
+				),
 			)
 		);
 
@@ -987,6 +1011,9 @@ class Responsive_Addons_For_Elementor_Post_Carousel extends Widget_Base {
 				'label_on'     => __( 'Yes', 'responsive-addons-for-elementor' ),
 				'label_off'    => __( 'No', 'responsive-addons-for-elementor' ),
 				'return_value' => 'yes',
+				'condition'   => array(
+					'enable_marquee!' => 'yes',
+				),
 			)
 		);
 
@@ -1006,6 +1033,7 @@ class Responsive_Addons_For_Elementor_Post_Carousel extends Widget_Base {
 				'size_units' => '',
 				'condition'  => array(
 					'rael_autoplay' => 'yes',
+					'enable_marquee!' => 'yes',
 				),
 			)
 		);
@@ -1021,6 +1049,7 @@ class Responsive_Addons_For_Elementor_Post_Carousel extends Widget_Base {
 				'return_value' => 'yes',
 				'condition'    => array(
 					'rael_autoplay' => 'yes',
+					'enable_marquee!' => 'yes',
 				),
 			)
 		);
@@ -1034,6 +1063,9 @@ class Responsive_Addons_For_Elementor_Post_Carousel extends Widget_Base {
 				'label_on'     => __( 'Yes', 'responsive-addons-for-elementor' ),
 				'label_off'    => __( 'No', 'responsive-addons-for-elementor' ),
 				'return_value' => 'yes',
+				'condition'   => array(
+					'enable_marquee!' => 'yes',
+				),
 			)
 		);
 
@@ -1047,6 +1079,9 @@ class Responsive_Addons_For_Elementor_Post_Carousel extends Widget_Base {
 				'label_on'     => __( 'Show', 'responsive-addons-for-elementor' ),
 				'label_off'    => __( 'Hide', 'responsive-addons-for-elementor' ),
 				'return_value' => 'yes',
+				'condition'   => array(
+					'enable_marquee!' => 'yes',
+				),
 			)
 		);
 
@@ -1056,6 +1091,9 @@ class Responsive_Addons_For_Elementor_Post_Carousel extends Widget_Base {
 				'label'     => __( 'Navigation', 'responsive-addons-for-elementor' ),
 				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
+				'condition'   => array(
+					'enable_marquee!' => 'yes',
+				),
 			)
 		);
 
@@ -1068,6 +1106,9 @@ class Responsive_Addons_For_Elementor_Post_Carousel extends Widget_Base {
 				'label_on'     => __( 'Yes', 'responsive-addons-for-elementor' ),
 				'label_off'    => __( 'No', 'responsive-addons-for-elementor' ),
 				'return_value' => 'yes',
+				'condition'   => array(
+					'enable_marquee!' => 'yes',
+				),
 			)
 		);
 
@@ -1080,6 +1121,171 @@ class Responsive_Addons_For_Elementor_Post_Carousel extends Widget_Base {
 				'label_on'     => __( 'Yes', 'responsive-addons-for-elementor' ),
 				'label_off'    => __( 'No', 'responsive-addons-for-elementor' ),
 				'return_value' => 'yes',
+				'condition'   => array(
+					'enable_marquee!' => 'yes',
+				),
+			)
+		);
+
+		$this->end_controls_section();
+	}
+
+	public function register_content_tab_marquee_section() {
+		$this->start_controls_section(
+			'section_marquee',
+			array(
+				'label' => __( 'Marquee', 'responsive-addons-for-elementor' ),
+				'tab'   => Controls_Manager::TAB_CONTENT,
+			)
+		);
+
+		$this->add_control(
+			'enable_marquee',
+			array(
+				'label'        => __( 'Enable Marquee', 'responsive-addons-for-elementor' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => __( 'On', 'responsive-addons-for-elementor' ),
+				'label_off'    => __( 'Off', 'responsive-addons-for-elementor' ),
+				'return_value' => 'yes',
+				'default'      => '',
+			)
+		);
+
+		$this->add_control(
+			'marquee_direction',
+			array(
+				'label'     => __( 'Direction', 'responsive-addons-for-elementor' ),
+				'type'      => Controls_Manager::SELECT,
+				'default'   => 'rtl',
+				'options'   => array(
+					'ltr' => __( 'Left to Right', 'responsive-addons-for-elementor' ),
+					'rtl' => __( 'Right to Left', 'responsive-addons-for-elementor' ),
+					'ttb' => __( 'Top to Bottom', 'responsive-addons-for-elementor' ),
+					'btt' => __( 'Bottom to Top', 'responsive-addons-for-elementor' ),
+				),
+				'condition' => array(
+					'enable_marquee' => 'yes',
+				),
+			)
+		);
+
+		$this->add_control(
+			'marquee_alignment',
+			array(
+				'label'   => __( 'Alignment', 'responsive-addons-for-elementor' ),
+				'type'    => Controls_Manager::CHOOSE,
+				'default' => 'center',
+				'options' => array(
+					'flex-start' => array(
+						'title' => __( 'Left', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-left',
+					),
+					'center' => array(
+						'title' => __( 'Center', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-center',
+					),
+					'flex-end' => array(
+						'title' => __( 'Right', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-right',
+					),
+				),
+				'selectors' => array(
+					'{{WRAPPER}} .responsive-marquee-track' => 'align-items: {{VALUE}};',
+				),
+				'condition' => array(
+					'enable_marquee'     => 'yes',
+					'marquee_direction'  => array( 'ttb', 'btt' ),
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'marquee_height',
+			array(
+				'label'      => __( 'Marquee Height', 'responsive-addons-for-elementor' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => array( 'px', 'vh', 'em', 'rem', 'custom' ),
+				'range'      => array(
+					'px' => array(
+						'min' => 100,
+						'max' => 1000,
+					),
+					'vh' => array(
+						'min' => 10,
+						'max' => 100,
+					),
+				),
+				'default'    => array(
+					'size' => 400,
+					'unit' => 'px',
+				),
+				'selectors'  => array(
+					'{{WRAPPER}} .responsive-marquee-wrapper' => 'height: {{SIZE}}{{UNIT}};',
+				),
+				'condition'  => array(
+					'enable_marquee'    => 'yes',
+					'marquee_direction' => array( 'ttb', 'btt' ),
+				),
+			)
+		);
+
+		$this->add_control(
+			'marquee_speed',
+			array(
+				'label'      => __( 'Speed', 'responsive-addons-for-elementor' ),
+				'type'       => Controls_Manager::NUMBER,
+				'default'    => 100,
+				'min'        => 10,
+				'max'        => 500,
+				'step'       => 10,
+				'condition'  => array(
+					'enable_marquee' => 'yes',
+				),
+			)
+		);
+
+		$this->add_control(
+			'marquee_gap',
+			array(
+				'label'      => __( 'Gap Between Items', 'responsive-addons-for-elementor' ),
+				'type'       => Controls_Manager::NUMBER,
+				'default'    => 30,
+				'min'        => 0,
+				'max'        => 200,
+				'step'       => 5,
+				'condition'  => array(
+					'enable_marquee' => 'yes',
+				),
+			)
+		);
+
+		$this->add_control(
+			'marquee_pause_hover',
+			array(
+				'label'        => __( 'Pause on Hover', 'responsive-addons-for-elementor' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => __( 'Yes', 'responsive-addons-for-elementor' ),
+				'label_off'    => __( 'No', 'responsive-addons-for-elementor' ),
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'condition'    => array(
+					'enable_marquee' => 'yes',
+				),
+			)
+		);
+
+		$this->add_control(
+			'marquee_show_edge_shadow',
+			array(
+				'label'        => __( 'Show Edge Shadow', 'responsive-addons-for-elementor' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => __( 'Yes', 'responsive-addons-for-elementor' ),
+				'label_off'    => __( 'No', 'responsive-addons-for-elementor' ),
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition'    => array(
+					'enable_marquee' => 'yes',
+				),
 			)
 		);
 
@@ -2116,6 +2322,7 @@ class Responsive_Addons_For_Elementor_Post_Carousel extends Widget_Base {
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array(
 					'rael_arrows' => 'yes',
+					'enable_marquee!' => 'yes',
 				),
 			)
 		);
@@ -2336,6 +2543,7 @@ class Responsive_Addons_For_Elementor_Post_Carousel extends Widget_Base {
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array(
 					'rael_dots' => 'yes',
+					'enable_marquee!' => 'yes',
 				),
 			)
 		);
@@ -2631,6 +2839,78 @@ class Responsive_Addons_For_Elementor_Post_Carousel extends Widget_Base {
 
 		$this->end_controls_section();
 	}
+
+	public function register_style_tab_edge_shadow_section() {
+		$this->start_controls_section(
+			'section_edge_shadow_style',
+			array(
+				'label' => __( 'Edge Shadow', 'responsive-addons-for-elementor' ),
+				'tab'   => Controls_Manager::TAB_STYLE,
+				'condition' => array(
+					'enable_marquee' => 'yes',
+					'marquee_show_edge_shadow' => 'yes',
+				),
+			)
+		);
+
+		$this->add_control(
+			'edge_shadow_color',
+			array(
+				'label' => __( 'Color', 'responsive-addons-for-elementor' ),
+				'type' => Controls_Manager::COLOR,
+				'default' => '#ffffff',
+				'selectors' => array(
+					'{{WRAPPER}} .responsive-marquee-wrapper' => '--rae-marquee-shadow-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'edge_shadow_size',
+			array(
+				'label' => __( 'Size', 'responsive-addons-for-elementor' ),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => array( 'px' ),
+				'range' => array(
+					'px' => array(
+						'min' => 0,
+						'max' => 100,
+					),
+				),
+				'default' => array(
+					'size' => 50,
+					'unit' => 'px',
+				),
+				'selectors' => array(
+					'{{WRAPPER}} .responsive-marquee-wrapper' => '--rae-marquee-shadow-size: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'edge_shadow_blur',
+			array(
+				'label' => __( 'Blur', 'responsive-addons-for-elementor' ),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => array( 'px' ),
+				'range' => array(
+					'px' => array(
+						'min' => 0,
+						'max' => 100,
+					),
+				),
+				'default' => array(
+					'size' => 20,
+					'unit' => 'px',
+				),
+				'selectors' => array(
+					'{{WRAPPER}} .responsive-marquee-wrapper' => '--rae-marquee-shadow-blur: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->end_controls_section();
+	}
 	/**
 	 * Get the full path to a specific template file for the post carousel widget.
 	 *
@@ -2753,23 +3033,53 @@ class Responsive_Addons_For_Elementor_Post_Carousel extends Widget_Base {
 			$this->add_render_attribute( 'rael-post-carousel-wrap', 'data-dots', '1' );
 		}
 
-		?>
-		<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'rael-post-carousel-container' ) ); ?>>
-			<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'rael-post-carousel-wrap' ) ); ?>>
-				<div class="swiper-wrapper">
-					<?php
+		$is_marquee = ( 'yes' === ( $settings['enable_marquee'] ?? '' ) );
 
+		if ( $is_marquee ) {
+			wp_enqueue_script( 'rael-testimonial-marquee' );
+
+			$wrapper_classes = array( 'responsive-marquee-wrapper' );
+			if ( 'yes' === ( $settings['marquee_show_edge_shadow'] ?? '' ) ) {
+				$wrapper_classes[] = 'has-edge-shadow';
+				$direction = $settings['marquee_direction'] ?? 'ltr';
+				$is_vertical = in_array( $direction, array( 'ttb', 'btt' ), true );
+				if ( $is_vertical ) {
+					$wrapper_classes[] = 'edge-shadow-vertical';
+				} else {
+					$wrapper_classes[] = 'edge-shadow-horizontal';
+				}
+			}
+			?>
+			<div class="<?php echo esc_attr( implode( ' ', $wrapper_classes ) ); ?>"
+				data-marquee-speed="<?php echo esc_attr( $settings['marquee_speed'] ?? 100 ); ?>"
+				data-marquee-direction="<?php echo esc_attr( $settings['marquee_direction'] ?? 'rtl' ); ?>"
+				data-marquee-gap="<?php echo esc_attr( $settings['marquee_gap'] ?? 30 ); ?>"
+				data-marquee-pause="<?php echo esc_attr( $settings['marquee_pause_hover'] ?? '' ); ?>">
+
+				<div class="responsive-marquee-track">
+					<?php
 					$template = $this->get_template( $this->get_settings( 'rael_template_layout' ) );
 					if ( file_exists( $template ) ) {
-						$query = new \WP_Query( $args );
+						// Pass is_marquee flag to template
+						$settings['is_marquee'] = true;
 
+						// Loop 1
+						$query = new \WP_Query( $args );
 						if ( $query->have_posts() ) {
 							while ( $query->have_posts() ) {
 								$query->the_post();
 								include $template;
 							}
-						} else {
-							echo '<p class="no-posts-found">' . esc_html__( 'No posts found!', 'responsive-addons-for-elementor' ) . '</p>';
+						}
+						wp_reset_postdata();
+
+						// Loop 2
+						$query = new \WP_Query( $args );
+						if ( $query->have_posts() ) {
+							while ( $query->have_posts() ) {
+								$query->the_post();
+								include $template;
+							}
 						}
 						wp_reset_postdata();
 					} else {
@@ -2778,21 +3088,49 @@ class Responsive_Addons_For_Elementor_Post_Carousel extends Widget_Base {
 					?>
 				</div>
 			</div>
-			<div class="clearfix"></div>
 			<?php
-
-			/**
-			 * Render Slider Dots!
-			 */
-			$this->render_dots();
-
-			/**
-			 * Render Slider Navigations!
-			 */
-			$this->render_arrows();
+		} else {
 			?>
-		</div>
-		<?php
+			<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'rael-post-carousel-container' ) ); ?>>
+				<div <?php echo wp_kses_post( $this->get_render_attribute_string( 'rael-post-carousel-wrap' ) ); ?>>
+					<div class="swiper-wrapper">
+						<?php
+
+						$template = $this->get_template( $this->get_settings( 'rael_template_layout' ) );
+						if ( file_exists( $template ) ) {
+							$query = new \WP_Query( $args );
+
+							if ( $query->have_posts() ) {
+								while ( $query->have_posts() ) {
+									$query->the_post();
+									include $template;
+								}
+							} else {
+								echo '<p class="no-posts-found">' . esc_html__( 'No posts found!', 'responsive-addons-for-elementor' ) . '</p>';
+							}
+							wp_reset_postdata();
+						} else {
+							echo '<p class="no-posts-found">' . esc_html__( 'No layout found!', 'responsive-addons-for-elementor' ) . '</p>';
+						}
+						?>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+				<?php
+
+				/**
+				 * Render Slider Dots!
+				 */
+				$this->render_dots();
+
+				/**
+				 * Render Slider Navigations!
+				 */
+				$this->render_arrows();
+				?>
+			</div>
+			<?php
+		}
 	}
 	/**
 	 * Render the pagination dots for the post carousel widget.

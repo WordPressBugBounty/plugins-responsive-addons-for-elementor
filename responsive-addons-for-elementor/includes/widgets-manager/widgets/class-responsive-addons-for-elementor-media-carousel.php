@@ -111,6 +111,7 @@ class Responsive_Addons_For_Elementor_Media_Carousel extends Widget_Base {
 			'font-awesome-4-shim',
 			'rael-swiper',
 			'rael-media-carousel',
+			'rael-testimonial-marquee',
 		);
 	}
 	/**
@@ -269,7 +270,7 @@ class Responsive_Addons_For_Elementor_Media_Carousel extends Widget_Base {
 					),
 				),
 				'selectors' => array(
-					'{{WRAPPER}} .elementor-main-swiper' => 'height: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .elementor-main-swiper, {{WRAPPER}} .responsive-marquee-wrapper' => 'height: {{SIZE}}{{UNIT}};',
 				),
 				'condition' => array(
 					'rael_skin' => 'slideshow',
@@ -383,7 +384,7 @@ class Responsive_Addons_For_Elementor_Media_Carousel extends Widget_Base {
 					),
 				),
 				'selectors'  => array(
-					'{{WRAPPER}} .elementor-main-swiper' => 'height: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .elementor-main-swiper, {{WRAPPER}} .responsive-marquee-wrapper' => 'height: {{SIZE}}{{UNIT}};',
 				),
 				'condition'  => array(
 					'rael_skin!' => 'slideshow',
@@ -411,7 +412,7 @@ class Responsive_Addons_For_Elementor_Media_Carousel extends Widget_Base {
 					'unit' => '%',
 				),
 				'selectors'  => array(
-					'{{WRAPPER}} .elementor-main-swiper' => 'width: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .elementor-main-swiper, {{WRAPPER}} .responsive-marquee-wrapper' => 'width: {{SIZE}}{{UNIT}};',
 				),
 				'condition'  => array(
 					'rael_skin!' => 'slideshow',
@@ -425,7 +426,10 @@ class Responsive_Addons_For_Elementor_Media_Carousel extends Widget_Base {
 		$this->start_controls_section(
 			'section_additional_options',
 			array(
-				'label' => __( 'Additional Options', 'responsive-addons-for-elementor' ),
+				'label' => __( 'Slider Options', 'responsive-addons-for-elementor' ),
+				'condition' => array(
+					'enable_marquee!' => 'yes',
+				),
 			)
 		);
 
@@ -640,7 +644,137 @@ class Responsive_Addons_For_Elementor_Media_Carousel extends Widget_Base {
 					'auto'    => __( 'Auto', 'responsive-addons-for-elementor' ),
 				),
 				'selectors' => array(
-					'{{WRAPPER}} .elementor-main-swiper .elementor-carousel-image' => 'background-size: {{VALUE}}',
+					'{{WRAPPER}} .elementor-main-swiper .elementor-carousel-image, {{WRAPPER}} .responsive-marquee-wrapper .elementor-carousel-image' => 'background-size: {{VALUE}}',
+				),
+			)
+		);
+
+		$this->end_controls_section();
+
+		$this->start_controls_section(
+			'section_marquee',
+			array(
+				'label' => __( 'Marquee', 'responsive-addons-for-elementor' ),
+				'tab'   => Controls_Manager::TAB_CONTENT,
+			)
+		);
+
+		$this->add_control(
+			'enable_marquee',
+			array(
+				'label'        => __( 'Enable Marquee', 'responsive-addons-for-elementor' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => __( 'On', 'responsive-addons-for-elementor' ),
+				'label_off'    => __( 'Off', 'responsive-addons-for-elementor' ),
+				'return_value' => 'yes',
+				'default'      => '',
+			)
+		);
+
+		$this->add_control(
+			'marquee_direction',
+			array(
+				'label'     => __( 'Direction', 'responsive-addons-for-elementor' ),
+				'type'      => Controls_Manager::SELECT,
+				'default'   => 'rtl',
+				'options'   => array(
+					'ltr' => __( 'Left to Right', 'responsive-addons-for-elementor' ),
+					'rtl' => __( 'Right to Left', 'responsive-addons-for-elementor' ),
+					'ttb' => __( 'Top to Bottom', 'responsive-addons-for-elementor' ),
+					'btt' => __( 'Bottom to Top', 'responsive-addons-for-elementor' ),
+				),
+				'condition' => array(
+					'enable_marquee' => 'yes',
+				),
+			)
+		);
+
+		$this->add_control(
+			'marquee_alignment',
+			array(
+				'label'   => __( 'Alignment', 'responsive-addons-for-elementor' ),
+				'type'    => Controls_Manager::CHOOSE,
+				'default' => 'center',
+				'options' => array(
+					'flex-start' => array(
+						'title' => __( 'Left', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-left',
+					),
+					'center' => array(
+						'title' => __( 'Center', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-center',
+					),
+					'flex-end' => array(
+						'title' => __( 'Right', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-right',
+					),
+				),
+				'selectors' => array(
+					'{{WRAPPER}} .responsive-marquee-track' => 'align-items: {{VALUE}};',
+				),
+				'condition' => array(
+					'enable_marquee'     => 'yes',
+					'marquee_direction'  => array( 'ttb', 'btt' ),
+				),
+			)
+		);
+
+		$this->add_control(
+			'marquee_speed',
+			array(
+				'label'      => __( 'Speed', 'responsive-addons-for-elementor' ),
+				'type'       => Controls_Manager::NUMBER,
+				'default'    => 100,
+				'min'        => 10,
+				'max'        => 500,
+				'step'       => 10,
+				'condition'  => array(
+					'enable_marquee' => 'yes',
+				),
+			)
+		);
+
+		$this->add_control(
+			'marquee_gap',
+			array(
+				'label'      => __( 'Gap Between Items', 'responsive-addons-for-elementor' ),
+				'type'       => Controls_Manager::NUMBER,
+				'default'    => 30,
+				'min'        => 0,
+				'max'        => 200,
+				'step'       => 5,
+				'condition'  => array(
+					'enable_marquee' => 'yes',
+				),
+			)
+		);
+
+		$this->add_control(
+			'marquee_pause_hover',
+			array(
+				'label'        => __( 'Pause on Hover', 'responsive-addons-for-elementor' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => __( 'Yes', 'responsive-addons-for-elementor' ),
+				'label_off'    => __( 'No', 'responsive-addons-for-elementor' ),
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'condition'    => array(
+					'enable_marquee' => 'yes',
+				),
+			)
+		);
+
+		$this->add_control(
+			'marquee_show_edge_shadow',
+			array(
+				'label'        => __( 'Show Edge Shadow', 'responsive-addons-for-elementor' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => __( 'Yes', 'responsive-addons-for-elementor' ),
+				'label_off'    => __( 'No', 'responsive-addons-for-elementor' ),
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition'    => array(
+					'enable_marquee' => 'yes',
 				),
 			)
 		);
@@ -660,6 +794,9 @@ class Responsive_Addons_For_Elementor_Media_Carousel extends Widget_Base {
 			array(
 				'label'              => __( 'Space Between', 'responsive-addons-for-elementor' ),
 				'type'               => Controls_Manager::SLIDER,
+				'condition'          => array(
+					'enable_marquee!' => 'yes',
+				),
 				'range'              => array(
 					'px' => array(
 						'max' => 50,
@@ -688,7 +825,7 @@ class Responsive_Addons_For_Elementor_Media_Carousel extends Widget_Base {
 				'label'     => __( 'Background Color', 'responsive-addons-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => array(
-					'{{WRAPPER}} .elementor-main-swiper .swiper-slide' => 'background-color: {{VALUE}}',
+					'{{WRAPPER}} .elementor-main-swiper .swiper-slide, {{WRAPPER}} .responsive-marquee-wrapper .marquee-item' => 'background-color: {{VALUE}}',
 				),
 			)
 		);
@@ -699,7 +836,7 @@ class Responsive_Addons_For_Elementor_Media_Carousel extends Widget_Base {
 				'label'     => __( 'Border Size', 'responsive-addons-for-elementor' ),
 				'type'      => Controls_Manager::DIMENSIONS,
 				'selectors' => array(
-					'{{WRAPPER}} .elementor-main-swiper .swiper-slide' => 'border-width: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}',
+					'{{WRAPPER}} .elementor-main-swiper .swiper-slide, {{WRAPPER}} .responsive-marquee-wrapper .marquee-item' => 'border-width: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}',
 				),
 			)
 		);
@@ -716,7 +853,7 @@ class Responsive_Addons_For_Elementor_Media_Carousel extends Widget_Base {
 					),
 				),
 				'selectors'  => array(
-					'{{WRAPPER}} .elementor-main-swiper .swiper-slide' => 'border-radius: {{SIZE}}{{UNIT}}',
+					'{{WRAPPER}} .elementor-main-swiper .swiper-slide, {{WRAPPER}} .responsive-marquee-wrapper .marquee-item' => 'border-radius: {{SIZE}}{{UNIT}}',
 				),
 			)
 		);
@@ -727,7 +864,7 @@ class Responsive_Addons_For_Elementor_Media_Carousel extends Widget_Base {
 				'label'     => __( 'Border Color', 'responsive-addons-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => array(
-					'{{WRAPPER}} .elementor-main-swiper .swiper-slide' => 'border-color: {{VALUE}}',
+					'{{WRAPPER}} .elementor-main-swiper .swiper-slide, {{WRAPPER}} .responsive-marquee-wrapper .marquee-item' => 'border-color: {{VALUE}}',
 				),
 			)
 		);
@@ -738,7 +875,7 @@ class Responsive_Addons_For_Elementor_Media_Carousel extends Widget_Base {
 				'label'     => __( 'Padding', 'responsive-addons-for-elementor' ),
 				'type'      => Controls_Manager::DIMENSIONS,
 				'selectors' => array(
-					'{{WRAPPER}} .elementor-main-swiper .swiper-slide' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}',
+					'{{WRAPPER}} .elementor-main-swiper .swiper-slide, {{WRAPPER}} .responsive-marquee-wrapper .marquee-item' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}}',
 				),
 				'separator' => 'before',
 			)
@@ -751,6 +888,9 @@ class Responsive_Addons_For_Elementor_Media_Carousel extends Widget_Base {
 			array(
 				'label' => __( 'Navigation', 'responsive-addons-for-elementor' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
+				'condition' => array(
+					'enable_marquee!' => 'yes',
+				),
 			)
 		);
 
@@ -1091,6 +1231,76 @@ class Responsive_Addons_For_Elementor_Media_Carousel extends Widget_Base {
 		);
 
 		$this->end_controls_section();
+
+		$this->start_controls_section(
+			'section_edge_shadow_style',
+			array(
+				'label' => __( 'Edge Shadow', 'responsive-addons-for-elementor' ),
+				'tab'   => Controls_Manager::TAB_STYLE,
+				'condition' => array(
+					'enable_marquee' => 'yes',
+					'marquee_show_edge_shadow' => 'yes',
+				),
+			)
+		);
+
+		$this->add_control(
+			'edge_shadow_color',
+			array(
+				'label' => __( 'Color', 'responsive-addons-for-elementor' ),
+				'type' => Controls_Manager::COLOR,
+				'default' => '#ffffff',
+				'selectors' => array(
+					'{{WRAPPER}} .responsive-marquee-wrapper' => '--rae-marquee-shadow-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'edge_shadow_size',
+			array(
+				'label' => __( 'Size', 'responsive-addons-for-elementor' ),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => array( 'px' ),
+				'range' => array(
+					'px' => array(
+						'min' => 0,
+						'max' => 100,
+					),
+				),
+				'default' => array(
+					'size' => 50,
+					'unit' => 'px',
+				),
+				'selectors' => array(
+					'{{WRAPPER}} .responsive-marquee-wrapper' => '--rae-marquee-shadow-size: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'edge_shadow_blur',
+			array(
+				'label' => __( 'Blur', 'responsive-addons-for-elementor' ),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => array( 'px' ),
+				'range' => array(
+					'px' => array(
+						'min' => 0,
+						'max' => 100,
+					),
+				),
+				'default' => array(
+					'size' => 20,
+					'unit' => 'px',
+				),
+				'selectors' => array(
+					'{{WRAPPER}} .responsive-marquee-wrapper' => '--rae-marquee-shadow-blur: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->end_controls_section();
 	}
 		/**
 		 * Render method for the Elementor slider widget.
@@ -1102,6 +1312,12 @@ class Responsive_Addons_For_Elementor_Media_Carousel extends Widget_Base {
 		 */
 	protected function render() {
 		$settings = $this->get_active_settings();
+
+		$is_marquee = ( 'yes' === ( $settings['enable_marquee'] ?? '' ) );
+
+		if ( $is_marquee ) {
+			wp_enqueue_script( 'rael-testimonial-marquee' );
+		}
 
 		if ( $settings['rael_overlay'] ) {
 			$this->add_render_attribute(
@@ -1115,6 +1331,10 @@ class Responsive_Addons_For_Elementor_Media_Carousel extends Widget_Base {
 		}
 
 		$this->print_slider();
+
+		if ( $is_marquee ) {
+			return;
+		}
 
 		if ( 'slideshow' !== $settings['rael_skin'] || count( $settings['rael_slides'] ) <= 1 ) {
 			return;
@@ -1151,37 +1371,82 @@ class Responsive_Addons_For_Elementor_Media_Carousel extends Widget_Base {
 		$settings = array_merge( $default_settings, $settings );
 
 		$slides_count = count( $settings['rael_slides'] );
-		?>
-		<div class="elementor-swiper">
-			<div class="<?php echo esc_attr( $settings['rael_container_class'] ); ?> swiper<?php echo esc_attr( RAEL_SWIPER_CONTAINER ); ?>">
-				<div class="swiper-wrapper">
+
+		$is_marquee = ( 'yes' === ( $settings['enable_marquee'] ?? '' ) );
+
+		if ( $is_marquee ) {
+			$wrapper_classes = array( 'responsive-marquee-wrapper' );
+			if ( 'yes' === ( $settings['marquee_show_edge_shadow'] ?? '' ) ) {
+				$wrapper_classes[] = 'has-edge-shadow';
+				$direction = $settings['marquee_direction'] ?? 'ltr';
+				$is_vertical = in_array( $direction, array( 'ttb', 'btt' ), true );
+				if ( $is_vertical ) {
+					$wrapper_classes[] = 'edge-shadow-vertical';
+				} else {
+					$wrapper_classes[] = 'edge-shadow-horizontal';
+				}
+			}
+			?>
+			<div class="<?php echo esc_attr( implode( ' ', $wrapper_classes ) ); ?>"
+				data-marquee-speed="<?php echo esc_attr( $settings['marquee_speed'] ?? 100 ); ?>"
+				data-marquee-direction="<?php echo esc_attr( $settings['marquee_direction'] ?? 'rtl' ); ?>"
+				data-marquee-gap="<?php echo esc_attr( $settings['marquee_gap'] ?? 30 ); ?>"
+				data-marquee-pause="<?php echo esc_attr( $settings['marquee_pause_hover'] ?? '' ); ?>">
+
+				<div class="responsive-marquee-track">
 					<?php
 					foreach ( $settings['rael_slides'] as $index => $slide ) :
 						++$this->slide_prints_count;
 						?>
-						<div class="swiper-slide">
+						<div class="marquee-item rael-marquee-item">
 							<?php $this->print_slide( $slide, $settings, 'slide-' . $index . '-' . $this->slide_prints_count ); ?>
 						</div>
 					<?php endforeach; ?>
+
+					<?php
+					foreach ( $settings['rael_slides'] as $index => $slide ) :
+						++$this->slide_prints_count;
+						?>
+						<div class="marquee-item rael-marquee-item">
+							<?php $this->print_slide( $slide, $settings, 'slide-dup-' . $index . '-' . $this->slide_prints_count ); ?>
+						</div>
+					<?php endforeach; ?>
 				</div>
-				<?php if ( 1 < $slides_count ) : ?>
-					<?php if ( $settings['rael_pagination'] ) : ?>
-						<div class="swiper-pagination"></div>
-					<?php endif; ?>
-					<?php if ( $settings['rael_show_arrows'] ) : ?>
-						<div class="elementor-swiper-button elementor-swiper-button-prev">
-							<i class="fa fa-angle-left" aria-hidden="true"></i>
-							<span class="elementor-screen-only"><?php esc_html_e( 'Previous', 'responsive-addons-for-elementor' ); ?></span>
-						</div>
-						<div class="elementor-swiper-button elementor-swiper-button-next">
-							<i class="fa fa-angle-right" aria-hidden="true"></i>
-							<span class="elementor-screen-only"><?php esc_html_e( 'Next', 'responsive-addons-for-elementor' ); ?></span>
-						</div>
-					<?php endif; ?>
-				<?php endif; ?>
 			</div>
-		</div>
-		<?php
+			<?php
+		} else {
+			?>
+			<div class="elementor-swiper">
+				<div class="<?php echo esc_attr( $settings['rael_container_class'] ); ?> swiper<?php echo esc_attr( RAEL_SWIPER_CONTAINER ); ?>">
+					<div class="swiper-wrapper">
+						<?php
+						foreach ( $settings['rael_slides'] as $index => $slide ) :
+							++$this->slide_prints_count;
+							?>
+							<div class="swiper-slide">
+								<?php $this->print_slide( $slide, $settings, 'slide-' . $index . '-' . $this->slide_prints_count ); ?>
+							</div>
+						<?php endforeach; ?>
+					</div>
+					<?php if ( 1 < $slides_count ) : ?>
+						<?php if ( $settings['rael_pagination'] ) : ?>
+							<div class="swiper-pagination"></div>
+						<?php endif; ?>
+						<?php if ( $settings['rael_show_arrows'] ) : ?>
+							<div class="elementor-swiper-button elementor-swiper-button-prev">
+								<i class="fa fa-angle-left" aria-hidden="true"></i>
+								<span class="elementor-screen-only"><?php esc_html_e( 'Previous', 'responsive-addons-for-elementor' ); ?></span>
+							</div>
+							<div class="elementor-swiper-button elementor-swiper-button-next">
+								<i class="fa fa-angle-right" aria-hidden="true"></i>
+								<span class="elementor-screen-only"><?php esc_html_e( 'Next', 'responsive-addons-for-elementor' ); ?></span>
+							</div>
+						<?php endif; ?>
+					<?php endif; ?>
+				</div>
+			</div>
+			<?php
+		}
 	}
 		/**
 		 * Print method for rendering an individual slide within the Elementor slider.

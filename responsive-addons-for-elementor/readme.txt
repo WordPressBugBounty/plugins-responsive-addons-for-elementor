@@ -3,11 +3,11 @@ Contributors: cyberchimps
 Donate Link: https://cyberchimps.com
 Tags: elementor, elementor addons, widgets for elementor, header footer builder, elementor templates
 Requires at least: 5.0
-Tested up to: 6.9
+Tested up to: 7.0
 Elementor tested up to: 4.0
 Elementor Pro tested up to: 4.0
 Requires PHP: 5.6
-Stable tag: 2.1.9
+Stable tag: 2.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -279,6 +279,11 @@ If you like Responsive Addons for Elementor, consider checking out our other Wor
 The Development Version of the Responsive Addons for Elementor plugin is located at [https://github.com/cyberchimps/responsive-addons-for-elementor](https://github.com/cyberchimps/responsive-addons-for-elementor)
 
 == Changelog ==
+
+= 2.2.0 - 8th June 2026 = 
+- New : Introducing the Marquee mode with configurable settings in the following widgets : Product Carousel, Media Carousel, Post Carousel.
+- Improvement : Introducing an Edge Shadow feature when marquee mode is enabled for the following widgets: Product Carousel, Media Carousel, Post Carousel, Testimonial Slider
+- Fix : Fixed some issues in Gravity Forms Styler widget where the submit button settings were not working. 
 
 = 2.1.9 – 28th May 2026 =
 - Improvement: Moved all Pricing Table widget settings to the Price Box widget for a more streamlined editing experience.

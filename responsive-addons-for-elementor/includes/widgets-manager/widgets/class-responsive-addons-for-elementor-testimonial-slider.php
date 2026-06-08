@@ -605,6 +605,22 @@ class Responsive_Addons_For_Elementor_Testimonial_Slider extends Widget_Base
 			]
 		);
 
+		/* Show Edge Shadow */
+		$this->add_control(
+			'marquee_show_edge_shadow',
+			[
+				'label'        => __('Show Edge Shadow', 'responsive-addons-for-elementor'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => __('Yes', 'responsive-addons-for-elementor'),
+				'label_off'    => __('No', 'responsive-addons-for-elementor'),
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition'    => [
+					'enable_marquee' => 'yes',
+				],
+			]
+		);
+
 		$this->end_controls_section();
 
 		$this->start_controls_section(
@@ -1692,6 +1708,76 @@ class Responsive_Addons_For_Elementor_Testimonial_Slider extends Widget_Base
 		$this->end_controls_tabs();
 
 		$this->end_controls_section();
+
+		$this->start_controls_section(
+			'section_edge_shadow_style',
+			[
+				'label' => __('Edge Shadow', 'responsive-addons-for-elementor'),
+				'tab'   => Controls_Manager::TAB_STYLE,
+				'condition' => [
+					'enable_marquee' => 'yes',
+					'marquee_show_edge_shadow' => 'yes',
+				],
+			]
+		);
+
+		$this->add_control(
+			'edge_shadow_color',
+			[
+				'label' => __('Color', 'responsive-addons-for-elementor'),
+				'type' => Controls_Manager::COLOR,
+				'default' => '#ffffff',
+				'selectors' => [
+					'{{WRAPPER}} .responsive-marquee-wrapper' => '--rae-marquee-shadow-color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'edge_shadow_size',
+			[
+				'label' => __('Size', 'responsive-addons-for-elementor'),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => ['px'],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 100,
+					],
+				],
+				'default' => [
+					'size' => 50,
+					'unit' => 'px',
+				],
+				'selectors' => [
+					'{{WRAPPER}} .responsive-marquee-wrapper' => '--rae-marquee-shadow-size: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'edge_shadow_blur',
+			[
+				'label' => __('Blur', 'responsive-addons-for-elementor'),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => ['px'],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 100,
+					],
+				],
+				'default' => [
+					'size' => 20,
+					'unit' => 'px',
+				],
+				'selectors' => [
+					'{{WRAPPER}} .responsive-marquee-wrapper' => '--rae-marquee-shadow-blur: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->end_controls_section();
 	}
 	/**
 	 * Render method for displaying the widget content on the frontend.
@@ -1730,7 +1816,20 @@ class Responsive_Addons_For_Elementor_Testimonial_Slider extends Widget_Base
 
 			<!-- Marquee mode -->
 
-			<div class="responsive-marquee-wrapper"
+			<?php
+			$wrapper_classes = [ 'responsive-marquee-wrapper' ];
+			if ( 'yes' === ( $settings['marquee_show_edge_shadow'] ?? '' ) ) {
+				$wrapper_classes[] = 'has-edge-shadow';
+				$direction = $settings['marquee_direction'] ?? 'ltr';
+				$is_vertical = in_array( $direction, [ 'ttb', 'btt' ], true );
+				if ( $is_vertical ) {
+					$wrapper_classes[] = 'edge-shadow-vertical';
+				} else {
+					$wrapper_classes[] = 'edge-shadow-horizontal';
+				}
+			}
+			?>
+			<div class="<?php echo esc_attr( implode( ' ', $wrapper_classes ) ); ?>"
 				data-marquee-speed="<?php echo esc_attr($settings['marquee_speed'] ?? 20); ?>"
 				data-marquee-direction="<?php echo esc_attr($settings['marquee_direction'] ?? 'ltr'); ?>"
 				data-marquee-gap="<?php echo esc_attr($settings['marquee_gap'] ?? '20'); ?>"

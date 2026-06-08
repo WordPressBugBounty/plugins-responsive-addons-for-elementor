@@ -913,31 +913,13 @@ class Responsive_Addons_For_Elementor_Gf_Styler extends Widget_Base {
 						'title' => __( 'Right', 'responsive-addons-for-elementor' ),
 						'icon'  => 'eicon-text-align-right',
 					),
-					'justify' => array(
-						'title' => __( 'Justified', 'responsive-addons-for-elementor' ),
-						'icon'  => 'eicon-text-align-justify',
-					),
 				),
 				'default'      => 'left',
 				'prefix_class' => 'rael%s-gform-button-',
 				'toggle'       => false,
-			)
-		);
-
-		$this->add_control(
-			'gform_btn_size',
-			array(
-				'label'        => __( 'Size', 'responsive-addons-for-elementor' ),
-				'type'         => Controls_Manager::SELECT,
-				'default'      => 'sm',
-				'options'      => array(
-					'xs' => __( 'Extra Small', 'responsive-addons-for-elementor' ),
-					'sm' => __( 'Small', 'responsive-addons-for-elementor' ),
-					'md' => __( 'Medium', 'responsive-addons-for-elementor' ),
-					'lg' => __( 'Large', 'responsive-addons-for-elementor' ),
-					'xl' => __( 'Extra Large', 'responsive-addons-for-elementor' ),
+				'selectors' => array(
+					'{{WRAPPER}} .gform_footer' => 'justify-content: {{VALUE}};',
 				),
-				'prefix_class' => 'rael-gform-btn-size-',
 			)
 		);
 
@@ -948,7 +930,7 @@ class Responsive_Addons_For_Elementor_Gf_Styler extends Widget_Base {
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', 'em', '%' ),
 				'selectors'  => array(
-					'{{WRAPPER}} .rael-gform-style input[type="submit"], {{WRAPPER}} .rael-gform-style input[type="button"]' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} .rael-gform-style .gform-theme--framework input[type="submit"], {{WRAPPER}} .rael-gform-style .gform-theme--framework input[type="button"]' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
 			)
 		);
@@ -969,9 +951,9 @@ class Responsive_Addons_For_Elementor_Gf_Styler extends Widget_Base {
 				'type'      => Controls_Manager::COLOR,
 				'default'   => '',
 				'selectors' => array(
-					'{{WRAPPER}} .rael-gform-style input[type="button"],
-					{{WRAPPER}} .rael-gform-style input[type="submit"],
-					{{WRAPPER}} .rael-gform-style .gf_progressbar_percentage span, {{WRAPPER}} .rael-gform-style .percentbar_blue span' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .rael-gform-style .gform-theme--framework input[type="button"],
+					{{WRAPPER}} .rael-gform-style .gform-theme--framework input[type="submit"],
+					{{WRAPPER}} .rael-gform-style .gform-theme--framework .gf_progressbar_percentage span, {{WRAPPER}} .rael-gform-style .gform-theme--framework .percentbar_blue span' => 'color: {{VALUE}};',
 				),
 			)
 		);
@@ -982,10 +964,10 @@ class Responsive_Addons_For_Elementor_Gf_Styler extends Widget_Base {
 				'name'     => 'gform_btn_background_color',
 				'label'    => __( 'Background Color', 'responsive-addons-for-elementor' ),
 				'types'    => array( 'classic', 'gradient' ),
-				'selector' => '{{WRAPPER}} .rael-gform-style input[type="button"],
-				{{WRAPPER}} .rael-gform-style input[type="submit"],
-				{{WRAPPER}} .rael-gform-style .gf_progressbar_percentage,
-				{{WRAPPER}} .rael-gform-style .gform_wrapper .percentbar_blue',
+				'selector' => '{{WRAPPER}} .rael-gform-style .gform-theme--framework input[type="button"],
+				{{WRAPPER}} .rael-gform-style .gform-theme--framework input[type="submit"],
+				{{WRAPPER}} .rael-gform-style .gform-theme--framework .gf_progressbar_percentage,
+				{{WRAPPER}} .rael-gform-style .gform-theme--framework .gform_wrapper .percentbar_blue',
 			)
 		);
 
@@ -996,7 +978,7 @@ class Responsive_Addons_For_Elementor_Gf_Styler extends Widget_Base {
 				'label'       => __( 'Border', 'responsive-addons-for-elementor' ),
 				'placeholder' => '1px',
 				'default'     => '1px',
-				'selector'    => '{{WRAPPER}} .rael-gform-style input[type="button"],{{WRAPPER}} .rael-gform-style input[type="submit"]',
+				'selector'    => '{{WRAPPER}} .rael-gform-style .gform-theme--framework input[type="button"],{{WRAPPER}} .rael-gform-style .gform-theme--framework input[type="submit"]',
 			)
 		);
 
@@ -1007,7 +989,7 @@ class Responsive_Addons_For_Elementor_Gf_Styler extends Widget_Base {
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', '%' ),
 				'selectors'  => array(
-					'{{WRAPPER}} .rael-gform-style input[type="submit"], {{WRAPPER}} .rael-gform-style input[type="button"]' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} .rael-gform-style .gform-theme--framework input[type="submit"], {{WRAPPER}} .rael-gform-style .gform-theme--framework input[type="button"]' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
 			)
 		);
@@ -1016,7 +998,7 @@ class Responsive_Addons_For_Elementor_Gf_Styler extends Widget_Base {
 			Group_Control_Box_Shadow::get_type(),
 			array(
 				'name'     => 'gform_button_box_shadow',
-				'selector' => '{{WRAPPER}} .rael-gform-style input[type="submit"], {{WRAPPER}} .rael-gform-style input[type="button"]',
+				'selector' => '{{WRAPPER}} .rael-gform-style .gform-theme--framework input[type="submit"], {{WRAPPER}} .rael-gform-style .gform-theme--framework input[type="button"]',
 			)
 		);
 
@@ -1035,8 +1017,8 @@ class Responsive_Addons_For_Elementor_Gf_Styler extends Widget_Base {
 				'label'     => __( 'Text Color', 'responsive-addons-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => array(
-					'{{WRAPPER}} .rael-gform-style input[type="button"]:hover,
-					{{WRAPPER}} .rael-gform-style input[type="submit"]:hover' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .rael-gform-style .gform-theme--framework input[type="button"]:hover,
+					{{WRAPPER}} .rael-gform-style .gform-theme--framework input[type="submit"]:hover' => 'color: {{VALUE}};',
 				),
 			)
 		);
@@ -1047,9 +1029,10 @@ class Responsive_Addons_For_Elementor_Gf_Styler extends Widget_Base {
 				'name'     => 'gform_button_background_hover_color',
 				'label'    => __( 'Background Color', 'responsive-addons-for-elementor' ),
 				'types'    => array( 'classic', 'gradient' ),
-				'selector' =>
-					'{{WRAPPER}} .rael-gform-style input[type="button"]:hover,
-					{{WRAPPER}} .rael-gform-style input[type="submit"]:hover',
+				'selector' => '{{WRAPPER}} .rael-gform-style .gform-theme--framework input[type="button"]:hover,
+				{{WRAPPER}} .rael-gform-style .gform-theme--framework input[type="submit"]:hover,
+				{{WRAPPER}} .rael-gform-style .gform-theme--framework .gf_progressbar_percentage:hover,
+				{{WRAPPER}} .rael-gform-style .gform-theme--framework .gform_wrapper .percentbar_blue:hover',
 			)
 		);
 
@@ -1059,8 +1042,8 @@ class Responsive_Addons_For_Elementor_Gf_Styler extends Widget_Base {
 				'label'     => __( 'Border Hover Color', 'responsive-addons-for-elementor' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => array(
-					'{{WRAPPER}} .rael-gform-style input[type="button"]:hover,
-					{{WRAPPER}} .rael-gform-style input[type="submit"]:hover' => 'border-color: {{VALUE}};',
+					'{{WRAPPER}} .rael-gform-style .gform-theme--framework input[type="button"]:hover,
+					{{WRAPPER}} .rael-gform-style .gform-theme--framework input[type="submit"]:hover' => 'border-color: {{VALUE}};',
 				),
 			)
 		);
@@ -1653,12 +1636,7 @@ class Responsive_Addons_For_Elementor_Gf_Styler extends Widget_Base {
 			array(
 				'name'     => 'gform_btn_typography',
 				'label'    => __( 'Typography', 'responsive-addons-for-elementor' ),
-				'global'   => array(
-					'default' => Global_Typography::TYPOGRAPHY_ACCENT,
-				),
-				'selector' => '{{WRAPPER}} .rael-gform-style input[type="button"],
-			{{WRAPPER}} .rael-gform-style input[type="submit"],
-			{{WRAPPER}} .rael-gform-style .gform_wrapper .gform_footer .gform_button', 
+				'selector' => '{{WRAPPER}} .rael-gform-style .gform-theme--framework input[type="button"], {{WRAPPER}} .rael-gform-style .gform-theme--framework input[type="submit"]',
 			)
 		);
 

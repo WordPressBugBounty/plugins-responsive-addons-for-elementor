@@ -94,7 +94,7 @@ class Responsive_Addons_For_Elementor_Product_Carousel extends Widget_Base {
 		return array( 'responsive-addons-for-elementor' );
 	}
 	public function get_script_depends() {
-		return array( 'rael-photoswipe','rael-photoswipe-ui','rael-scripts','rael-swiper' );
+		return array( 'rael-photoswipe','rael-photoswipe-ui','rael-scripts','rael-swiper','rael-testimonial-marquee' );
 	}
 	/**
 	 * Get the stylesheets required for the widget.
@@ -312,6 +312,7 @@ class Responsive_Addons_For_Elementor_Product_Carousel extends Widget_Base {
 		// Content Tab.
 		$this->register_content_tab_layout_settings_section();
 		$this->register_content_tab_carousel_settings_section();
+		$this->register_content_tab_marquee_section();
 		$this->register_content_tab_query_section();
 		$this->register_content_tab_product_badges_section();
 
@@ -323,6 +324,7 @@ class Responsive_Addons_For_Elementor_Product_Carousel extends Widget_Base {
 		$this->register_style_tab_dots_section();
 		$this->register_style_tab_image_dots_section();
 		$this->register_style_tab_arrows_section();
+		$this->register_style_tab_edge_shadow_section();
 	}
 	/**
 	 * Register controls for the Content tab layout settings section.
@@ -543,6 +545,9 @@ class Responsive_Addons_For_Elementor_Product_Carousel extends Widget_Base {
 			array(
 				'label' => __( 'Carousel Settings', 'responsive-addons-for-elementor' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
+				'condition' => array(
+					'enable_marquee!' => 'yes',
+				),
 			)
 		);
 
@@ -2267,6 +2272,7 @@ class Responsive_Addons_For_Elementor_Product_Carousel extends Widget_Base {
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array(
 					'rael_pc_dots' => 'yes',
+					'enable_marquee!' => 'yes',
 				),
 			)
 		);
@@ -2589,6 +2595,7 @@ class Responsive_Addons_For_Elementor_Product_Carousel extends Widget_Base {
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array(
 					'rael_pc_image_dots' => 'yes',
+					'enable_marquee!' => 'yes',
 				),
 			)
 		);
@@ -2683,6 +2690,7 @@ class Responsive_Addons_For_Elementor_Product_Carousel extends Widget_Base {
 				'tab'       => Controls_Manager::TAB_STYLE,
 				'condition' => array(
 					'rael_pc_arrows' => 'yes',
+					'enable_marquee!' => 'yes',
 				),
 			)
 		);
@@ -3138,42 +3146,102 @@ class Responsive_Addons_For_Elementor_Product_Carousel extends Widget_Base {
 		$settings['rael_pc_title_tag']     = Helper::validate_html_tags( $settings['rael_pc_title_tag'] );
 		$settings['rael_pc_sale_text']     = Helper::strip_tags_keeping_allowed_tags( $settings['rael_pc_sale_text'] );
 		$settings['rael_pc_stockout_text'] = Helper::strip_tags_keeping_allowed_tags( $settings['rael_pc_stockout_text'] );
-		?>
 
+		$is_marquee = ( 'yes' === ( $settings['enable_marquee'] ?? '' ) );
+		?>
 		<div <?php $this->print_render_attribute_string( 'rael_pc_container' ); ?> >
 			<?php
-				$template = $this->get_template( $settings['rael_pc_dynamic_template_layout'] );
-			if ( file_exists( $template ) ) :
-				$query = new \WP_Query( $args );
-				if ( $query->have_posts() ) :
-					echo '<div ' . wp_kses_post( $this->get_render_attribute_string( 'rael_pc_wrapper' ) ) . '>';
-						do_action( 'rael/widgets/rael_pc_before_product_loop' );
-						$settings['rael_page_id'] = get_the_ID();
-						echo '<ul class="swiper-wrapper products">';
-					while ( $query->have_posts() ) {
-						$query->the_post();
-						include $template;
-					}
-						wp_reset_postdata();
-						echo '</ul>';
-						echo '</div>';
-					else :
-						echo '<p class="rael-pc__no-posts-found">' . wp_kses_post( $settings['rael_pc_not_found_msg'] ) . '</p>';
-					endif;
-				else :
-					esc_html( '<p class="rael-pc__no-posts-found">No layout found!</p>', 'responsive-addons-for-elementor' );
-				endif;
+			if ( $is_marquee ) {
+				wp_enqueue_script( 'rael-testimonial-marquee' );
 
-				if ( 'yes' === $settings['rael_pc_image_dots'] ) {
-					$this->render_image_dots( $args );
-				} else {
-					$this->render_dots();
+				$wrapper_classes = array( 'responsive-marquee-wrapper', 'woocommerce', 'rael-woo-product-carousel' );
+				if ( ! empty( $settings['rael_pc_image_stretch'] ) && 'yes' === $settings['rael_pc_image_stretch'] ) {
+					$wrapper_classes[] = 'swiper-image-stretch';
 				}
-
-				if ( 'yes' === $settings['rael_pc_arrows'] ) {
-					$this->render_arrows();
+				if ( 'yes' === ( $settings['marquee_show_edge_shadow'] ?? '' ) ) {
+					$wrapper_classes[] = 'has-edge-shadow';
+					$direction = $settings['marquee_direction'] ?? 'ltr';
+					$is_vertical = in_array( $direction, array( 'ttb', 'btt' ), true );
+					if ( $is_vertical ) {
+						$wrapper_classes[] = 'edge-shadow-vertical';
+					} else {
+						$wrapper_classes[] = 'edge-shadow-horizontal';
+					}
 				}
 				?>
+				<div class="<?php echo esc_attr( implode( ' ', $wrapper_classes ) ); ?>"
+					data-marquee-speed="<?php echo esc_attr( $settings['marquee_speed'] ?? 100 ); ?>"
+					data-marquee-direction="<?php echo esc_attr( $settings['marquee_direction'] ?? 'rtl' ); ?>"
+					data-marquee-gap="<?php echo esc_attr( $settings['marquee_gap'] ?? 30 ); ?>"
+					data-marquee-pause="<?php echo esc_attr( $settings['marquee_pause_hover'] ?? '' ); ?>">
+
+					<div class="responsive-marquee-track">
+						<?php
+						$template = $this->get_template( $settings['rael_pc_dynamic_template_layout'] );
+						if ( file_exists( $template ) ) {
+							$settings['is_marquee'] = true;
+							$settings['rael_page_id'] = get_the_ID();
+
+							echo '<ul class="products">';
+							$query = new \WP_Query( $args );
+							if ( $query->have_posts() ) {
+								while ( $query->have_posts() ) {
+									$query->the_post();
+									include $template;
+								}
+							}
+							wp_reset_postdata();
+
+							$query = new \WP_Query( $args );
+							if ( $query->have_posts() ) {
+								while ( $query->have_posts() ) {
+									$query->the_post();
+									include $template;
+								}
+							}
+							wp_reset_postdata();
+							echo '</ul>';
+						} else {
+							echo '<p class="rael-pc__no-posts-found">' . esc_html__( 'No layout found!', 'responsive-addons-for-elementor' ) . '</p>';
+						}
+						?>
+					</div>
+				</div>
+				<?php
+			} else {
+				$template = $this->get_template( $settings['rael_pc_dynamic_template_layout'] );
+				if ( file_exists( $template ) ) :
+					$query = new \WP_Query( $args );
+					if ( $query->have_posts() ) :
+						echo '<div ' . wp_kses_post( $this->get_render_attribute_string( 'rael_pc_wrapper' ) ) . '>';
+							do_action( 'rael/widgets/rael_pc_before_product_loop' );
+							$settings['rael_page_id'] = get_the_ID();
+							echo '<ul class="swiper-wrapper products">';
+						while ( $query->have_posts() ) {
+							$query->the_post();
+							include $template;
+						}
+							wp_reset_postdata();
+							echo '</ul>';
+							echo '</div>';
+						else :
+							echo '<p class="rael-pc__no-posts-found">' . wp_kses_post( $settings['rael_pc_not_found_msg'] ) . '</p>';
+						endif;
+					else :
+						esc_html( '<p class="rael-pc__no-posts-found">No layout found!</p>', 'responsive-addons-for-elementor' );
+					endif;
+
+					if ( 'yes' === $settings['rael_pc_image_dots'] ) {
+						$this->render_image_dots( $args );
+					} else {
+						$this->render_dots();
+					}
+
+					if ( 'yes' === $settings['rael_pc_arrows'] ) {
+						$this->render_arrows();
+					}
+			}
+			?>
 		</div>
 		<?php
 	}
@@ -3199,5 +3267,239 @@ class Responsive_Addons_For_Elementor_Product_Carousel extends Widget_Base {
 			<i class="<?php echo esc_attr( $pa_prev_arrow ); ?>"></i>
 		</div>
 		<?php
+	}
+
+	public function register_content_tab_marquee_section() {
+		$this->start_controls_section(
+			'section_marquee',
+			array(
+				'label' => __( 'Marquee', 'responsive-addons-for-elementor' ),
+				'tab'   => Controls_Manager::TAB_CONTENT,
+			)
+		);
+
+		$this->add_control(
+			'enable_marquee',
+			array(
+				'label'        => __( 'Enable Marquee', 'responsive-addons-for-elementor' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => __( 'On', 'responsive-addons-for-elementor' ),
+				'label_off'    => __( 'Off', 'responsive-addons-for-elementor' ),
+				'return_value' => 'yes',
+				'default'      => '',
+			)
+		);
+
+		$this->add_control(
+			'marquee_direction',
+			array(
+				'label'     => __( 'Direction', 'responsive-addons-for-elementor' ),
+				'type'      => Controls_Manager::SELECT,
+				'default'   => 'rtl',
+				'options'   => array(
+					'ltr' => __( 'Left to Right', 'responsive-addons-for-elementor' ),
+					'rtl' => __( 'Right to Left', 'responsive-addons-for-elementor' ),
+					'ttb' => __( 'Top to Bottom', 'responsive-addons-for-elementor' ),
+					'btt' => __( 'Bottom to Top', 'responsive-addons-for-elementor' ),
+				),
+				'condition' => array(
+					'enable_marquee' => 'yes',
+				),
+			)
+		);
+
+		$this->add_control(
+			'marquee_alignment',
+			array(
+				'label'   => __( 'Alignment', 'responsive-addons-for-elementor' ),
+				'type'    => Controls_Manager::CHOOSE,
+				'default' => 'center',
+				'options' => array(
+					'flex-start' => array(
+						'title' => __( 'Left', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-left',
+					),
+					'center' => array(
+						'title' => __( 'Center', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-center',
+					),
+					'flex-end' => array(
+						'title' => __( 'Right', 'responsive-addons-for-elementor' ),
+						'icon'  => 'eicon-text-align-right',
+					),
+				),
+				'selectors' => array(
+					'{{WRAPPER}} .responsive-marquee-track' => 'align-items: {{VALUE}};',
+				),
+				'condition' => array(
+					'enable_marquee'     => 'yes',
+					'marquee_direction'  => array( 'ttb', 'btt' ),
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'marquee_height',
+			array(
+				'label'      => __( 'Marquee Height', 'responsive-addons-for-elementor' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => array( 'px', 'vh', 'em', 'rem', 'custom' ),
+				'range'      => array(
+					'px' => array(
+						'min' => 100,
+						'max' => 1000,
+					),
+					'vh' => array(
+						'min' => 10,
+						'max' => 100,
+					),
+				),
+				'default'    => array(
+					'size' => 400,
+					'unit' => 'px',
+				),
+				'selectors'  => array(
+					'{{WRAPPER}} .responsive-marquee-wrapper' => 'height: {{SIZE}}{{UNIT}};',
+				),
+				'condition'  => array(
+					'enable_marquee'    => 'yes',
+					'marquee_direction' => array( 'ttb', 'btt' ),
+				),
+			)
+		);
+
+		$this->add_control(
+			'marquee_speed',
+			array(
+				'label'      => __( 'Speed', 'responsive-addons-for-elementor' ),
+				'type'       => Controls_Manager::NUMBER,
+				'default'    => 100,
+				'min'        => 10,
+				'max'        => 500,
+				'step'       => 10,
+				'condition'  => array(
+					'enable_marquee' => 'yes',
+				),
+			)
+		);
+
+		$this->add_control(
+			'marquee_gap',
+			array(
+				'label'      => __( 'Gap Between Items', 'responsive-addons-for-elementor' ),
+				'type'       => Controls_Manager::NUMBER,
+				'default'    => 30,
+				'min'        => 0,
+				'max'        => 200,
+				'step'       => 5,
+				'condition'  => array(
+					'enable_marquee' => 'yes',
+				),
+			)
+		);
+
+		$this->add_control(
+			'marquee_pause_hover',
+			array(
+				'label'        => __( 'Pause on Hover', 'responsive-addons-for-elementor' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => __( 'Yes', 'responsive-addons-for-elementor' ),
+				'label_off'    => __( 'No', 'responsive-addons-for-elementor' ),
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'condition'    => array(
+					'enable_marquee' => 'yes',
+				),
+			)
+		);
+
+		$this->add_control(
+			'marquee_show_edge_shadow',
+			array(
+				'label'        => __( 'Show Edge Shadow', 'responsive-addons-for-elementor' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => __( 'Yes', 'responsive-addons-for-elementor' ),
+				'label_off'    => __( 'No', 'responsive-addons-for-elementor' ),
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition'    => array(
+					'enable_marquee' => 'yes',
+				),
+			)
+		);
+
+		$this->end_controls_section();
+	}
+
+	public function register_style_tab_edge_shadow_section() {
+		$this->start_controls_section(
+			'section_edge_shadow_style',
+			array(
+				'label' => __( 'Edge Shadow', 'responsive-addons-for-elementor' ),
+				'tab'   => Controls_Manager::TAB_STYLE,
+				'condition' => array(
+					'enable_marquee' => 'yes',
+					'marquee_show_edge_shadow' => 'yes',
+				),
+			)
+		);
+
+		$this->add_control(
+			'edge_shadow_color',
+			array(
+				'label' => __( 'Color', 'responsive-addons-for-elementor' ),
+				'type' => Controls_Manager::COLOR,
+				'default' => '#ffffff',
+				'selectors' => array(
+					'{{WRAPPER}} .responsive-marquee-wrapper' => '--rae-marquee-shadow-color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'edge_shadow_size',
+			array(
+				'label' => __( 'Size', 'responsive-addons-for-elementor' ),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => array( 'px' ),
+				'range' => array(
+					'px' => array(
+						'min' => 0,
+						'max' => 100,
+					),
+				),
+				'default' => array(
+					'size' => 50,
+					'unit' => 'px',
+				),
+				'selectors' => array(
+					'{{WRAPPER}} .responsive-marquee-wrapper' => '--rae-marquee-shadow-size: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->add_responsive_control(
+			'edge_shadow_blur',
+			array(
+				'label' => __( 'Blur', 'responsive-addons-for-elementor' ),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => array( 'px' ),
+				'range' => array(
+					'px' => array(
+						'min' => 0,
+						'max' => 100,
+					),
+				),
+				'default' => array(
+					'size' => 20,
+					'unit' => 'px',
+				),
+				'selectors' => array(
+					'{{WRAPPER}} .responsive-marquee-wrapper' => '--rae-marquee-shadow-blur: {{SIZE}}{{UNIT}};',
+				),
+			)
+		);
+
+		$this->end_controls_section();
 	}
 }
