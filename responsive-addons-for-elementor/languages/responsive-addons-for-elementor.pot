@@ -2,10 +2,10 @@
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Responsive Addons for Elementor 2.2.0\n"
+"Project-Id-Version: Responsive Addons for Elementor 2.2.1\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/responsive-addons-for-elementor\n"
-"POT-Creation-Date: 2026-06-08 05:20:41+00:00\n"
+"POT-Creation-Date: 2026-07-01 10:19:22+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -61,8 +61,8 @@ msgstr ""
 
 #: admin/class-responsive-addons-for-elementor-admin-settings.php:72
 #: admin/class-responsive-addons-for-elementor-admin-settings.php:116
-#: includes/class-responsive-addons-for-elementor.php:1870
-#: includes/class-responsive-addons-for-elementor.php:2849
+#: includes/class-responsive-addons-for-elementor.php:1871
+#: includes/class-responsive-addons-for-elementor.php:2858
 msgid "Unauthorized"
 msgstr ""
 
@@ -167,12 +167,12 @@ msgstr ""
 
 #: admin/classes/class-responsive-addons-for-elementor-theme-builder-admin.php:344
 #: admin/classes/class-responsive-addons-for-elementor-theme-builder-admin.php:345
-#: includes/class-responsive-addons-for-elementor.php:1771
 #: includes/class-responsive-addons-for-elementor.php:1772
-#: includes/class-responsive-addons-for-elementor.php:2256
+#: includes/class-responsive-addons-for-elementor.php:1773
 #: includes/class-responsive-addons-for-elementor.php:2257
-#: includes/class-responsive-addons-for-elementor.php:2265
+#: includes/class-responsive-addons-for-elementor.php:2258
 #: includes/class-responsive-addons-for-elementor.php:2266
+#: includes/class-responsive-addons-for-elementor.php:2267
 msgid "Theme Builder"
 msgstr ""
 
@@ -2034,26 +2034,34 @@ msgstr ""
 msgid "Sorry, invalid nonce or empty content!"
 msgstr ""
 
-#: helper/class-helper.php:801
+#: helper/class-helper.php:231
+msgid "Security check failed."
+msgstr ""
+
+#: helper/class-helper.php:246
+msgid "Product not found."
+msgstr ""
+
+#: helper/class-helper.php:807
 msgid "Insecure form submitted without security token"
 msgstr ""
 
-#: helper/class-helper.php:810
+#: helper/class-helper.php:816
 #: traits/responsive-addons-for-elementor-products-compare.php:431
 msgid "Security token did not match"
 msgstr ""
 
-#: helper/class-helper.php:820
+#: helper/class-helper.php:826
 #: traits/responsive-addons-for-elementor-products-compare.php:382
 msgid "Page ID is missing"
 msgstr ""
 
-#: helper/class-helper.php:830
+#: helper/class-helper.php:836
 #: traits/responsive-addons-for-elementor-products-compare.php:387
 msgid "Widget ID is missing"
 msgstr ""
 
-#: helper/class-helper.php:840
+#: helper/class-helper.php:846
 msgid ""
 "Widget settings are not found. Did you save the widget before using load "
 "more?"
@@ -2212,57 +2220,57 @@ msgstr ""
 msgid "\"%1$s\" requires \"%2$s\" version %3$s or greater."
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:1710
+#: includes/class-responsive-addons-for-elementor.php:1711
 msgid "Installing "
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:1711
+#: includes/class-responsive-addons-for-elementor.php:1712
 msgid "Activating "
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:1712
+#: includes/class-responsive-addons-for-elementor.php:1713
 msgid "Not connect. Verify Network."
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:1713
+#: includes/class-responsive-addons-for-elementor.php:1714
 msgid "Requested page not found. [404]"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:1714
+#: includes/class-responsive-addons-for-elementor.php:1715
 msgid "Internal Server Error [500]"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:1715
+#: includes/class-responsive-addons-for-elementor.php:1716
 msgid "Requested JSON parse failed"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:1716
+#: includes/class-responsive-addons-for-elementor.php:1717
 msgid "Time out error"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:1717
+#: includes/class-responsive-addons-for-elementor.php:1718
 msgid "Ajax request aborted"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:1718
+#: includes/class-responsive-addons-for-elementor.php:1719
 msgid "Uncaught Error"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:1750
 #: includes/class-responsive-addons-for-elementor.php:1751
+#: includes/class-responsive-addons-for-elementor.php:1752
 msgid "REA"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:1761
 #: includes/class-responsive-addons-for-elementor.php:1762
+#: includes/class-responsive-addons-for-elementor.php:1763
 msgid "Getting Started"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:1779
+#: includes/class-responsive-addons-for-elementor.php:1780
 msgid "REA Settings"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:1780
+#: includes/class-responsive-addons-for-elementor.php:1781
 #: includes/settings/class-raelcrosssitecopypastecontrols.php:70
 #: includes/widgets-manager/widgets/class-responsive-addons-for-elementor-business-hour.php:267
 #: includes/widgets-manager/widgets/class-responsive-addons-for-elementor-flip-box.php:485
@@ -2273,279 +2281,279 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:2244
+#: includes/class-responsive-addons-for-elementor.php:2245
 msgid "Responsive Elementor Add-Ons"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:2245
+#: includes/class-responsive-addons-for-elementor.php:2246
 msgid "Elementor Add-Ons"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:2752
+#: includes/class-responsive-addons-for-elementor.php:2761
 msgid "Rate the plugin"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:2752
+#: includes/class-responsive-addons-for-elementor.php:2761
 msgid "Rate the plugin ★★★★★"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:2918
+#: includes/class-responsive-addons-for-elementor.php:2927
 msgid "150+ "
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:2919
+#: includes/class-responsive-addons-for-elementor.php:2928
 msgid "Elementor Templates"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:2922
+#: includes/class-responsive-addons-for-elementor.php:2931
 msgid "500+ Elementor sections"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:2923
+#: includes/class-responsive-addons-for-elementor.php:2932
 msgid "Supports Elementor & Gutenberg"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:2924
+#: includes/class-responsive-addons-for-elementor.php:2933
 msgid "Powering 20,000+ Websites"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:2925
+#: includes/class-responsive-addons-for-elementor.php:2934
 msgid "Access to 250+ Full Site Templates"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:2929
+#: includes/class-responsive-addons-for-elementor.php:2938
 msgid "responsive-add-ons"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:2930
+#: includes/class-responsive-addons-for-elementor.php:2939
 msgid "Install RST Plugin"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:2935
+#: includes/class-responsive-addons-for-elementor.php:2944
 msgid "Activated RST Plugin"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:2939
+#: includes/class-responsive-addons-for-elementor.php:2948
 msgid "Activate RST Plugin"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:2943
+#: includes/class-responsive-addons-for-elementor.php:2952
 msgid "Submit"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3006
+#: includes/class-responsive-addons-for-elementor.php:3015
 msgid "RST Plugin Activated"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3118
+#: includes/class-responsive-addons-for-elementor.php:3127
 msgid "ARABIC"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3119
+#: includes/class-responsive-addons-for-elementor.php:3128
 msgid "BASQUE"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3120
+#: includes/class-responsive-addons-for-elementor.php:3129
 msgid "BULGARIAN"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3121
+#: includes/class-responsive-addons-for-elementor.php:3130
 msgid "BENGALI"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3122
+#: includes/class-responsive-addons-for-elementor.php:3131
 msgid "CATALAN"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3123
+#: includes/class-responsive-addons-for-elementor.php:3132
 msgid "CZECH"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3124
+#: includes/class-responsive-addons-for-elementor.php:3133
 msgid "DANISH"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3125
+#: includes/class-responsive-addons-for-elementor.php:3134
 msgid "GERMAN"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3126
+#: includes/class-responsive-addons-for-elementor.php:3135
 msgid "GREEK"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3127
+#: includes/class-responsive-addons-for-elementor.php:3136
 msgid "ENGLISH"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3128
+#: includes/class-responsive-addons-for-elementor.php:3137
 msgid "ENGLISH (AUSTRALIAN)"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3129
+#: includes/class-responsive-addons-for-elementor.php:3138
 msgid "ENGLISH (GREAT BRITAIN)"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3130
+#: includes/class-responsive-addons-for-elementor.php:3139
 msgid "SPANISH"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3131
+#: includes/class-responsive-addons-for-elementor.php:3140
 msgid "FARSI"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3132
+#: includes/class-responsive-addons-for-elementor.php:3141
 msgid "FINNISH"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3133
+#: includes/class-responsive-addons-for-elementor.php:3142
 msgid "FILIPINO"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3134
+#: includes/class-responsive-addons-for-elementor.php:3143
 msgid "FRENCH"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3135
+#: includes/class-responsive-addons-for-elementor.php:3144
 msgid "GALACIAN"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3136
+#: includes/class-responsive-addons-for-elementor.php:3145
 msgid "GUJARATI"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3137
+#: includes/class-responsive-addons-for-elementor.php:3146
 msgid "HINDI"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3138
+#: includes/class-responsive-addons-for-elementor.php:3147
 msgid "CROATIAN"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3139
+#: includes/class-responsive-addons-for-elementor.php:3148
 msgid "HUNGARIAN"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3140
+#: includes/class-responsive-addons-for-elementor.php:3149
 msgid "INDONESIAN"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3141
+#: includes/class-responsive-addons-for-elementor.php:3150
 msgid "ITALIAN"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3142
+#: includes/class-responsive-addons-for-elementor.php:3151
 msgid "HEBREW"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3143
+#: includes/class-responsive-addons-for-elementor.php:3152
 msgid "JAPANESE"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3144
+#: includes/class-responsive-addons-for-elementor.php:3153
 msgid "KANNADA"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3145
+#: includes/class-responsive-addons-for-elementor.php:3154
 msgid "KOREAN"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3146
+#: includes/class-responsive-addons-for-elementor.php:3155
 msgid "LITHUANIAN"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3147
+#: includes/class-responsive-addons-for-elementor.php:3156
 msgid "LATVIAN"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3148
+#: includes/class-responsive-addons-for-elementor.php:3157
 msgid "MALAYALAM"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3149
+#: includes/class-responsive-addons-for-elementor.php:3158
 msgid "MARATHI"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3150
+#: includes/class-responsive-addons-for-elementor.php:3159
 msgid "DUTCH"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3151
+#: includes/class-responsive-addons-for-elementor.php:3160
 msgid "NORWEGIAN"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3152
+#: includes/class-responsive-addons-for-elementor.php:3161
 msgid "POLISH"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3153
+#: includes/class-responsive-addons-for-elementor.php:3162
 msgid "PORTUGUESE"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3154
+#: includes/class-responsive-addons-for-elementor.php:3163
 msgid "PORTUGUESE (BRAZIL)"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3155
+#: includes/class-responsive-addons-for-elementor.php:3164
 msgid "PORTUGUESE (PORTUGAL)"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3156
+#: includes/class-responsive-addons-for-elementor.php:3165
 msgid "ROMANIAN"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3157
+#: includes/class-responsive-addons-for-elementor.php:3166
 msgid "RUSSIAN"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3158
+#: includes/class-responsive-addons-for-elementor.php:3167
 msgid "SLOVAK"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3159
+#: includes/class-responsive-addons-for-elementor.php:3168
 msgid "SLOVENIAN"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3160
+#: includes/class-responsive-addons-for-elementor.php:3169
 msgid "SERBIAN"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3161
+#: includes/class-responsive-addons-for-elementor.php:3170
 msgid "SWEDISH"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3162
+#: includes/class-responsive-addons-for-elementor.php:3171
 msgid "TAGALOG"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3163
+#: includes/class-responsive-addons-for-elementor.php:3172
 msgid "TAMIL"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3164
+#: includes/class-responsive-addons-for-elementor.php:3173
 msgid "TELUGU"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3165
+#: includes/class-responsive-addons-for-elementor.php:3174
 msgid "THAI"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3166
+#: includes/class-responsive-addons-for-elementor.php:3175
 msgid "TURKISH"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3167
+#: includes/class-responsive-addons-for-elementor.php:3176
 msgid "UKRANIAN"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3168
+#: includes/class-responsive-addons-for-elementor.php:3177
 msgid "VIETNAMESE"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3169
+#: includes/class-responsive-addons-for-elementor.php:3178
 msgid "CHINESE (SIMPLIFIED)"
 msgstr ""
 
-#: includes/class-responsive-addons-for-elementor.php:3170
+#: includes/class-responsive-addons-for-elementor.php:3179
 msgid "CHINESE (TRADITIONAL)"
 msgstr ""
 

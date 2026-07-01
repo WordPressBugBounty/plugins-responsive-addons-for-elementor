@@ -227,8 +227,8 @@ class Helper {
 
 	public static function rael_product_quickview_popup() {
 		// Verify Nonce.
-		if ( ( ! isset( $_POST['security'] ) ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['security'] ) ), 'facebook_feed_ajax_nonce' ) ) {
-			return;
+		if ( ! isset( $_POST['security'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['security'] ) ), 'facebook_feed_ajax_nonce' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Security check failed.', 'responsive-addons-for-elementor' ) ) );
 		}
 
 		$widget_id  = isset( $_POST['widget_id'] ) ? sanitize_key( $_POST['widget_id'] ) : '';
@@ -240,7 +240,13 @@ class Helper {
 		}
 		global $post, $product;
 		$product = wc_get_product( $product_id );
-		$post    = get_post( $product_id ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+
+		// Bail if the product does not exist or is not publicly published.
+		if ( ! $product || 'publish' !== get_post_status( $product->get_id() ) ) {
+			wp_send_json_error( array( 'message' => __( 'Product not found.', 'responsive-addons-for-elementor' ) ) );
+		}
+
+		$post = get_post( $product_id ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 		setup_postdata( $post );
 
 		$settings = self::get_widget_settings( $page_id, $widget_id );

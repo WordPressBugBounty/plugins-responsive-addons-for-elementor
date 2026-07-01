@@ -7,7 +7,7 @@ Tested up to: 7.0
 Elementor tested up to: 4.0
 Elementor Pro tested up to: 4.0
 Requires PHP: 5.6
-Stable tag: 2.2.0
+Stable tag: 2.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -279,6 +279,9 @@ If you like Responsive Addons for Elementor, consider checking out our other Wor
 The Development Version of the Responsive Addons for Elementor plugin is located at [https://github.com/cyberchimps/responsive-addons-for-elementor](https://github.com/cyberchimps/responsive-addons-for-elementor)
 
 == Changelog ==
+
+= 2.2.1 - 1st July 2026 = 
+- Fix: Enhanced Security: Strengthened the codebase.
 
 = 2.2.0 - 8th June 2026 = 
 - New : Introducing the Marquee mode with configurable settings in the following widgets : Product Carousel, Media Carousel, Post Carousel.

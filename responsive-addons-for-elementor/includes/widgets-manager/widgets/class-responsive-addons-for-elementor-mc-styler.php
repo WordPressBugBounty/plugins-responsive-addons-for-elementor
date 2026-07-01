@@ -909,7 +909,6 @@ class Responsive_Addons_For_Elementor_MC_Styler extends Widget_Base {
 		$this->add_render_attribute( 'rael-mailchimp-main-wrapper', 'class', 'rael-mailchimp-wrap' );
 		$this->add_render_attribute( 'rael-mailchimp-main-wrapper', 'class', esc_attr( $layout ) );
 		$this->add_render_attribute( 'rael-mailchimp-main-wrapper', 'data-mailchimp-id', esc_attr( $this->get_id() ) );
-		$this->add_render_attribute( 'rael-mailchimp-main-wrapper', 'data-api-key', esc_attr( $api_key ) );
 		$this->add_render_attribute( 'rael-mailchimp-main-wrapper', 'data-list-id', $settings['rael-mailchimp-lists'] );
 		$this->add_render_attribute( 'rael-mailchimp-main-wrapper', 'data-button-text', $settings['rael-mailchimp-button-text'] );
 		$this->add_render_attribute( 'rael-mailchimp-main-wrapper', 'data-success-text', $settings['rael-mailchimp-success-text'] );
