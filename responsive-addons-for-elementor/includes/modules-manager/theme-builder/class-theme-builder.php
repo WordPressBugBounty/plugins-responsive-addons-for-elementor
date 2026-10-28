@@ -132,6 +132,10 @@ class Theme_Builder {
 			if ( method_exists( $elementor->frontend, 'enqueue_styles' ) ) {
 				$elementor->frontend->enqueue_styles();
 			}
+			wp_add_inline_style(
+				'elementor-frontend',
+				'header.site-header.rael-theme-builder-header { max-width: 100%; }'
+			);
 		}
 
 		if ( class_exists( '\ElementorPro\Plugin' ) ) {
@@ -274,7 +278,7 @@ class Theme_Builder {
 			return false;
 		}
 
-		echo '<header id="masthead" class="site-header" role="banner" >';
+		echo '<header id="masthead" class="site-header rael-theme-builder-header" role="banner" >';
 		echo self::$elementor->frontend->get_builder_content_for_display( $header_id );//phpcs:ignore
 		echo '</header>';
 
